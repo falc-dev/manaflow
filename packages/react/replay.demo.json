@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "initialState": {
+    "id": "game_demo",
+    "players": [
+      {
+        "id": "player1",
+        "name": "Player 1",
+        "health": 20,
+        "resources": [{ "type": "MANA", "amount": 1, "max": 10 }],
+        "hand": ["card_a"],
+        "deck": [],
+        "discard": [],
+        "zones": {}
+      },
+      {
+        "id": "player2",
+        "name": "Player 2",
+        "health": 20,
+        "resources": [{ "type": "MANA", "amount": 1, "max": 10 }],
+        "hand": ["card_b"],
+        "deck": [],
+        "discard": [],
+        "zones": {}
+      }
+    ],
+    "currentPhase": "DRAW",
+    "currentPlayer": "player1",
+    "turn": 1,
+    "entities": {},
+    "zones": {
+      "deck": [],
+      "hand": ["card_a", "card_b"],
+      "board": [],
+      "graveyard": [],
+      "stack": []
+    },
+    "metadata": {}
+  },
+  "events": []
+}

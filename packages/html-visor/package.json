@@ -1,0 +1,25 @@
+{
+  "name": "@manaflow/html-visor",
+  "version": "0.1.0",
+  "description": "Lightweight HTML/CSS visualization adapter for Manaflow",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@manaflow/types": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "5.3.3"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@manaflow/react",
+  "version": "0.1.0",
+  "description": "React wrappers for Manaflow replay viewer",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@manaflow/core": "workspace:*",
+    "@manaflow/html-visor": "workspace:*",
+    "@manaflow/types": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "5.3.3"
+  }
+}

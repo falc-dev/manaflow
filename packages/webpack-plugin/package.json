@@ -1,0 +1,22 @@
+{
+  "name": "@manaflow/webpack-plugin",
+  "version": "0.1.0",
+  "description": "Webpack plugin for Manaflow",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "5.3.3"
+  }
+}
