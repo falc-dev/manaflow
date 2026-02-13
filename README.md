@@ -9,6 +9,7 @@ Manaflow is a replay-first TCG engine and viewer monorepo.
 - `@manaflow/html-visor`: HTML renderer adapter implementing `RendererAdapter`.
 - `@manaflow/phaser-visor`: Phaser-oriented renderer adapter implementing `RendererAdapter`.
 - `@manaflow/react`: Thin replay controller helpers for React integrations.
+- `@manaflow/react-demo`: Executable browser demo for replay controls.
 - `@manaflow/vue`: Thin replay controller helpers for Vue integrations.
 - `@manaflow/game-logic`: Shared reducer helpers for rules/action processing.
 - `@manaflow/webpack-plugin`: Build-time integration plugin scaffold.

@@ -1,60 +1,21 @@
-import { ReplayEngine, ReplayFrame } from '@manaflow/core';
-import { HtmlRendererAdapter } from '@manaflow/html-visor';
+export { createReactReplayController } from './controller';
+export type { ReactReplayController } from './controller';
 
-export interface ReactReplayController {
-  getFrame(): ReplayFrame;
-  next(): ReplayFrame | null;
-  previous(): ReplayFrame | null;
-  render(container: HTMLElement): void;
-  destroy(): void;
-}
+export { createReactReplayStore } from './store';
+export type { ReactReplayState, ReactReplayStore } from './store';
 
-export function createReactReplayController(replay: ReplayEngine): ReactReplayController {
-  const adapter = new HtmlRendererAdapter();
-  let mounted = false;
+export { createUseReplayStore } from './use-replay-store';
+export type { UseSyncExternalStore } from './use-replay-store';
+export { useReplayStore } from './use-replay-store-react';
 
-  return {
-    getFrame() {
-      return replay.getCurrentFrame();
-    },
-    next() {
-      const frame = replay.stepForward();
-      if (frame && mounted) {
-        adapter.render(frame.snapshot);
-        adapter.highlight(frame.event?.id);
-      }
-      return frame;
-    },
-    previous() {
-      const frame = replay.stepBack();
-      if (frame && mounted) {
-        adapter.render(frame.snapshot);
-        adapter.highlight(frame.event?.id);
-      }
-      return frame;
-    },
-    render(container: HTMLElement) {
-      if (!mounted) {
-        adapter.mount(container);
-        mounted = true;
-      }
-      const frame = replay.getCurrentFrame();
-      adapter.render(frame.snapshot);
-      adapter.highlight(frame.event?.id);
-    },
-    destroy() {
-      adapter.destroy();
-      mounted = false;
-    }
-  };
-}
+export { ReplayPlayer } from './components/replay-player';
+export type { ReplayPlayerProps } from './components/replay-player';
+export { ReplayControls } from './components/replay-controls';
+export type { ReplayControlsProps } from './components/replay-controls';
+export { ReplayViewport } from './components/replay-viewport';
+export type { ReplayViewportProps } from './components/replay-viewport';
 
-export async function loadDemoReplay(url: string): Promise<ReplayEngine> {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Cannot load replay demo: ${response.status}`);
-  }
+export { loadDemoReplay } from './loader';
 
-  const payload = await response.text();
-  return ReplayEngine.fromJson(payload);
-}
+export { mountReplayDemo } from './demo';
+export type { ReplayDemoHandle, ReplayDemoOptions } from './demo';
