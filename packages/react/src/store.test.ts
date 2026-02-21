@@ -1,6 +1,6 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { ReplayEngine } from '@manaflow/core';
-import { GameSnapshot, ReplayEvent } from '@manaflow/types';
+import { GameSnapshot, RendererAdapter, ReplayEvent } from '@manaflow/types';
 import { createReactReplayStore } from './store';
 
 function makeSnapshot(turn: number): GameSnapshot {
@@ -76,5 +76,26 @@ describe('createReactReplayStore', () => {
 
     unsubscribe();
     store.destroy();
+  });
+
+  it('uses injected renderer adapter through store.render and navigation', () => {
+    const renderer: RendererAdapter = {
+      mount: vi.fn(),
+      render: vi.fn(),
+      highlight: vi.fn(),
+      destroy: vi.fn()
+    };
+    const store = createReactReplayStore(makeReplay(), { renderer });
+    const container = {} as HTMLElement;
+
+    store.render(container);
+    store.next();
+    store.destroy();
+
+    expect(renderer.mount).toHaveBeenCalledTimes(1);
+    expect(renderer.render).toHaveBeenCalledTimes(2);
+    expect(renderer.highlight).toHaveBeenCalledTimes(2);
+    expect(renderer.highlight).toHaveBeenLastCalledWith('e1');
+    expect(renderer.destroy).toHaveBeenCalledTimes(1);
   });
 });

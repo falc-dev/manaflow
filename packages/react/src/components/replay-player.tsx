@@ -7,6 +7,9 @@ import { ReplayViewport } from './replay-viewport';
 export interface ReplayPlayerProps {
   store: ReactReplayStore;
   autoplayIntervalMs?: number;
+  playing?: boolean;
+  defaultPlaying?: boolean;
+  onPlayingChange?: (playing: boolean) => void;
   className?: string;
   controlsClassName?: string;
   viewportClassName?: string;
@@ -19,12 +22,29 @@ function joinClassNames(...parts: Array<string | undefined>): string {
 export function ReplayPlayer({
   store,
   autoplayIntervalMs = 700,
+  playing: controlledPlaying,
+  defaultPlaying = false,
+  onPlayingChange,
   className,
   controlsClassName,
   viewportClassName
 }: ReplayPlayerProps) {
   const state = useReplayStore(store);
-  const [playing, setPlaying] = useState(false);
+  const [uncontrolledPlaying, setUncontrolledPlaying] = useState(defaultPlaying);
+  const isControlled = controlledPlaying !== undefined;
+  const playing = isControlled ? controlledPlaying : uncontrolledPlaying;
+
+  const setPlaying = (value: boolean | ((previous: boolean) => boolean)) => {
+    const nextPlaying = typeof value === 'function' ? value(playing) : value;
+
+    if (!isControlled) {
+      setUncontrolledPlaying(nextPlaying);
+    }
+
+    if (nextPlaying !== playing) {
+      onPlayingChange?.(nextPlaying);
+    }
+  };
 
   useEffect(() => {
     if (!playing) {

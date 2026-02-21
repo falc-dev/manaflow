@@ -1,8 +1,8 @@
 export { createReactReplayController } from './controller';
-export type { ReactReplayController } from './controller';
+export type { CreateReactReplayControllerOptions, ReactReplayController } from './controller';
 
 export { createReactReplayStore } from './store';
-export type { ReactReplayState, ReactReplayStore } from './store';
+export type { CreateReactReplayStoreOptions, ReactReplayState, ReactReplayStore } from './store';
 
 export { createUseReplayStore } from './use-replay-store';
 export type { UseSyncExternalStore } from './use-replay-store';

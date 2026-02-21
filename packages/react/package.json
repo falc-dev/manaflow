@@ -20,6 +20,7 @@
   "dependencies": {
     "@manaflow/core": "workspace:*",
     "@manaflow/html-visor": "workspace:*",
+    "@manaflow/replay-runtime": "workspace:*",
     "@manaflow/types": "workspace:*"
   },
   "peerDependencies": {
