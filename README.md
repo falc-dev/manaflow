@@ -36,6 +36,8 @@ Manaflow is a replay-first TCG engine and viewer monorepo.
 pnpm build
 pnpm typecheck
 pnpm test
+pnpm docs:dev
+pnpm docs:build
 ```
 
 ## Notes
@@ -43,3 +45,4 @@ pnpm test
 - The source of truth for game/replay contracts is `packages/types/src/index.ts`.
 - `ReplayEngine` supports deterministic `stepForward`, `stepBack`, and `seek({ frame | timestamp })`.
 - HTML and Phaser renderers consume immutable snapshots and do not mutate game state.
+- Documentation is built with VitePress from `docs/` and deployed via `.github/workflows/deploy-docs.yml`.
