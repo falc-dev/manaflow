@@ -65,6 +65,9 @@ importers:
       '@manaflow/html-visor':
         specifier: workspace:*
         version: link:../html-visor
+      '@manaflow/replay-runtime':
+        specifier: workspace:*
+        version: link:../replay-runtime
       '@manaflow/types':
         specifier: workspace:*
         version: link:../types
@@ -107,6 +110,22 @@ importers:
         specifier: 5.4.21
         version: 5.4.21
 
+  packages/replay-runtime:
+    dependencies:
+      '@manaflow/core':
+        specifier: workspace:*
+        version: link:../core
+      '@manaflow/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      typescript:
+        specifier: 5.3.3
+        version: 5.3.3
+      vitest:
+        specifier: 1.2.2
+        version: 1.2.2
+
   packages/types:
     devDependencies:
       typescript:
@@ -121,6 +140,12 @@ importers:
       '@manaflow/html-visor':
         specifier: workspace:*
         version: link:../html-visor
+      '@manaflow/replay-runtime':
+        specifier: workspace:*
+        version: link:../replay-runtime
+      '@manaflow/types':
+        specifier: workspace:*
+        version: link:../types
     devDependencies:
       typescript:
         specifier: 5.3.3

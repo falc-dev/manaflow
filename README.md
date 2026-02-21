@@ -6,6 +6,7 @@ Manaflow is a replay-first TCG engine and viewer monorepo.
 
 - `@manaflow/types`: Canonical domain model (`Card`, `CardInstance`, `GameSnapshot`, `ReplayEvent`, `RendererAdapter`).
 - `@manaflow/core`: Game/replay runtime (`GameEngine`, `ReplayEngine`, YAML/JSON loaders).
+- `@manaflow/replay-runtime`: Framework-agnostic replay controller/store runtime.
 - `@manaflow/html-visor`: HTML renderer adapter implementing `RendererAdapter`.
 - `@manaflow/phaser-visor`: Phaser-oriented renderer adapter implementing `RendererAdapter`.
 - `@manaflow/react`: Thin replay controller helpers for React integrations.
