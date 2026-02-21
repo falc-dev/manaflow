@@ -13,7 +13,12 @@ export type { ReplayPlayerProps } from './components/replay-player';
 export { ReplayControls } from './components/replay-controls';
 export type { ReplayControlsProps } from './components/replay-controls';
 export { ReplayViewport } from './components/replay-viewport';
-export type { ReplayViewportProps } from './components/replay-viewport';
+export type {
+  ReplayViewportCardRenderContext,
+  ReplayViewportProps,
+  ReplayViewportZoneConfig,
+  ReplayViewportZoneTitleRenderContext
+} from './components/replay-viewport';
 
 export { loadDemoReplay } from './loader';
 

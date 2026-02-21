@@ -36,39 +36,6 @@ body {
   font-weight: 600;
 }
 
-.replay-player {
-  display: grid;
-  gap: 12px;
-}
-
 .replay-player--loading {
   margin: 0;
-}
-
-.replay-player__controls {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.replay-player__button {
-  border: 1px solid #c6d2df;
-  background: #f6f9fc;
-  border-radius: 8px;
-  padding: 6px 10px;
-  cursor: pointer;
-}
-
-.replay-player__button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.replay-player__slider {
-  width: 280px;
-}
-
-.replay-player__frame {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace;
 }

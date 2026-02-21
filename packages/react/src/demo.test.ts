@@ -56,6 +56,10 @@ class FakeElement {
     this.listeners.get(type)?.delete(handler);
   }
 
+  setAttribute(key: string, value: string): void {
+    this.dataset[`attr_${key}`] = value;
+  }
+
   emit(type: string): void {
     for (const handler of this.listeners.get(type) ?? []) {
       handler();
@@ -70,11 +74,35 @@ class FakeDocument {
 }
 
 interface FakeStoreState {
-  frame: { index: number };
+  frame: {
+    index: number;
+    event?: { id: string };
+    snapshot: {
+      turn: number;
+      currentPhase: string;
+      currentPlayer: string;
+      entities: Record<string, { components: Array<{ componentType: string; metadata?: { name?: string; cost?: number } }> }>;
+      zones: Record<string, string[]>;
+    };
+  };
   currentFrame: number;
   totalFrames: number;
   canStepBack: boolean;
   canStepForward: boolean;
+}
+
+function createFrame(index: number): FakeStoreState['frame'] {
+  return {
+    index,
+    event: index > 0 ? { id: `event_${index}` } : undefined,
+    snapshot: {
+      turn: index + 1,
+      currentPhase: 'DRAW',
+      currentPlayer: 'p1',
+      entities: {},
+      zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] }
+    }
+  };
 }
 
 function walk(root: FakeElement, predicate: (node: FakeElement) => boolean): FakeElement | null {
@@ -98,7 +126,7 @@ describe('mountReplayDemo', () => {
 
   it('mounts controls, syncs state, and routes actions to store', () => {
     const state: FakeStoreState = {
-      frame: { index: 0 },
+      frame: createFrame(0),
       currentFrame: 0,
       totalFrames: 3,
       canStepBack: false,
@@ -128,7 +156,6 @@ describe('mountReplayDemo', () => {
       autoplayIntervalMs: 50
     });
 
-    expect(store.render).toHaveBeenCalledTimes(1);
     expect(container.children.length).toBe(1);
 
     const slider = walk(container, (node) => node.tagName === 'input')!;
@@ -153,7 +180,7 @@ describe('mountReplayDemo', () => {
     vi.useFakeTimers();
 
     const state: FakeStoreState = {
-      frame: { index: 0 },
+      frame: createFrame(0),
       currentFrame: 0,
       totalFrames: 2,
       canStepBack: false,
@@ -197,7 +224,7 @@ describe('mountReplayDemo', () => {
     vi.useFakeTimers();
 
     const state: FakeStoreState = {
-      frame: { index: 2 },
+      frame: createFrame(2),
       currentFrame: 2,
       totalFrames: 3,
       canStepBack: true,

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createReactReplayStore, loadDemoReplay, ReplayPlayer, ReactReplayStore } from '@manaflow/react';
+import '@manaflow/react/styles.css';
 import './main.css';
 
 function App() {

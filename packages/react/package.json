@@ -10,16 +10,18 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.js"
+    },
+    "./styles.css": {
+      "default": "./dist/styles.css"
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && mkdir -p dist && cp src/styles.css dist/styles.css",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
   "dependencies": {
     "@manaflow/core": "workspace:*",
-    "@manaflow/html-visor": "workspace:*",
     "@manaflow/replay-runtime": "workspace:*",
     "@manaflow/types": "workspace:*"
   },

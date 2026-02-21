@@ -1,8 +1,14 @@
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
+import { GameSnapshot } from '@manaflow/types';
 import { ReactReplayStore } from '../store';
 import { useReplayStore } from '../use-replay-store-react';
 import { ReplayControls } from './replay-controls';
-import { ReplayViewport } from './replay-viewport';
+import {
+  ReplayViewport,
+  ReplayViewportCardRenderContext,
+  ReplayViewportZoneConfig,
+  ReplayViewportZoneTitleRenderContext
+} from './replay-viewport';
 
 export interface ReplayPlayerProps {
   store: ReactReplayStore;
@@ -13,6 +19,11 @@ export interface ReplayPlayerProps {
   className?: string;
   controlsClassName?: string;
   viewportClassName?: string;
+  viewportCardClassName?: string;
+  zones?: ReplayViewportZoneConfig[];
+  timelineFormatter?: (snapshot: GameSnapshot) => string;
+  renderCard?: (context: ReplayViewportCardRenderContext) => ReactNode;
+  renderZoneTitle?: (context: ReplayViewportZoneTitleRenderContext) => ReactNode;
 }
 
 function joinClassNames(...parts: Array<string | undefined>): string {
@@ -27,7 +38,12 @@ export function ReplayPlayer({
   onPlayingChange,
   className,
   controlsClassName,
-  viewportClassName
+  viewportClassName,
+  viewportCardClassName,
+  zones,
+  timelineFormatter,
+  renderCard,
+  renderZoneTitle
 }: ReplayPlayerProps) {
   const state = useReplayStore(store);
   const [uncontrolledPlaying, setUncontrolledPlaying] = useState(defaultPlaying);
@@ -78,7 +94,15 @@ export function ReplayPlayer({
         onTogglePlay={() => setPlaying((value) => !value)}
         onSeek={(frame) => store.seek(frame)}
       />
-      <ReplayViewport className={viewportClassName} store={store} currentFrame={state.currentFrame} />
+      <ReplayViewport
+        className={viewportClassName}
+        cardClassName={viewportCardClassName}
+        state={state}
+        zones={zones}
+        timelineFormatter={timelineFormatter}
+        renderCard={renderCard}
+        renderZoneTitle={renderZoneTitle}
+      />
     </div>
   );
 }

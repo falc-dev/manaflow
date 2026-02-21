@@ -1,4 +1,5 @@
 import { ReplayEngine } from '@manaflow/core';
+import { Card, GameSnapshot } from '@manaflow/types';
 import { createReactReplayStore } from './store';
 
 export interface ReplayDemoOptions {
@@ -61,9 +62,70 @@ export function mountReplayDemo(
   controls.appendChild(frameLabel);
 
   const viewport = document.createElement('div');
+  viewport.className = 'replay-player__viewport';
   root.appendChild(controls);
   root.appendChild(viewport);
   container.appendChild(root);
+
+  const zones = [
+    { id: 'hand', title: 'Hand' },
+    { id: 'board', title: 'Board' },
+    { id: 'graveyard', title: 'Graveyard' },
+    { id: 'deck', title: 'Deck' },
+    { id: 'stack', title: 'Stack' }
+  ];
+
+  const getCard = (entityId: string, snapshot: GameSnapshot): Card | undefined => {
+    const entity = snapshot.entities[entityId];
+    return entity?.components.find((component) => component.componentType === 'CARD')?.metadata as Card | undefined;
+  };
+
+  const renderViewport = (snapshot: GameSnapshot, highlighted: boolean) => {
+    viewport.innerHTML = '';
+
+    const timeline = document.createElement('div');
+    timeline.className = `replay-player__timeline${highlighted ? ' replay-player__timeline--highlighted' : ''}`;
+    timeline.textContent = `Turn ${snapshot.turn} · Phase ${snapshot.currentPhase} · Player ${snapshot.currentPlayer}`;
+    viewport.appendChild(timeline);
+
+    for (const zone of zones) {
+      const zoneElement = document.createElement('div');
+      zoneElement.className = 'replay-player__zone';
+      zoneElement.setAttribute('role', 'group');
+      zoneElement.setAttribute('aria-label', zone.title);
+
+      const title = document.createElement('div');
+      title.className = 'replay-player__zone-title';
+      title.textContent = zone.title;
+
+      const rail = document.createElement('div');
+      rail.className = 'replay-player__zone-rail';
+      rail.dataset.zoneId = zone.id;
+
+      for (const entityId of snapshot.zones[zone.id] ?? []) {
+        const card = getCard(entityId, snapshot);
+        const cardElement = document.createElement('div');
+        cardElement.className = 'replay-player__card';
+        cardElement.setAttribute('role', 'article');
+
+        const name = document.createElement('div');
+        name.className = 'replay-player__card-name';
+        name.textContent = card?.name ?? entityId;
+
+        const cost = document.createElement('div');
+        cost.className = 'replay-player__card-cost';
+        cost.textContent = `Cost ${card?.cost ?? '-'}`;
+
+        cardElement.appendChild(name);
+        cardElement.appendChild(cost);
+        rail.appendChild(cardElement);
+      }
+
+      zoneElement.appendChild(title);
+      zoneElement.appendChild(rail);
+      viewport.appendChild(zoneElement);
+    }
+  };
 
   const stopPlayback = () => {
     if (timer) {
@@ -97,6 +159,7 @@ export function mountReplayDemo(
     frameLabel.textContent = `Frame ${state.currentFrame + 1}/${state.totalFrames}`;
     prev.disabled = !state.canStepBack;
     next.disabled = !state.canStepForward;
+    renderViewport(state.frame.snapshot, Boolean(state.frame.event?.id));
   });
 
   const onPrev = () => {
@@ -120,8 +183,6 @@ export function mountReplayDemo(
   next.addEventListener('click', onNext);
   play.addEventListener('click', onPlayPause);
   slider.addEventListener('input', onSlider);
-
-  store.render(viewport);
 
   return {
     play: startPlayback,

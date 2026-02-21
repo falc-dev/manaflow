@@ -1,0 +1,109 @@
+.replay-player {
+  --replay-player-bg: linear-gradient(180deg, #19324d 0%, #0f1e2e 100%);
+  --replay-player-radius: 12px;
+  --replay-player-padding: 16px;
+  --replay-player-text: #d9e7f5;
+  --replay-player-timeline-highlight-bg: #264b73;
+  --replay-player-card-width: 112px;
+  --replay-player-card-min-height: 148px;
+  --replay-player-card-radius: 10px;
+  --replay-player-card-bg: #f5f3ef;
+  --replay-player-card-border: #d7c29d;
+  --replay-player-card-text: #1e2124;
+  --replay-player-card-cost-text: #3f4a53;
+  --replay-player-control-bg: #10243b;
+  --replay-player-control-border: #3b5573;
+  --replay-player-control-text: #d9e7f5;
+
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  background: var(--replay-player-bg);
+  border-radius: var(--replay-player-radius);
+  padding: var(--replay-player-padding);
+  box-sizing: border-box;
+}
+
+.replay-player__controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.replay-player__button {
+  border: 1px solid var(--replay-player-control-border);
+  background: var(--replay-player-control-bg);
+  color: var(--replay-player-control-text);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.replay-player__button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.replay-player__slider {
+  min-width: 240px;
+}
+
+.replay-player__frame {
+  color: var(--replay-player-text);
+  font-family: monospace;
+}
+
+.replay-player__viewport {
+  display: grid;
+  gap: 12px;
+}
+
+.replay-player__timeline {
+  color: var(--replay-player-text);
+  font-family: monospace;
+}
+
+.replay-player__timeline--highlighted {
+  background: var(--replay-player-timeline-highlight-bg);
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.replay-player__zone {
+  display: grid;
+  gap: 6px;
+}
+
+.replay-player__zone-title {
+  color: var(--replay-player-text);
+  font-weight: 600;
+}
+
+.replay-player__zone-rail {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.replay-player__card {
+  width: var(--replay-player-card-width);
+  min-height: var(--replay-player-card-min-height);
+  border-radius: var(--replay-player-card-radius);
+  background: var(--replay-player-card-bg);
+  border: 2px solid var(--replay-player-card-border);
+  color: var(--replay-player-card-text);
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.replay-player__card-name {
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.replay-player__card-cost {
+  font-size: 11px;
+  margin-top: 8px;
+  color: var(--replay-player-card-cost-text);
+}

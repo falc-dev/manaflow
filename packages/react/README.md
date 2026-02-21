@@ -7,6 +7,12 @@ React-oriented replay helpers for Manaflow.
 - `react >= 18`
 - `react-dom >= 18`
 
+## Styles
+
+```ts
+import '@manaflow/react/styles.css';
+```
+
 ## Components (customizable)
 
 ```tsx
@@ -57,7 +63,25 @@ unsubscribe();
 store.destroy();
 ```
 
-## Custom renderer integration
+## Viewport customization (React render)
+
+```tsx
+import { ReplayPlayer } from '@manaflow/react';
+
+<ReplayPlayer
+  store={store}
+  timelineFormatter={(snapshot) => `T${snapshot.turn} · ${snapshot.currentPhase}`}
+  renderZoneTitle={({ zone, entityIds }) => `${zone.title} (${entityIds.length})`}
+  renderCard={({ entityId, card }) => (
+    <>
+      <strong>{card?.name ?? entityId}</strong>
+      <small>Cost {card?.cost ?? '-'}</small>
+    </>
+  )}
+/>;
+```
+
+## Optional external renderer integration
 
 ```ts
 import { createReactReplayStore } from '@manaflow/react';
@@ -70,18 +94,7 @@ const store = createReactReplayStore(replayEngine, {
 });
 ```
 
-## Html renderer options shortcut
-
-```ts
-import { createReactReplayStore } from '@manaflow/react';
-
-const store = createReactReplayStore(replayEngine, {
-  htmlRendererOptions: {
-    rootClassName: 'my-replay-root',
-    cardClassName: 'my-card'
-  }
-});
-```
+`@manaflow/react` no longer creates `HtmlRendererAdapter` by default. Pass a `renderer` explicitly if needed.
 
 ## Loading replays
 

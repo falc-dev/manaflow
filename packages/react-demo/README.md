@@ -2,12 +2,15 @@
 
 Executable browser demo for replay controls built with `@manaflow/react` components.
 
-The demo uses BEM-style classes in `src/main.css`:
-- `replay-player`
-- `replay-player__controls`
-- `replay-player__button`
-- `replay-player__slider`
-- `replay-player__frame`
+## Styling
+
+The demo imports the default React package styles in `src/main.tsx`:
+
+```ts
+import '@manaflow/react/styles.css';
+```
+
+`src/main.css` is only used for demo-shell layout and page-level presentation.
 
 ## Run
 
