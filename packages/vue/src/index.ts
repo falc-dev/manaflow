@@ -1,5 +1,7 @@
 import { ReplayEngine, ReplayFrame } from '@manaflow/core';
-import { HtmlRendererAdapter } from '@manaflow/html-visor';
+import { HtmlRendererAdapter, HtmlRendererAdapterOptions } from '@manaflow/html-visor';
+import { createReplayController } from '@manaflow/replay-runtime';
+import { RendererAdapter } from '@manaflow/types';
 
 export interface VueReplayController {
   frame(): ReplayFrame;
@@ -9,38 +11,33 @@ export interface VueReplayController {
   destroy(): void;
 }
 
-export function createVueReplayController(replay: ReplayEngine): VueReplayController {
-  const adapter = new HtmlRendererAdapter();
-  let mounted = false;
+export interface CreateVueReplayControllerOptions {
+  renderer?: RendererAdapter;
+  htmlRendererOptions?: HtmlRendererAdapterOptions;
+}
+
+export function createVueReplayController(
+  replay: ReplayEngine,
+  options: CreateVueReplayControllerOptions = {}
+): VueReplayController {
+  const renderer = options.renderer ?? new HtmlRendererAdapter(options.htmlRendererOptions);
+  const controller = createReplayController(replay, { renderer });
 
   return {
     frame() {
-      return replay.getCurrentFrame();
+      return controller.getFrame();
     },
     next() {
-      const frame = replay.stepForward();
-      if (frame && mounted) {
-        adapter.render(frame.snapshot);
-      }
-      return frame;
+      return controller.next();
     },
     previous() {
-      const frame = replay.stepBack();
-      if (frame && mounted) {
-        adapter.render(frame.snapshot);
-      }
-      return frame;
+      return controller.previous();
     },
     mount(container: HTMLElement) {
-      if (!mounted) {
-        adapter.mount(container);
-        mounted = true;
-      }
-      adapter.render(replay.getCurrentState());
+      controller.render(container);
     },
     destroy() {
-      adapter.destroy();
-      mounted = false;
+      controller.destroy();
     }
   };
 }
