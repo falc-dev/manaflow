@@ -9,13 +9,30 @@ export default {
     nav: [
       { text: "Inicio", link: "/" },
       { text: "Guia", link: "/guide/getting-started" },
+      { text: "Paquetes", link: "/packages/" },
     ],
     sidebar: [
       {
-        text: "Documentacion",
+        text: "Guia",
         items: [
           { text: "Introduccion", link: "/" },
           { text: "Primeros pasos", link: "/guide/getting-started" },
+        ],
+      },
+      {
+        text: "Paquetes",
+        items: [
+          { text: "Indice", link: "/packages/" },
+          { text: "@manaflow/types", link: "/packages/types" },
+          { text: "@manaflow/core", link: "/packages/core" },
+          { text: "@manaflow/game-logic", link: "/packages/game-logic" },
+          { text: "@manaflow/replay-runtime", link: "/packages/replay-runtime" },
+          { text: "@manaflow/html-visor", link: "/packages/html-visor" },
+          { text: "@manaflow/phaser-visor", link: "/packages/phaser-visor" },
+          { text: "@manaflow/react", link: "/packages/react" },
+          { text: "@manaflow/react-demo", link: "/packages/react-demo" },
+          { text: "@manaflow/vue", link: "/packages/vue" },
+          { text: "@manaflow/webpack-plugin", link: "/packages/webpack-plugin" },
         ],
       },
     ],

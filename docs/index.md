@@ -21,3 +21,15 @@ Motor y visor replay-first para TCGs, organizado como monorepo.
 pnpm install
 pnpm docs:dev
 ```
+
+## Documentacion por paquete
+
+- Ver seccion completa: [Paquetes](/packages/)
+- Quick links:
+  - [@manaflow/types](/packages/types)
+  - [@manaflow/core](/packages/core)
+  - [@manaflow/replay-runtime](/packages/replay-runtime)
+  - [@manaflow/html-visor](/packages/html-visor)
+  - [@manaflow/phaser-visor](/packages/phaser-visor)
+  - [@manaflow/react](/packages/react)
+  - [@manaflow/vue](/packages/vue)
