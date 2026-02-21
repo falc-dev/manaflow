@@ -45,3 +45,8 @@ unsubscribe();
 pnpm --filter @manaflow/replay-runtime build
 pnpm --filter @manaflow/replay-runtime test
 ```
+
+## Ejemplos relacionados
+
+- [Runtime Store](/examples/runtime-store)
+- [Core Replay](/examples/core-replay)

@@ -22,6 +22,16 @@ pnpm install
 pnpm docs:dev
 ```
 
+## Ejemplos
+
+- Ver seccion completa: [Ejemplos](/examples/)
+- Quick links:
+  - [Core Replay](/examples/core-replay)
+  - [Runtime Store](/examples/runtime-store)
+  - [React Player](/examples/react-player)
+  - [Vue Controller](/examples/vue-controller)
+  - [HTML Visor Custom](/examples/html-visor-custom)
+
 ## Documentacion por paquete
 
 - Ver seccion completa: [Paquetes](/packages/)

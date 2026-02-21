@@ -55,3 +55,8 @@ function ControlledPlayer({ store }) {
 pnpm --filter @manaflow/react build
 pnpm --filter @manaflow/react test
 ```
+
+## Ejemplos relacionados
+
+- [React Player](/examples/react-player)
+- [Runtime Store](/examples/runtime-store)

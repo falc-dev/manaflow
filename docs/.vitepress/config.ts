@@ -9,6 +9,7 @@ export default {
     nav: [
       { text: "Inicio", link: "/" },
       { text: "Guia", link: "/guide/getting-started" },
+      { text: "Ejemplos", link: "/examples/" },
       { text: "Paquetes", link: "/packages/" },
     ],
     sidebar: [
@@ -17,6 +18,17 @@ export default {
         items: [
           { text: "Introduccion", link: "/" },
           { text: "Primeros pasos", link: "/guide/getting-started" },
+        ],
+      },
+      {
+        text: "Ejemplos",
+        items: [
+          { text: "Indice", link: "/examples/" },
+          { text: "Core Replay", link: "/examples/core-replay" },
+          { text: "Runtime Store", link: "/examples/runtime-store" },
+          { text: "React Player", link: "/examples/react-player" },
+          { text: "Vue Controller", link: "/examples/vue-controller" },
+          { text: "HTML Visor Custom", link: "/examples/html-visor-custom" },
         ],
       },
       {

@@ -39,3 +39,8 @@ controller.next();
 ```bash
 pnpm --filter @manaflow/vue build
 ```
+
+## Ejemplos relacionados
+
+- [Vue Controller](/examples/vue-controller)
+- [Core Replay](/examples/core-replay)

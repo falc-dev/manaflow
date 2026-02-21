@@ -40,3 +40,8 @@ renderer.highlight('event_42');
 ```bash
 pnpm --filter @manaflow/html-visor build
 ```
+
+## Ejemplos relacionados
+
+- [HTML Visor Custom](/examples/html-visor-custom)
+- [Runtime Store](/examples/runtime-store)
