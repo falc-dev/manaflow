@@ -1,0 +1,76 @@
+.replay-player {
+  --replay-player-min-height: 760px;
+  --replay-player-bg: linear-gradient(180deg, #19324d 0%, #0f1e2e 100%);
+  --replay-player-radius: 12px;
+  --replay-player-padding: 16px;
+  --replay-player-zone-side: 20px;
+  --replay-player-text: #d9e7f5;
+  --replay-player-timeline-highlight-bg: #264b73;
+  --replay-player-card-width: 112px;
+  --replay-player-card-min-height: 148px;
+  --replay-player-card-radius: 10px;
+  --replay-player-card-bg: #f5f3ef;
+  --replay-player-card-border: #d7c29d;
+  --replay-player-card-text: #1e2124;
+  --replay-player-card-cost-text: #3f4a53;
+
+  position: relative;
+  width: 100%;
+  min-height: var(--replay-player-min-height);
+  background: var(--replay-player-bg);
+  border-radius: var(--replay-player-radius);
+  padding: var(--replay-player-padding);
+  box-sizing: border-box;
+}
+
+.replay-player__timeline {
+  color: var(--replay-player-text);
+  margin-bottom: 12px;
+  font-family: monospace;
+}
+
+.replay-player__timeline--highlighted {
+  background: var(--replay-player-timeline-highlight-bg);
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.replay-player__zone {
+  position: absolute;
+  top: var(--replay-player-zone-top);
+  left: var(--replay-player-zone-side);
+  right: var(--replay-player-zone-side);
+}
+
+.replay-player__zone-title {
+  color: var(--replay-player-text);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.replay-player__zone-rail {
+  display: flex;
+  gap: 8px;
+}
+
+.replay-player__card {
+  width: var(--replay-player-card-width);
+  min-height: var(--replay-player-card-min-height);
+  border-radius: var(--replay-player-card-radius);
+  background: var(--replay-player-card-bg);
+  border: 2px solid var(--replay-player-card-border);
+  color: var(--replay-player-card-text);
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.replay-player__card-name {
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.replay-player__card-cost {
+  font-size: 11px;
+  margin-top: 8px;
+  color: var(--replay-player-card-cost-text);
+}
