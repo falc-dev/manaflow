@@ -69,6 +69,9 @@ const markers = buildReplayMarkers(replayPayload.events ?? []);
 | --- | --- | --- | --- |
 | `store` | `ReactReplayStore` | requerida | Store creado con `createReactReplayStore`. |
 | `autoplayIntervalMs` | `number` | `700` | Intervalo de autoplay en milisegundos. |
+| `playbackRate` | `number` | `1` | Multiplicador de velocidad (`2` = 2x). |
+| `loop` | `boolean` | `false` | Reinicia en bucle al llegar al final en vez de parar. |
+| `loopRange` | `{ from: number; to: number }` | rango completo | Segmento de frames para loop cuando `loop` esta activo. |
 | `playing` | `boolean` | no controlado | Estado de reproduccion en modo controlado. |
 | `defaultPlaying` | `boolean` | `false` | Estado inicial en modo no controlado. |
 | `onPlayingChange` | `(playing: boolean) => void` | `undefined` | Callback al cambiar play/pause. |
@@ -124,6 +127,7 @@ import { ReplayPlayer } from '@manaflow/react';
 export function ControlledReplay({ store }) {
   const [playing, setPlaying] = useState(false);
   const [intervalMs, setIntervalMs] = useState(700);
+  const [rate, setRate] = useState(1);
 
   return (
     <>
@@ -132,12 +136,15 @@ export function ControlledReplay({ store }) {
         <button onClick={() => setIntervalMs((value) => (value === 700 ? 350 : 700))}>
           Velocidad: {intervalMs}ms
         </button>
+        <button onClick={() => setRate((value) => (value === 1 ? 2 : 1))}>Rate {rate}x</button>
       </div>
       <ReplayPlayer
         store={store}
         playing={playing}
         onPlayingChange={setPlaying}
         autoplayIntervalMs={intervalMs}
+        playbackRate={rate}
+        loop
       />
     </>
   );

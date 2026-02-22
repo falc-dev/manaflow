@@ -15,6 +15,9 @@ import {
 export interface ReplayPlayerProps {
   store: ReactReplayStore;
   autoplayIntervalMs?: number;
+  playbackRate?: number;
+  loop?: boolean;
+  loopRange?: { from: number; to: number };
   playing?: boolean;
   defaultPlaying?: boolean;
   onPlayingChange?: (playing: boolean) => void;
@@ -40,9 +43,34 @@ function joinClassNames(...parts: Array<string | undefined>): string {
   return parts.filter(Boolean).join(' ');
 }
 
+function clampFrame(frame: number, totalFrames: number): number {
+  return Math.min(Math.max(frame, 0), Math.max(totalFrames - 1, 0));
+}
+
+function resolveLoopBounds(
+  totalFrames: number,
+  loopRange: { from: number; to: number } | undefined
+): { from: number; to: number } {
+  if (!loopRange) {
+    return { from: 0, to: Math.max(totalFrames - 1, 0) };
+  }
+
+  const from = clampFrame(loopRange.from, totalFrames);
+  const to = clampFrame(loopRange.to, totalFrames);
+
+  if (from <= to) {
+    return { from, to };
+  }
+
+  return { from: to, to: from };
+}
+
 export function ReplayPlayer({
   store,
   autoplayIntervalMs = 700,
+  playbackRate = 1,
+  loop = false,
+  loopRange,
   playing: controlledPlaying,
   defaultPlaying = false,
   onPlayingChange,
@@ -67,6 +95,9 @@ export function ReplayPlayer({
   const [uncontrolledPlaying, setUncontrolledPlaying] = useState(defaultPlaying);
   const isControlled = controlledPlaying !== undefined;
   const playing = isControlled ? controlledPlaying : uncontrolledPlaying;
+  const safePlaybackRate = Number.isFinite(playbackRate) && playbackRate > 0 ? playbackRate : 1;
+  const playbackIntervalMs = Math.max(16, Math.round(autoplayIntervalMs / safePlaybackRate));
+  const loopBounds = resolveLoopBounds(state.totalFrames, loopRange);
 
   const setPlaying = (value: boolean | ((previous: boolean) => boolean)) => {
     const nextPlaying = typeof value === 'function' ? value(playing) : value;
@@ -85,21 +116,53 @@ export function ReplayPlayer({
       return;
     }
 
-    if (!state.canStepForward && state.totalFrames > 1) {
+    const latestState = store.getState();
+    if (loop) {
+      if (
+        latestState.currentFrame < loopBounds.from ||
+        latestState.currentFrame > loopBounds.to ||
+        latestState.currentFrame === loopBounds.to
+      ) {
+        store.seek(loopBounds.from);
+      }
+    } else if (!latestState.canStepForward && latestState.totalFrames > 1) {
       store.seek(0);
     }
 
     const timer = window.setInterval(() => {
+      const nextState = store.getState();
+
+      if (loop) {
+        if (nextState.currentFrame >= loopBounds.to) {
+          store.seek(loopBounds.from);
+          return;
+        }
+
+        const next = store.next();
+        if (!next) {
+          store.seek(loopBounds.from);
+        }
+        return;
+      }
+
       const next = store.next();
       if (!next) {
         setPlaying(false);
       }
-    }, autoplayIntervalMs);
+    }, playbackIntervalMs);
 
     return () => {
       window.clearInterval(timer);
     };
-  }, [playing, autoplayIntervalMs, state.canStepForward, state.totalFrames, store]);
+  }, [
+    playing,
+    playbackIntervalMs,
+    state.totalFrames,
+    store,
+    loop,
+    loopBounds.from,
+    loopBounds.to
+  ]);
 
   const timelineNode = showTimeline ? (
     <ReplayTimeline
