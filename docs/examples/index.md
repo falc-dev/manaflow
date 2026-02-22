@@ -16,4 +16,5 @@ Coleccion de ejemplos practicos para integrar Manaflow en distintos niveles.
 ### Variantes recomendadas en React
 
 - Modo simple: `ReplayPlayer` con `showTimeline` para tener controles + timeline + viewport en un solo componente.
+- Modo duelo: `ReplayDuelLayout` para top/bottom players + objetivo central + stack configurable.
 - Modo avanzado: composicion `ReplayControls` + `ReplayTimeline` + `ReplayViewport` para layout totalmente custom.

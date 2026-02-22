@@ -78,7 +78,26 @@ const mapped = selectPlayerField(snapshot, snapshot.currentPlayer, {
 });
 ```
 
-Tambien puedes componer UI reusable con `ReplayPlayerField` + `ReplayTable`:
+Para demo de duelo (recomendado), usa `ReplayDuelLayout` como preset principal:
+
+```tsx
+import { ReplayDuelLayout, useReplayStore } from '@manaflow/react';
+
+function DuelBoard({ store }) {
+  const state = useReplayStore(store);
+
+  return (
+    <ReplayDuelLayout
+      state={state}
+      fieldZoneMap={{ trash: ['discard', 'graveyard', 'trash'] }}
+      sharedObjectiveProps={{ title: 'Center Objective', zoneIds: ['objective', 'board'] }}
+      tableProps={{ zones: [{ id: 'stack', title: 'Stack' }] }}
+    />
+  );
+}
+```
+
+Si necesitas composicion manual completa, puedes usar `ReplayPlayerField` + `ReplayTable`:
 
 ```tsx
 import { ReplayPlayerField, ReplayTable, selectPlayerFields, useReplayStore } from '@manaflow/react';
@@ -93,24 +112,6 @@ function TwoSidedTable({ store }) {
       <ReplayTable state={state} />
       <ReplayPlayerField state={state} field={fields[1]} />
     </>
-  );
-}
-```
-
-Para TCG con objetivo central (separado de la mesa compartida), puedes usar `ReplayDuelLayout`:
-
-```tsx
-import { ReplayDuelLayout, useReplayStore } from '@manaflow/react';
-
-function DuelBoard({ store }) {
-  const state = useReplayStore(store);
-
-  return (
-    <ReplayDuelLayout
-      state={state}
-      sharedObjectiveProps={{ title: 'Center Objective', zoneIds: ['objective', 'board'] }}
-      tableProps={{ zones: [{ id: 'stack', title: 'Stack' }] }}
-    />
   );
 }
 ```
