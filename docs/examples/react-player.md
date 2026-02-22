@@ -69,6 +69,13 @@ import { selectPlayerField, selectPlayerFields } from '@manaflow/react';
 
 const current = selectPlayerField(snapshot, snapshot.currentPlayer);
 const fields = selectPlayerFields(snapshot);
+
+const mapped = selectPlayerField(snapshot, snapshot.currentPlayer, {
+  zoneMap: {
+    hand: ['reserve', 'hand'],
+    trash: ['discard_pile', 'graveyard', 'trash']
+  }
+});
 ```
 
 Tambien puedes componer UI reusable con `ReplayPlayerField` + `ReplayTable`:
@@ -86,6 +93,24 @@ function TwoSidedTable({ store }) {
       <ReplayTable state={state} />
       <ReplayPlayerField state={state} field={fields[1]} />
     </>
+  );
+}
+```
+
+Para TCG con objetivo central (separado de la mesa compartida), puedes usar `ReplayDuelLayout`:
+
+```tsx
+import { ReplayDuelLayout, useReplayStore } from '@manaflow/react';
+
+function DuelBoard({ store }) {
+  const state = useReplayStore(store);
+
+  return (
+    <ReplayDuelLayout
+      state={state}
+      sharedObjectiveProps={{ title: 'Center Objective', zoneIds: ['objective', 'board'] }}
+      tableProps={{ zones: [{ id: 'stack', title: 'Stack' }] }}
+    />
   );
 }
 ```

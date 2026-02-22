@@ -1,11 +1,12 @@
 import { Card, GameSnapshot } from '@manaflow/types';
 import { ReactNode } from 'react';
-import { ReplayPlayerField as ReplayPlayerFieldData } from '../player-field';
+import { ReplayPlayerField as ReplayPlayerFieldData, ReplayPlayerFieldZoneMap, selectPlayerField } from '../player-field';
 import { ReactReplayState } from '../store';
 
 export interface ReplayPlayerFieldProps {
   state: ReactReplayState;
   field: ReplayPlayerFieldData;
+  zoneMap?: ReplayPlayerFieldZoneMap;
   className?: string;
   cardClassName?: string;
   zones?: ReplayPlayerFieldZoneConfig[];
@@ -51,6 +52,7 @@ function getCardMetadata(entityId: string, snapshot: GameSnapshot): Card | undef
 export function ReplayPlayerField({
   state,
   field,
+  zoneMap,
   className,
   cardClassName,
   zones = DEFAULT_ZONES,
@@ -58,17 +60,18 @@ export function ReplayPlayerField({
   renderCard
 }: ReplayPlayerFieldProps) {
   const snapshot = state.frame.snapshot;
+  const resolvedField = zoneMap ? selectPlayerField(snapshot, field.playerId, { zoneMap }) ?? field : field;
 
   return (
-    <article className={joinClassNames('replay-player-field', className)} aria-label={`${field.playerName} field`}>
+    <article className={joinClassNames('replay-player-field', className)} aria-label={`${resolvedField.playerName} field`}>
       <header className="replay-player-field__header">
-        <strong>{field.playerName}</strong>
-        <span>HP {field.health}</span>
+        <strong>{resolvedField.playerName}</strong>
+        <span>HP {resolvedField.health}</span>
       </header>
 
       <div className="replay-player-field__zones">
         {zones.map((zone) => {
-          const entityIds = field.zones[zone.id] ?? [];
+          const entityIds = resolvedField.zones[zone.id] ?? [];
           return (
             <section
               key={zone.id}
@@ -80,7 +83,7 @@ export function ReplayPlayerField({
                   ? renderZoneTitle({
                       zone,
                       snapshot,
-                      field,
+                      field: resolvedField,
                       entityIds
                     })
                   : `${zone.title} (${entityIds.length})`}
@@ -95,7 +98,7 @@ export function ReplayPlayerField({
                         ? renderCard({
                             zone,
                             snapshot,
-                            field,
+                            field: resolvedField,
                             entityId,
                             card
                           })

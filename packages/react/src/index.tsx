@@ -25,9 +25,18 @@ export { ReplayTable } from './components/replay-table';
 export type {
   ReplayTableCardRenderContext,
   ReplayTableProps,
+  ReplayTableZoneMap,
   ReplayTableZoneConfig,
   ReplayTableZoneTitleRenderContext
 } from './components/replay-table';
+export { ReplaySharedObjective } from './components/replay-shared-objective';
+export type {
+  ReplaySharedObjectiveCardRenderContext,
+  ReplaySharedObjectiveProps,
+  ReplaySharedObjectiveTitleRenderContext
+} from './components/replay-shared-objective';
+export { ReplayDuelLayout } from './components/replay-duel-layout';
+export type { ReplayDuelLayoutProps } from './components/replay-duel-layout';
 export { ReplayViewport } from './components/replay-viewport';
 export type {
   ReplayViewportCardRenderContext,
@@ -39,7 +48,13 @@ export type {
 export { buildReplayMarkers, getReplayActionLabel } from './replay-markers';
 export type { BuildReplayMarkersOptions, ReplayMarkerInput, ReplayTimelineMarker } from './replay-markers';
 export { selectPlayerField, selectPlayerFields } from './player-field';
-export type { ReplayPlayerField as ReplayPlayerFieldData, ReplayPlayerFieldZones } from './player-field';
+export type {
+  ReplayPlayerField as ReplayPlayerFieldData,
+  ReplayPlayerFieldZoneKey,
+  ReplayPlayerFieldZoneMap,
+  ReplayPlayerFieldZones,
+  SelectPlayerFieldOptions
+} from './player-field';
 
 export { loadDemoReplay } from './loader';
 

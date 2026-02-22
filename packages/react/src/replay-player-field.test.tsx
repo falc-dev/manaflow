@@ -14,10 +14,12 @@ const mockedState: ReactReplayState = {
           name: 'Player 1',
           health: 20,
           resources: [{ type: 'MANA', amount: 2, max: 10 }],
-          hand: ['card_1'],
+          hand: [],
           deck: ['card_2'],
           discard: ['card_3'],
-          zones: {}
+          zones: {
+            reserve: ['card_1']
+          }
         }
       ],
       currentPhase: 'DRAW',
@@ -47,5 +49,22 @@ describe('ReplayPlayerField', () => {
     const zonesContainer = element.props.children[1];
     expect(zonesContainer.props.className).toBe('replay-player-field__zones');
     expect(zonesContainer.props.children).toHaveLength(3);
+  });
+
+  it('supports zoneMap aliases to resolve player zones', () => {
+    const field = selectPlayerField(mockedState.frame.snapshot, 'p1');
+    expect(field).not.toBeNull();
+    const element = ReplayPlayerField({
+      state: mockedState,
+      field: field!,
+      zoneMap: {
+        hand: ['reserve', 'hand']
+      }
+    });
+
+    const zonesContainer = element.props.children[1];
+    const handZone = zonesContainer.props.children[0];
+    const handRail = handZone.props.children[1];
+    expect(handRail.props.children).toHaveLength(1);
   });
 });

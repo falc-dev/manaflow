@@ -5,6 +5,7 @@ import { ReactReplayState } from '../store';
 export interface ReplayTableProps {
   state: ReactReplayState;
   zones?: ReplayTableZoneConfig[];
+  zoneMap?: ReplayTableZoneMap;
   className?: string;
   cardClassName?: string;
   renderZoneTitle?: (context: ReplayTableZoneTitleRenderContext) => ReactNode;
@@ -14,6 +15,10 @@ export interface ReplayTableProps {
 export interface ReplayTableZoneConfig {
   id: ZoneId;
   title: string;
+}
+
+export interface ReplayTableZoneMap {
+  [zoneId: string]: string | string[];
 }
 
 export interface ReplayTableZoneTitleRenderContext {
@@ -43,9 +48,40 @@ function getCardMetadata(entityId: string, snapshot: GameSnapshot): Card | undef
   return entity?.components.find((component) => component.componentType === 'CARD')?.metadata as Card | undefined;
 }
 
+function normalizeAliases(aliases: string | string[] | undefined, fallback: string): string[] {
+  if (!aliases) {
+    return [fallback];
+  }
+
+  return Array.isArray(aliases) ? aliases : [aliases];
+}
+
+function resolveZoneEntityIds(snapshot: GameSnapshot, zoneId: ZoneId, zoneMap: ReplayTableZoneMap | undefined): string[] {
+  const aliases = normalizeAliases(zoneMap?.[zoneId], zoneId);
+  let fallback: string[] | undefined;
+
+  for (const alias of aliases) {
+    const entityIds = snapshot.zones[alias];
+    if (!Array.isArray(entityIds)) {
+      continue;
+    }
+
+    if (!fallback) {
+      fallback = entityIds;
+    }
+
+    if (entityIds.length > 0) {
+      return entityIds;
+    }
+  }
+
+  return fallback ?? [];
+}
+
 export function ReplayTable({
   state,
   zones = DEFAULT_ZONES,
+  zoneMap,
   className,
   cardClassName,
   renderZoneTitle,
@@ -56,7 +92,7 @@ export function ReplayTable({
   return (
     <section className={joinClassNames('replay-table', className)} aria-label="Shared table">
       {zones.map((zone) => {
-        const entityIds = snapshot.zones[zone.id] ?? [];
+        const entityIds = resolveZoneEntityIds(snapshot, zone.id, zoneMap);
         return (
           <article key={zone.id} className={joinClassNames('replay-table__zone', `replay-table__zone--${zone.id}`)}>
             <div className="replay-table__zone-title">

@@ -14,25 +14,85 @@ export interface ReplayPlayerField {
   zones: ReplayPlayerFieldZones;
 }
 
+export type ReplayPlayerFieldZoneKey = keyof ReplayPlayerFieldZones;
+
+export interface ReplayPlayerFieldZoneMap {
+  hand?: string | string[];
+  deck?: string | string[];
+  trash?: string | string[];
+}
+
+export interface SelectPlayerFieldOptions {
+  zoneMap?: ReplayPlayerFieldZoneMap;
+}
+
 function cloneArray(values: string[] | undefined): string[] {
   return Array.isArray(values) ? [...values] : [];
 }
 
-function resolveTrash(player: PlayerState): string[] {
-  if (Array.isArray(player.discard) && player.discard.length > 0) {
-    return [...player.discard];
+const DEFAULT_ZONE_MAP: Record<ReplayPlayerFieldZoneKey, string[]> = {
+  hand: ['hand'],
+  deck: ['deck'],
+  trash: ['discard', 'graveyard', 'trash']
+};
+
+function normalizeAliases(aliases: string | string[] | undefined, fallback: string[]): string[] {
+  if (!aliases) {
+    return [...fallback];
   }
 
-  const graveyardZone = player.zones?.graveyard;
-  if (Array.isArray(graveyardZone)) {
-    return [...graveyardZone];
-  }
-
-  const trashZone = player.zones?.trash;
-  return cloneArray(trashZone);
+  return Array.isArray(aliases) ? aliases : [aliases];
 }
 
-export function selectPlayerField(snapshot: GameSnapshot, playerId: string): ReplayPlayerField | null {
+function getPlayerZoneByAlias(player: PlayerState, alias: string): string[] | undefined {
+  if (alias === 'hand') {
+    return player.hand;
+  }
+
+  if (alias === 'deck') {
+    return player.deck;
+  }
+
+  if (alias === 'discard') {
+    return player.discard;
+  }
+
+  return player.zones?.[alias];
+}
+
+function resolveZone(player: PlayerState, aliases: string[]): string[] {
+  let fallback: string[] | undefined;
+  for (const alias of aliases) {
+    const values = getPlayerZoneByAlias(player, alias);
+    if (!Array.isArray(values)) {
+      continue;
+    }
+
+    if (!fallback) {
+      fallback = values;
+    }
+
+    if (values.length > 0) {
+      return [...values];
+    }
+  }
+
+  return cloneArray(fallback);
+}
+
+function resolveFieldZones(player: PlayerState, zoneMap: ReplayPlayerFieldZoneMap | undefined): ReplayPlayerFieldZones {
+  return {
+    hand: resolveZone(player, normalizeAliases(zoneMap?.hand, DEFAULT_ZONE_MAP.hand)),
+    deck: resolveZone(player, normalizeAliases(zoneMap?.deck, DEFAULT_ZONE_MAP.deck)),
+    trash: resolveZone(player, normalizeAliases(zoneMap?.trash, DEFAULT_ZONE_MAP.trash))
+  };
+}
+
+export function selectPlayerField(
+  snapshot: GameSnapshot,
+  playerId: string,
+  options?: SelectPlayerFieldOptions
+): ReplayPlayerField | null {
   const player = snapshot.players.find((entry) => entry.id === playerId);
   if (!player) {
     return null;
@@ -43,16 +103,12 @@ export function selectPlayerField(snapshot: GameSnapshot, playerId: string): Rep
     playerName: player.name,
     health: player.health,
     resources: [...player.resources],
-    zones: {
-      hand: cloneArray(player.hand),
-      deck: cloneArray(player.deck),
-      trash: resolveTrash(player)
-    }
+    zones: resolveFieldZones(player, options?.zoneMap)
   };
 }
 
-export function selectPlayerFields(snapshot: GameSnapshot): ReplayPlayerField[] {
+export function selectPlayerFields(snapshot: GameSnapshot, options?: SelectPlayerFieldOptions): ReplayPlayerField[] {
   return snapshot.players
-    .map((player) => selectPlayerField(snapshot, player.id))
+    .map((player) => selectPlayerField(snapshot, player.id, options))
     .filter((field): field is ReplayPlayerField => field !== null);
 }

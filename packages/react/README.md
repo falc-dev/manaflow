@@ -265,6 +265,13 @@ import { selectPlayerField, selectPlayerFields } from '@manaflow/react';
 
 const currentPlayerField = selectPlayerField(snapshot, snapshot.currentPlayer);
 const allFields = selectPlayerFields(snapshot);
+
+const mappedField = selectPlayerField(snapshot, snapshot.currentPlayer, {
+  zoneMap: {
+    hand: ['reserve', 'hand'],
+    trash: ['discard_pile', 'graveyard', 'trash']
+  }
+});
 ```
 
 `selectPlayerField` / `selectPlayerFields` expose player-centric `hand` / `deck` / `trash` data, useful for top-vs-bottom battlefield layouts.
@@ -284,6 +291,30 @@ function TwoSidedTable({ store }) {
       <ReplayTable state={state} />
       <ReplayPlayerField state={state} field={fields[1]} />
     </section>
+  );
+}
+```
+
+Si tu juego tiene una zona central de objetivos (distinta de una mesa compartida clasica), usa `ReplaySharedObjective` o el preset `ReplayDuelLayout`:
+
+```tsx
+import { ReplayDuelLayout, useReplayStore } from '@manaflow/react';
+
+function DuelTable({ store }) {
+  const state = useReplayStore(store);
+
+  return (
+    <ReplayDuelLayout
+      state={state}
+      fieldZoneMap={{ trash: ['discard', 'graveyard', 'trash'] }}
+      sharedObjectiveProps={{
+        title: 'Center Objective',
+        zoneIds: ['objective', 'board']
+      }}
+      tableProps={{
+        zones: [{ id: 'stack', title: 'Stack' }]
+      }}
+    />
   );
 }
 ```

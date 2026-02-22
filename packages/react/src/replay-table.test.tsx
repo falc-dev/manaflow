@@ -12,7 +12,7 @@ const mockedState: ReactReplayState = {
       currentPlayer: 'p1',
       turn: 1,
       entities: {},
-      zones: { deck: [], hand: [], board: ['card_1'], graveyard: [], stack: ['card_2'] },
+      zones: { deck: [], hand: [], board: [], objective: ['card_1'], graveyard: [], stack: ['card_2'] },
       metadata: {}
     }
   },
@@ -30,5 +30,17 @@ describe('ReplayTable', () => {
 
     expect(element.props.className).toContain('replay-table');
     expect(element.props.children).toHaveLength(2);
+  });
+
+  it('supports zoneMap aliases for table zones', () => {
+    const element = ReplayTable({
+      state: mockedState,
+      zoneMap: {
+        board: ['objective', 'board']
+      }
+    });
+    const boardZone = element.props.children[0];
+    const boardRail = boardZone.props.children[1];
+    expect(boardRail.props.children).toHaveLength(1);
   });
 });

@@ -74,6 +74,22 @@ describe('selectPlayerField', () => {
 
     expect(selectPlayerField(snapshot, 'missing')).toBeNull();
   });
+
+  it('supports custom zone aliases through zoneMap', () => {
+    const snapshot = makeSnapshot();
+    snapshot.players[0].zones.reserve = ['card_7'];
+    snapshot.players[0].zones.bin = ['card_8'];
+
+    const field = selectPlayerField(snapshot, 'p1', {
+      zoneMap: {
+        hand: ['reserve', 'hand'],
+        trash: ['bin', 'discard']
+      }
+    });
+
+    expect(field?.zones.hand).toEqual(['card_7']);
+    expect(field?.zones.trash).toEqual(['card_8']);
+  });
 });
 
 describe('selectPlayerFields', () => {
