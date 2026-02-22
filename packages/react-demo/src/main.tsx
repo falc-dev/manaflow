@@ -197,6 +197,7 @@ function DemoExperience({ store, frameMarkers }: { store: ReactReplayStore; fram
           playing={playing}
           onPlayingChange={setPlaying}
           autoplayIntervalMs={900}
+          viewportLayout="board"
           zones={ZONES}
           timelineFormatter={(snapshot) =>
             `Turn ${snapshot.turn} · ${snapshot.currentPhase} · ${getPlayerName(state, snapshot.currentPlayer)} · ${timelineAction}`

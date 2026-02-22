@@ -55,6 +55,7 @@ const markers = buildReplayMarkers(replayPayload.events ?? []);
   store={store}
   showTimeline
   timelineMarkers={markers}
+  viewportLayout="board"
   timelinePosition="afterViewport"
   timelineAriaLabel="Frames del replay"
   timelineFramePrefix="Frame "
@@ -80,6 +81,7 @@ const markers = buildReplayMarkers(replayPayload.events ?? []);
 | `timelineClassName` | `string` | `undefined` | Clase extra para la timeline integrada. |
 | `viewportClassName` | `string` | `undefined` | Clase extra para `ReplayViewport`. |
 | `viewportCardClassName` | `string` | `undefined` | Clase extra para cada card del viewport. |
+| `viewportLayout` | `'stacked' \| 'board'` | `stacked` | Preset de layout para distribuir zonas en el viewport. |
 | `showTimeline` | `boolean` | `false` | Si renderiza `ReplayTimeline` dentro del player. |
 | `timelinePosition` | `'beforeViewport' \| 'afterViewport'` | `'beforeViewport'` | Posicion de la timeline integrada respecto al viewport. |
 | `timelineAriaLabel` | `string` | `Replay timeline` | Label accesible para la timeline integrada. |
@@ -110,6 +112,7 @@ const markers = buildReplayMarkers(replayPayload.events ?? []);
 | --- | --- | --- | --- |
 | `state` | `ReactReplayState` | requerida | Estado/frame a renderizar. |
 | `zones` | `ReplayViewportZoneConfig[]` | hand/board/graveyard/deck/stack | Configuracion de zonas visibles. |
+| `layout` | `'stacked' \| 'board'` | `stacked` | Preset de layout de zonas del viewport. |
 | `timelineFormatter` | `(snapshot: GameSnapshot) => string` | formatter por defecto | Texto de timeline personalizado. |
 | `renderCard` | `(context: ReplayViewportCardRenderContext) => ReactNode` | renderer por defecto | Render de carta personalizado. |
 | `renderZoneTitle` | `(context: ReplayViewportZoneTitleRenderContext) => ReactNode` | titulo por defecto | Render de titulo de zona personalizado. |

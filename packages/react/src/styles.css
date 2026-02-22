@@ -110,6 +110,46 @@
   gap: 12px;
 }
 
+.replay-player__viewport--layout-board {
+  grid-template-columns: minmax(0, 1fr) 220px;
+  grid-template-areas:
+    "timeline timeline"
+    "board deck"
+    "board graveyard"
+    "hand stack";
+}
+
+.replay-player__viewport--layout-board .replay-player__timeline {
+  grid-area: timeline;
+}
+
+.replay-player__viewport--layout-board .replay-player__zone--board {
+  grid-area: board;
+}
+
+.replay-player__viewport--layout-board .replay-player__zone--hand {
+  grid-area: hand;
+}
+
+.replay-player__viewport--layout-board .replay-player__zone--deck {
+  grid-area: deck;
+}
+
+.replay-player__viewport--layout-board .replay-player__zone--graveyard {
+  grid-area: graveyard;
+}
+
+.replay-player__viewport--layout-board .replay-player__zone--stack {
+  grid-area: stack;
+}
+
+.replay-player__viewport--layout-board .replay-player__zone--hand .replay-player__zone-rail,
+.replay-player__viewport--layout-board .replay-player__zone--board .replay-player__zone-rail {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
 .replay-player__timeline {
   color: var(--replay-player-text);
   font-family: monospace;
@@ -157,4 +197,17 @@
   font-size: 11px;
   margin-top: 8px;
   color: var(--replay-player-card-cost-text);
+}
+
+@media (max-width: 980px) {
+  .replay-player__viewport--layout-board {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "timeline"
+      "board"
+      "hand"
+      "deck"
+      "graveyard"
+      "stack";
+  }
 }

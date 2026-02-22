@@ -5,12 +5,15 @@ import { ReactReplayState } from '../store';
 export interface ReplayViewportProps {
   state: ReactReplayState;
   zones?: ReplayViewportZoneConfig[];
+  layout?: ReplayViewportLayout;
   timelineFormatter?: (snapshot: GameSnapshot) => string;
   renderCard?: (context: ReplayViewportCardRenderContext) => ReactNode;
   renderZoneTitle?: (context: ReplayViewportZoneTitleRenderContext) => ReactNode;
   className?: string;
   cardClassName?: string;
 }
+
+export type ReplayViewportLayout = 'stacked' | 'board';
 
 export interface ReplayViewportZoneConfig {
   id: ZoneId;
@@ -53,6 +56,7 @@ function defaultTimelineFormatter(snapshot: GameSnapshot): string {
 export function ReplayViewport({
   state,
   zones = DEFAULT_ZONES,
+  layout = 'stacked',
   timelineFormatter = defaultTimelineFormatter,
   renderCard,
   renderZoneTitle,
@@ -63,7 +67,7 @@ export function ReplayViewport({
   const eventId = state.frame.event?.id;
 
   return (
-    <div className={joinClassNames('replay-player__viewport', className)}>
+    <div className={joinClassNames('replay-player__viewport', `replay-player__viewport--layout-${layout}`, className)}>
       <div
         className={joinClassNames('replay-player__timeline', eventId ? 'replay-player__timeline--highlighted' : undefined)}
         data-manaflow-timeline="true"
@@ -76,7 +80,12 @@ export function ReplayViewport({
       {zones.map((zone) => {
         const entityIds = snapshot.zones[zone.id] ?? [];
         return (
-          <div key={zone.id} className="replay-player__zone" role="group" aria-label={zone.title}>
+          <div
+            key={zone.id}
+            className={joinClassNames('replay-player__zone', `replay-player__zone--${zone.id}`)}
+            role="group"
+            aria-label={zone.title}
+          >
             <div className="replay-player__zone-title">
               {renderZoneTitle
                 ? renderZoneTitle({

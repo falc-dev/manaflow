@@ -8,7 +8,7 @@ Executable browser demo for replay controls built with `@manaflow/react` compone
 - `useReplayStore` to render frame-by-frame explanations
 - Custom card + zone rendering via `renderCard` / `renderZoneTitle`
 - `ReplayTimeline` + `buildReplayMarkers` for frame navigation
-- Viewport zone layout organized as board-centric CSS grid
+- `viewportLayout="board"` for board-centric zone arrangement
 - Single-page transition animations when frame changes
 - Transition-focused replay events:
   - `hand -> board` (`PLAY_CARD`)

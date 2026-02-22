@@ -47,6 +47,7 @@ import type { ReplayPlayerProps } from '@manaflow/react';
 | `timelineClassName` | `string` | `undefined` | Extra class for integrated `ReplayTimeline` when enabled. |
 | `viewportClassName` | `string` | `undefined` | Extra class for `ReplayViewport`. |
 | `viewportCardClassName` | `string` | `undefined` | Extra class for each viewport card. |
+| `viewportLayout` | `'stacked' \| 'board'` | `stacked` | Layout preset forwarded to `ReplayViewport`. |
 | `showTimeline` | `boolean` | `false` | Renders integrated `ReplayTimeline` inside `ReplayPlayer`. |
 | `timelinePosition` | `'beforeViewport' \| 'afterViewport'` | `'beforeViewport'` | Controls where integrated timeline is rendered. |
 | `timelineAriaLabel` | `string` | `Replay timeline` | Accessible label for integrated timeline list. |
@@ -101,6 +102,7 @@ import type { ReplayViewportProps } from '@manaflow/react';
 | --- | --- | --- | --- |
 | `state` | `ReactReplayState` | required | Replay frame/state to render. |
 | `zones` | `ReplayViewportZoneConfig[]` | hand/board/graveyard/deck/stack | Visible zones and labels. |
+| `layout` | `'stacked' \| 'board'` | `stacked` | Layout preset for zone arrangement. |
 | `timelineFormatter` | `(snapshot: GameSnapshot) => string` | built-in formatter | Timeline text renderer. |
 | `renderCard` | `(context: ReplayViewportCardRenderContext) => ReactNode` | built-in card | Card renderer override. |
 | `renderZoneTitle` | `(context: ReplayViewportZoneTitleRenderContext) => ReactNode` | zone title | Zone title renderer override. |
@@ -163,6 +165,7 @@ function PlayerWithTimeline({ store }) {
       store={store}
       showTimeline
       timelineMarkers={markers}
+      viewportLayout="board"
       timelinePosition="afterViewport"
       timelineAriaLabel="Replay frames"
       timelineFramePrefix="Frame "

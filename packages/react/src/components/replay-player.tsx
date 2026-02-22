@@ -6,6 +6,7 @@ import { useReplayStore } from '../use-replay-store-react';
 import { ReplayControls } from './replay-controls';
 import { ReplayTimeline, ReplayTimelineRenderContext } from './replay-timeline';
 import {
+  ReplayViewportLayout,
   ReplayViewport,
   ReplayViewportCardRenderContext,
   ReplayViewportZoneConfig,
@@ -26,6 +27,7 @@ export interface ReplayPlayerProps {
   timelineClassName?: string;
   viewportClassName?: string;
   viewportCardClassName?: string;
+  viewportLayout?: ReplayViewportLayout;
   showTimeline?: boolean;
   timelinePosition?: 'beforeViewport' | 'afterViewport';
   timelineAriaLabel?: string;
@@ -79,6 +81,7 @@ export function ReplayPlayer({
   timelineClassName,
   viewportClassName,
   viewportCardClassName,
+  viewportLayout,
   showTimeline = false,
   timelinePosition = 'beforeViewport',
   timelineAriaLabel,
@@ -194,6 +197,7 @@ export function ReplayPlayer({
       <ReplayViewport
         className={viewportClassName}
         cardClassName={viewportCardClassName}
+        layout={viewportLayout}
         state={state}
         zones={zones}
         timelineFormatter={timelineFormatter}

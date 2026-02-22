@@ -166,48 +166,6 @@ body {
   --replay-player-card-min-height: 132px;
 }
 
-.demo-replay .replay-player__viewport {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: minmax(0, 1fr) 220px;
-  grid-template-areas:
-    "timeline timeline"
-    "board deck"
-    "board graveyard"
-    "hand stack";
-}
-
-.demo-replay .replay-player__timeline {
-  grid-area: timeline;
-}
-
-.demo-replay .replay-player__zone:has(.replay-player__zone-rail[data-zone-id='board']) {
-  grid-area: board;
-}
-
-.demo-replay .replay-player__zone:has(.replay-player__zone-rail[data-zone-id='hand']) {
-  grid-area: hand;
-}
-
-.demo-replay .replay-player__zone:has(.replay-player__zone-rail[data-zone-id='deck']) {
-  grid-area: deck;
-}
-
-.demo-replay .replay-player__zone:has(.replay-player__zone-rail[data-zone-id='graveyard']) {
-  grid-area: graveyard;
-}
-
-.demo-replay .replay-player__zone:has(.replay-player__zone-rail[data-zone-id='stack']) {
-  grid-area: stack;
-}
-
-.demo-replay .replay-player__zone:has(.replay-player__zone-rail[data-zone-id='hand']) .replay-player__zone-rail,
-.demo-replay .replay-player__zone:has(.replay-player__zone-rail[data-zone-id='board']) .replay-player__zone-rail {
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: thin;
-}
-
 .demo-replay .replay-player__zone-rail {
   transition: transform 220ms ease, background-color 220ms ease, box-shadow 220ms ease;
   border-radius: 10px;
@@ -358,16 +316,5 @@ body {
 @media (max-width: 980px) {
   .demo-layout {
     grid-template-columns: 1fr;
-  }
-
-  .demo-replay .replay-player__viewport {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas:
-      "timeline"
-      "board"
-      "hand"
-      "deck"
-      "graveyard"
-      "stack";
   }
 }

@@ -17,6 +17,7 @@ export type { ReplayTimelineProps, ReplayTimelineRenderContext } from './compone
 export { ReplayViewport } from './components/replay-viewport';
 export type {
   ReplayViewportCardRenderContext,
+  ReplayViewportLayout,
   ReplayViewportProps,
   ReplayViewportZoneConfig,
   ReplayViewportZoneTitleRenderContext
