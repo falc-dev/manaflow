@@ -1,5 +1,23 @@
 # @manaflow/vue
 
+<script setup lang="ts">
+import CodePreviewTabs from '../.vitepress/components/CodePreviewTabs.vue';
+import VueReplayDocDemo from '../.vitepress/components/VueReplayDocDemo.vue';
+
+const vuePlayerSnippet = `<script setup lang="ts">
+import { ReplayEngine } from '@manaflow/core';
+import { ReplayPlayer, createVueReplayStore } from '@manaflow/vue';
+import '@manaflow/vue/styles.css';
+
+const replay = ReplayEngine.fromJson(jsonPayload);
+const store = createVueReplayStore(replay);
+<\/script>
+
+<template>
+  <ReplayPlayer :store="store" :autoplay-interval-ms="900" />
+<\/template>`;
+</script>
+
 Integracion para Vue con dos capas:
 
 - APIs headless (`controller`, `store`, composable).
@@ -38,6 +56,16 @@ const store = createVueReplayStore(replay);
 // en un SFC Vue:
 // <ReplayPlayer :store="store" />
 ```
+
+## Ejemplo interactivo
+
+<CodePreviewTabs :code="vuePlayerSnippet" language="vue">
+  <template #preview>
+    <ClientOnly>
+      <VueReplayDocDemo />
+    </ClientOnly>
+  </template>
+</CodePreviewTabs>
 
 ## Notas
 
