@@ -62,6 +62,15 @@ const markers = buildReplayMarkers(replayPayload.events ?? []);
 />;
 ```
 
+Para layouts top-vs-bottom por jugador puedes usar helpers headless:
+
+```ts
+import { selectPlayerField, selectPlayerFields } from '@manaflow/react';
+
+const current = selectPlayerField(snapshot, snapshot.currentPlayer);
+const fields = selectPlayerFields(snapshot);
+```
+
 ## Props de componentes
 
 ### `ReplayPlayer`

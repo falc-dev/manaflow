@@ -24,6 +24,8 @@ export type {
 } from './components/replay-viewport';
 export { buildReplayMarkers, getReplayActionLabel } from './replay-markers';
 export type { BuildReplayMarkersOptions, ReplayMarkerInput, ReplayTimelineMarker } from './replay-markers';
+export { selectPlayerField, selectPlayerFields } from './player-field';
+export type { ReplayPlayerField, ReplayPlayerFieldZones } from './player-field';
 
 export { loadDemoReplay } from './loader';
 

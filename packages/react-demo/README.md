@@ -8,6 +8,7 @@ Executable browser demo for replay controls built with `@manaflow/react` compone
 - `useReplayStore` to render frame-by-frame explanations
 - Custom card + zone rendering via `renderCard` / `renderZoneTitle`
 - `ReplayTimeline` + `buildReplayMarkers` for frame navigation
+- Player-vs-player field view using `selectPlayerFields` (hand/deck/trash per player)
 - `viewportLayout="board"` for board-centric zone arrangement
 - Deck cards rendered as reversed stacked pile using `renderCard` + `zoneId`
 - Single-page transition animations when frame changes

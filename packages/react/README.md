@@ -258,6 +258,17 @@ const markers = buildReplayMarkers(payload.events ?? [], {
 const fallback = getReplayActionLabel('CUSTOM_ACTION');
 ```
 
+## Player field helpers
+
+```ts
+import { selectPlayerField, selectPlayerFields } from '@manaflow/react';
+
+const currentPlayerField = selectPlayerField(snapshot, snapshot.currentPlayer);
+const allFields = selectPlayerFields(snapshot);
+```
+
+`selectPlayerField` / `selectPlayerFields` expose player-centric `hand` / `deck` / `trash` data, useful for top-vs-bottom battlefield layouts.
+
 ## Store API
 
 ```ts
