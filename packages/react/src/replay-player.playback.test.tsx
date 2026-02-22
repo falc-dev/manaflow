@@ -37,6 +37,7 @@ vi.mock('react', async (importOriginal) => {
   return {
     ...react,
     useState: <T,>(initialValue: T) => [initialValue, () => undefined] as const,
+    useRef: <T,>(initialValue: T) => ({ current: initialValue }),
     useEffect: (effect: () => void | (() => void)) => {
       effect();
     }
@@ -142,6 +143,7 @@ describe('ReplayPlayer playback controls', () => {
       };
 
     const onPlayingChange = vi.fn();
+    const onReachEnd = vi.fn();
     const store = createStoreMock({
       next: vi.fn(() => null)
     });
@@ -150,10 +152,12 @@ describe('ReplayPlayer playback controls', () => {
       store,
       playing: true,
       loop: false,
-      onPlayingChange
+      onPlayingChange,
+      onReachEnd
     });
 
     expect(store.next).toHaveBeenCalledTimes(1);
+    expect(onReachEnd).toHaveBeenCalledTimes(1);
     expect(onPlayingChange).toHaveBeenCalledWith(false);
   });
 });

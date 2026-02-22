@@ -172,6 +172,18 @@ body {
   padding: 4px;
 }
 
+.demo-replay .replay-player__zone--deck .replay-player__zone-rail {
+  align-items: flex-start;
+}
+
+.demo-replay .replay-player__zone--deck .replay-player__card {
+  margin-left: -96px;
+}
+
+.demo-replay .replay-player__zone--deck .replay-player__card:first-child {
+  margin-left: 0;
+}
+
 .demo-replay--frame-animating .replay-player__zone-rail {
   animation: demo-zone-flash 280ms ease;
 }
@@ -223,6 +235,29 @@ body {
 
 .demo-card--active {
   animation: demo-card-pulse 560ms ease;
+}
+
+.demo-card--back {
+  position: relative;
+  min-height: 116px;
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(102, 162, 232, 0.4) 0%, rgba(102, 162, 232, 0) 45%),
+    linear-gradient(145deg, #18355a 0%, #0f223b 100%);
+  border: 1px solid #406893;
+  overflow: hidden;
+}
+
+.demo-card__back-mark {
+  position: absolute;
+  inset: 20px;
+  border-radius: 999px;
+  border: 2px solid rgba(169, 208, 248, 0.7);
+}
+
+.demo-card__back-mark--small {
+  inset: 36px;
+  border-color: rgba(169, 208, 248, 0.35);
 }
 
 @keyframes demo-layout-enter {

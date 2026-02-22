@@ -1,6 +1,6 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { GameSnapshot } from '@manaflow/types';
-import { ReactReplayStore } from '../store';
+import { ReactReplayState, ReactReplayStore } from '../store';
 import { ReplayTimelineMarker } from '../replay-markers';
 import { useReplayStore } from '../use-replay-store-react';
 import { ReplayControls } from './replay-controls';
@@ -17,11 +17,16 @@ export interface ReplayPlayerProps {
   store: ReactReplayStore;
   autoplayIntervalMs?: number;
   playbackRate?: number;
+  defaultPlaybackRate?: number;
+  playbackRateOptions?: number[];
   loop?: boolean;
   loopRange?: { from: number; to: number };
   playing?: boolean;
   defaultPlaying?: boolean;
   onPlayingChange?: (playing: boolean) => void;
+  onPlaybackRateChange?: (playbackRate: number) => void;
+  onFrameChange?: (state: ReactReplayState) => void;
+  onReachEnd?: (state: ReactReplayState) => void;
   className?: string;
   controlsClassName?: string;
   timelineClassName?: string;
@@ -70,12 +75,17 @@ function resolveLoopBounds(
 export function ReplayPlayer({
   store,
   autoplayIntervalMs = 700,
-  playbackRate = 1,
+  playbackRate: controlledPlaybackRate,
+  defaultPlaybackRate = 1,
+  playbackRateOptions = [0.5, 1, 2],
   loop = false,
   loopRange,
   playing: controlledPlaying,
   defaultPlaying = false,
   onPlayingChange,
+  onPlaybackRateChange,
+  onFrameChange,
+  onReachEnd,
   className,
   controlsClassName,
   timelineClassName,
@@ -96,11 +106,15 @@ export function ReplayPlayer({
 }: ReplayPlayerProps) {
   const state = useReplayStore(store);
   const [uncontrolledPlaying, setUncontrolledPlaying] = useState(defaultPlaying);
+  const [uncontrolledPlaybackRate, setUncontrolledPlaybackRate] = useState(defaultPlaybackRate);
   const isControlled = controlledPlaying !== undefined;
+  const isPlaybackRateControlled = controlledPlaybackRate !== undefined;
   const playing = isControlled ? controlledPlaying : uncontrolledPlaying;
-  const safePlaybackRate = Number.isFinite(playbackRate) && playbackRate > 0 ? playbackRate : 1;
+  const effectivePlaybackRate = isPlaybackRateControlled ? controlledPlaybackRate : uncontrolledPlaybackRate;
+  const safePlaybackRate = Number.isFinite(effectivePlaybackRate) && effectivePlaybackRate > 0 ? effectivePlaybackRate : 1;
   const playbackIntervalMs = Math.max(16, Math.round(autoplayIntervalMs / safePlaybackRate));
   const loopBounds = resolveLoopBounds(state.totalFrames, loopRange);
+  const previousFrameRef = useRef(state.currentFrame);
 
   const setPlaying = (value: boolean | ((previous: boolean) => boolean)) => {
     const nextPlaying = typeof value === 'function' ? value(playing) : value;
@@ -113,6 +127,26 @@ export function ReplayPlayer({
       onPlayingChange?.(nextPlaying);
     }
   };
+
+  const setPlaybackRate = (value: number | ((previous: number) => number)) => {
+    const nextRate = typeof value === 'function' ? value(safePlaybackRate) : value;
+    const normalizedRate = Number.isFinite(nextRate) && nextRate > 0 ? nextRate : 1;
+
+    if (!isPlaybackRateControlled) {
+      setUncontrolledPlaybackRate(normalizedRate);
+    }
+
+    if (Math.abs(normalizedRate - safePlaybackRate) > 0.001) {
+      onPlaybackRateChange?.(normalizedRate);
+    }
+  };
+
+  useEffect(() => {
+    if (previousFrameRef.current !== state.currentFrame) {
+      previousFrameRef.current = state.currentFrame;
+      onFrameChange?.(state);
+    }
+  }, [onFrameChange, state]);
 
   useEffect(() => {
     if (!playing) {
@@ -150,6 +184,7 @@ export function ReplayPlayer({
 
       const next = store.next();
       if (!next) {
+        onReachEnd?.(store.getState());
         setPlaying(false);
       }
     }, playbackIntervalMs);
@@ -164,7 +199,8 @@ export function ReplayPlayer({
     store,
     loop,
     loopBounds.from,
-    loopBounds.to
+    loopBounds.to,
+    onReachEnd
   ]);
 
   const timelineNode = showTimeline ? (
@@ -188,10 +224,13 @@ export function ReplayPlayer({
         className={controlsClassName}
         state={state}
         isPlaying={playing}
+        playbackRate={safePlaybackRate}
+        playbackRateOptions={playbackRateOptions}
         onPrevious={() => store.previous()}
         onNext={() => store.next()}
         onTogglePlay={() => setPlaying((value) => !value)}
         onSeek={(frame) => store.seek(frame)}
+        onPlaybackRateChange={(rate) => setPlaybackRate(rate)}
       />
       {timelinePosition === 'beforeViewport' ? timelineNode : null}
       <ReplayViewport

@@ -50,6 +50,11 @@
   cursor: not-allowed;
 }
 
+.replay-player__button--active {
+  box-shadow: inset 0 0 0 1px #83b5ea;
+  border-color: #83b5ea;
+}
+
 .replay-timeline {
   display: grid;
   gap: 6px;

@@ -148,7 +148,16 @@ function DemoExperience({ store, frameMarkers }: { store: ReactReplayStore; fram
 
   const timelineAction = state.frame.event?.action.type ?? 'SETUP';
 
-  const renderCard = ({ entityId, card }: ReplayViewportCardRenderContext) => {
+  const renderCard = ({ entityId, zoneId, card }: ReplayViewportCardRenderContext) => {
+    if (zoneId === 'deck') {
+      return (
+        <article className="demo-card demo-card--back" aria-label={`Deck card ${entityId}`}>
+          <div className="demo-card__back-mark" />
+          <div className="demo-card__back-mark demo-card__back-mark--small" />
+        </article>
+      );
+    }
+
     const isActive = entityId === activeCardId;
     return (
       <article className={`demo-card${isActive ? ' demo-card--active' : ''}`}>

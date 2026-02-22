@@ -71,11 +71,16 @@ const markers = buildReplayMarkers(replayPayload.events ?? []);
 | `store` | `ReactReplayStore` | requerida | Store creado con `createReactReplayStore`. |
 | `autoplayIntervalMs` | `number` | `700` | Intervalo de autoplay en milisegundos. |
 | `playbackRate` | `number` | `1` | Multiplicador de velocidad (`2` = 2x). |
+| `defaultPlaybackRate` | `number` | `1` | Velocidad inicial en modo no controlado. |
+| `playbackRateOptions` | `number[]` | `[0.5, 1, 2]` | Presets de velocidad en controles. |
 | `loop` | `boolean` | `false` | Reinicia en bucle al llegar al final en vez de parar. |
 | `loopRange` | `{ from: number; to: number }` | rango completo | Segmento de frames para loop cuando `loop` esta activo. |
 | `playing` | `boolean` | no controlado | Estado de reproduccion en modo controlado. |
 | `defaultPlaying` | `boolean` | `false` | Estado inicial en modo no controlado. |
 | `onPlayingChange` | `(playing: boolean) => void` | `undefined` | Callback al cambiar play/pause. |
+| `onPlaybackRateChange` | `(playbackRate: number) => void` | `undefined` | Callback al cambiar velocidad. |
+| `onFrameChange` | `(state: ReactReplayState) => void` | `undefined` | Callback al cambiar frame actual. |
+| `onReachEnd` | `(state: ReactReplayState) => void` | `undefined` | Callback al llegar al final en autoplay sin loop. |
 | `className` | `string` | `undefined` | Clase extra del contenedor principal. |
 | `controlsClassName` | `string` | `undefined` | Clase extra para `ReplayControls`. |
 | `timelineClassName` | `string` | `undefined` | Clase extra para la timeline integrada. |
@@ -100,10 +105,13 @@ const markers = buildReplayMarkers(replayPayload.events ?? []);
 | --- | --- | --- | --- |
 | `state` | `ReactReplayState` | requerida | Estado actual del replay. |
 | `isPlaying` | `boolean` | requerida | Si se muestra `Play` o `Pause`. |
+| `playbackRate` | `number` | `1` | Velocidad activa mostrada en presets. |
+| `playbackRateOptions` | `number[]` | `[]` | Presets opcionales de velocidad. |
 | `onPrevious` | `() => void` | requerida | Handler del boton `Prev`. |
 | `onNext` | `() => void` | requerida | Handler del boton `Next`. |
 | `onTogglePlay` | `() => void` | requerida | Handler de `Play/Pause`. |
 | `onSeek` | `(frame: number) => void` | requerida | Handler del slider de frames. |
+| `onPlaybackRateChange` | `(rate: number) => void` | `undefined` | Handler al elegir preset de velocidad. |
 | `className` | `string` | `undefined` | Clase extra del root del control. |
 
 ### `ReplayViewport`
@@ -147,6 +155,7 @@ export function ControlledReplay({ store }) {
         onPlayingChange={setPlaying}
         autoplayIntervalMs={intervalMs}
         playbackRate={rate}
+        onPlaybackRateChange={setRate}
         loop
       />
     </>

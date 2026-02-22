@@ -22,6 +22,7 @@ export interface ReplayViewportZoneConfig {
 
 export interface ReplayViewportCardRenderContext {
   entityId: string;
+  zoneId: ZoneId;
   snapshot: GameSnapshot;
   card: Card | undefined;
 }
@@ -103,6 +104,7 @@ export function ReplayViewport({
                     {renderCard ? (
                       renderCard({
                         entityId,
+                        zoneId: zone.id,
                         snapshot,
                         card
                       })

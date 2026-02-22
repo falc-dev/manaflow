@@ -37,11 +37,16 @@ import type { ReplayPlayerProps } from '@manaflow/react';
 | `store` | `ReactReplayStore` | required | Replay store instance created with `createReactReplayStore`. |
 | `autoplayIntervalMs` | `number` | `700` | Autoplay interval in milliseconds. |
 | `playbackRate` | `number` | `1` | Playback speed multiplier (`2` is 2x faster, `0.5` is slower). |
+| `defaultPlaybackRate` | `number` | `1` | Initial playback speed in uncontrolled mode. |
+| `playbackRateOptions` | `number[]` | `[0.5, 1, 2]` | Speed buttons rendered in `ReplayControls`. |
 | `loop` | `boolean` | `false` | Rewinds playback instead of stopping when reaching the end. |
 | `loopRange` | `{ from: number; to: number }` | full replay range | Loop segment boundaries when `loop` is enabled. |
 | `playing` | `boolean` | uncontrolled | Controlled playback state. |
 | `defaultPlaying` | `boolean` | `false` | Initial playback state for uncontrolled mode. |
 | `onPlayingChange` | `(playing: boolean) => void` | `undefined` | Called when play/pause changes. |
+| `onPlaybackRateChange` | `(playbackRate: number) => void` | `undefined` | Called when speed changes from controls. |
+| `onFrameChange` | `(state: ReactReplayState) => void` | `undefined` | Called when current frame changes. |
+| `onReachEnd` | `(state: ReactReplayState) => void` | `undefined` | Called when autoplay reaches replay end in non-loop mode. |
 | `className` | `string` | `undefined` | Root container class (`replay-player`). |
 | `controlsClassName` | `string` | `undefined` | Extra class for `ReplayControls`. |
 | `timelineClassName` | `string` | `undefined` | Extra class for integrated `ReplayTimeline` when enabled. |
@@ -70,10 +75,13 @@ import type { ReplayControlsProps } from '@manaflow/react';
 | --- | --- | --- | --- |
 | `state` | `ReactReplayState` | required | Snapshot of replay state (`currentFrame`, `totalFrames`, etc.). |
 | `isPlaying` | `boolean` | required | Current playback status for the play button label. |
+| `playbackRate` | `number` | `1` | Active playback speed. |
+| `playbackRateOptions` | `number[]` | `[]` | Optional speed preset buttons. |
 | `onPrevious` | `() => void` | required | Called when user clicks `Prev`. |
 | `onNext` | `() => void` | required | Called when user clicks `Next`. |
 | `onTogglePlay` | `() => void` | required | Called when user clicks `Play/Pause`. |
 | `onSeek` | `(frame: number) => void` | required | Called when user moves the frame slider. |
+| `onPlaybackRateChange` | `(rate: number) => void` | `undefined` | Called when a speed preset is selected. |
 | `className` | `string` | `undefined` | Extra class for controls root element. |
 
 ## ReplayTimeline props
@@ -112,7 +120,7 @@ import type { ReplayViewportProps } from '@manaflow/react';
 ### Related viewport types
 
 - `ReplayViewportZoneConfig`: `{ id: ZoneId; title: string }`
-- `ReplayViewportCardRenderContext`: `{ entityId; snapshot; card }`
+- `ReplayViewportCardRenderContext`: `{ entityId; zoneId; snapshot; card }`
 - `ReplayViewportZoneTitleRenderContext`: `{ zone; snapshot; entityIds }`
 
 ## Mini interactive examples
@@ -145,6 +153,7 @@ function ControlledPlayer({ store }) {
         onPlayingChange={setPlaying}
         autoplayIntervalMs={intervalMs}
         playbackRate={rate}
+        onPlaybackRateChange={setRate}
         loop
       />
     </>
