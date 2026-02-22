@@ -4,15 +4,17 @@ import {
   buildReplayMarkers,
   createReactReplayStore,
   loadDemoReplay,
+  ReplayDuelLayout,
   ReplayPlayer,
-  ReplayPlayerFieldData,
+  ReplayPlayerFieldCardRenderContext,
+  ReplaySharedObjectiveCardRenderContext,
+  ReplayTableCardRenderContext,
   ReplayTimeline,
   ReplayTimelineMarker,
   ReplayViewportCardRenderContext,
   ReplayViewportZoneConfig,
   ReactReplayState,
   ReactReplayStore,
-  selectPlayerFields,
   useReplayStore
 } from '@manaflow/react';
 import '@manaflow/react/styles.css';
@@ -143,12 +145,6 @@ function DemoExperience({ store, frameMarkers }: { store: ReactReplayStore; fram
   const movement = getMovement(state);
   const eventExplanation = getEventExplanation(state);
   const activeCardId = movement?.cardId;
-  const fields = selectPlayerFields(state.frame.snapshot);
-  const currentPlayerIndex = fields.findIndex((field) => field.playerId === state.frame.snapshot.currentPlayer);
-  const orderedFields =
-    fields.length === 2 && currentPlayerIndex >= 0
-      ? [fields[(currentPlayerIndex + 1) % 2], fields[currentPlayerIndex]]
-      : fields;
 
   const movementClassName = movement
     ? `demo-replay--move-${movement.from.toLowerCase()}-${movement.to.toLowerCase()}`
@@ -175,6 +171,19 @@ function DemoExperience({ store, frameMarkers }: { store: ReactReplayStore; fram
       </article>
     );
   };
+
+  const renderPlayerFieldCard = ({ zone, entityId, card }: ReplayPlayerFieldCardRenderContext) => {
+    const isDeck = zone.id === 'deck';
+    return <div className={`demo-field-card${isDeck ? ' demo-field-card--back' : ''}`}>{isDeck ? null : card?.name ?? entityId}</div>;
+  };
+
+  const renderSharedObjectiveCard = ({ entityId, card }: ReplaySharedObjectiveCardRenderContext) => (
+    <div className="demo-field-card">{card?.name ?? entityId}</div>
+  );
+
+  const renderTableCard = ({ entityId, card }: ReplayTableCardRenderContext) => (
+    <div className="demo-field-card">{card?.name ?? entityId}</div>
+  );
 
   return (
     <section className="demo-layout" aria-label="React replay demo avanzada">
@@ -208,16 +217,29 @@ function DemoExperience({ store, frameMarkers }: { store: ReactReplayStore; fram
       </aside>
 
       <div className="demo-board">
-        <section className="demo-battlefield" aria-label="Player fields">
-          {orderedFields.map((field, index) => (
-            <PlayerField
-              key={field.playerId}
-              field={field}
-              state={state}
-              orientation={index === orderedFields.length - 1 ? 'bottom' : 'top'}
-            />
-          ))}
-        </section>
+        <ReplayDuelLayout
+          state={state}
+          className="demo-duel"
+          topClassName="demo-duel__top"
+          centerClassName="demo-duel__center"
+          bottomClassName="demo-duel__bottom"
+          playerCardClassName="demo-duel__player-card"
+          fieldZoneMap={{ trash: ['discard', 'graveyard', 'trash'] }}
+          renderPlayerCard={renderPlayerFieldCard}
+          sharedObjectiveProps={{
+            title: 'Center Objective',
+            zoneIds: ['objective', 'board'],
+            className: 'demo-duel__objective',
+            cardClassName: 'demo-duel__objective-card',
+            renderCard: renderSharedObjectiveCard
+          }}
+          tableProps={{
+            zones: [{ id: 'stack', title: 'Stack' }],
+            className: 'demo-duel__table',
+            cardClassName: 'demo-duel__table-card',
+            renderCard: renderTableCard
+          }}
+        />
         <ReplayPlayer
           store={store}
           className={`demo-replay ${movementClassName}${isFrameTransitioning ? ' demo-replay--frame-animating' : ''}`}
@@ -243,59 +265,6 @@ function DemoExperience({ store, frameMarkers }: { store: ReactReplayStore; fram
           }}
           renderCard={renderCard}
         />
-      </div>
-    </section>
-  );
-}
-
-function PlayerField({
-  field,
-  state,
-  orientation
-}: {
-  field: ReplayPlayerFieldData;
-  state: ReactReplayState;
-  orientation: 'top' | 'bottom';
-}) {
-  return (
-    <article className={`demo-field demo-field--${orientation}`}>
-      <header className="demo-field__header">
-        <strong>{field.playerName}</strong>
-        <span>HP {field.health}</span>
-      </header>
-      <div className="demo-field__zones">
-        <PlayerFieldZone title="Hand" entityIds={field.zones.hand} state={state} />
-        <PlayerFieldZone title="Deck" entityIds={field.zones.deck} state={state} deck />
-        <PlayerFieldZone title="Trash" entityIds={field.zones.trash} state={state} />
-      </div>
-    </article>
-  );
-}
-
-function PlayerFieldZone({
-  title,
-  entityIds,
-  state,
-  deck = false
-}: {
-  title: string;
-  entityIds: string[];
-  state: ReactReplayState;
-  deck?: boolean;
-}) {
-  return (
-    <section className="demo-field-zone" aria-label={`${title} (${entityIds.length})`}>
-      <div className="demo-field-zone__title">
-        <span>{title}</span>
-        <span>{entityIds.length}</span>
-      </div>
-      <div className={`demo-field-zone__rail${deck ? ' demo-field-zone__rail--deck' : ''}`}>
-        {entityIds.length === 0 ? <div className="demo-field-zone__empty">Empty</div> : null}
-        {entityIds.map((entityId) => (
-          <div key={entityId} className={`demo-field-card${deck ? ' demo-field-card--back' : ''}`}>
-            {deck ? null : getCardName(state, entityId)}
-          </div>
-        ))}
       </div>
     </section>
   );

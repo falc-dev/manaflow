@@ -350,12 +350,12 @@ body {
   color: #9be8d2;
 }
 
-.demo-battlefield {
+.demo-duel {
   display: grid;
   gap: 10px;
 }
 
-.demo-field {
+.demo-duel .replay-player-field {
   border: 1px solid #2c4b6b;
   border-radius: 10px;
   background: linear-gradient(160deg, #10253e 0%, #1a3555 100%);
@@ -365,24 +365,24 @@ body {
   gap: 8px;
 }
 
-.demo-field--top {
+.demo-duel__top {
   opacity: 0.92;
 }
 
-.demo-field__header {
+.demo-duel .replay-player-field__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 13px;
 }
 
-.demo-field__zones {
+.demo-duel .replay-player-field__zones {
   display: grid;
   gap: 8px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.demo-field-zone {
+.demo-duel .replay-player-field__zone {
   border: 1px solid rgba(148, 187, 226, 0.35);
   border-radius: 8px;
   padding: 6px;
@@ -391,7 +391,7 @@ body {
   background: rgba(8, 21, 35, 0.32);
 }
 
-.demo-field-zone__title {
+.demo-duel .replay-player-field__zone-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -400,24 +400,19 @@ body {
   letter-spacing: 0.03em;
 }
 
-.demo-field-zone__rail {
+.demo-duel .replay-player-field__zone-rail {
   display: flex;
   gap: 6px;
   overflow-x: auto;
   min-height: 42px;
 }
 
-.demo-field-zone__rail--deck .demo-field-card {
+.demo-duel .replay-player-field__zone--deck .demo-field-card {
   margin-left: -22px;
 }
 
-.demo-field-zone__rail--deck .demo-field-card:first-child {
+.demo-duel .replay-player-field__zone--deck .demo-field-card:first-child {
   margin-left: 0;
-}
-
-.demo-field-zone__empty {
-  font-size: 11px;
-  color: #92abc6;
 }
 
 .demo-field-card {
@@ -442,12 +437,25 @@ body {
   border-color: #44709c;
 }
 
+.demo-duel__objective {
+  background: linear-gradient(160deg, #163455 0%, #1f436d 100%);
+}
+
+.demo-duel__table {
+  background: rgba(8, 21, 35, 0.22);
+}
+
+.demo-duel__objective .replay-shared-objective__rail,
+.demo-duel__table .replay-table__zone-rail {
+  gap: 6px;
+}
+
 @media (max-width: 980px) {
   .demo-layout {
     grid-template-columns: 1fr;
   }
 
-  .demo-field__zones {
+  .demo-duel .replay-player-field__zones {
     grid-template-columns: 1fr;
   }
 }
