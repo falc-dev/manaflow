@@ -1,41 +1,33 @@
 # Controlador minimo con @manaflow/vue
 
-Ejemplo basico para montar replay en una app Vue usando el controlador del paquete.
+Ejemplo base en Vue usando store + componentes del paquete (sin `html-visor`).
 
-```ts
-import { onMounted, onBeforeUnmount, ref } from 'vue';
+```vue
+<script setup lang="ts">
 import { ReplayEngine } from '@manaflow/core';
-import { createVueReplayController } from '@manaflow/vue';
+import { ReplayPlayer, createVueReplayStore } from '@manaflow/vue';
+import '@manaflow/vue/styles.css';
 
-const containerRef = ref<HTMLElement | null>(null);
 const replay = ReplayEngine.fromJson(jsonPayload);
-const controller = createVueReplayController(replay);
+const store = createVueReplayStore(replay);
+</script>
 
-onMounted(() => {
-  if (containerRef.value) {
-    controller.mount(containerRef.value);
-  }
-});
-
-function next() {
-  controller.next();
-}
-
-function previous() {
-  controller.previous();
-}
-
-onBeforeUnmount(() => {
-  controller.destroy();
-});
+<template>
+  <ReplayPlayer :store="store" />
+</template>
 ```
 
-## Con opciones del renderer HTML por defecto
+## Con renderer imperativo opcional (Html Visor)
 
 ```ts
+import { createVueReplayController } from '@manaflow/vue';
+import { HtmlRendererAdapter } from '@manaflow/html-visor';
+import '@manaflow/html-visor/styles.css';
+
 const controller = createVueReplayController(replay, {
-  htmlRendererOptions: {
-    timelineFormatter: (snapshot) => `T${snapshot.turn} · ${snapshot.currentPhase}`
-  }
+  renderer: new HtmlRendererAdapter()
 });
+
+controller.render(containerElement);
+controller.next();
 ```

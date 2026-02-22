@@ -29,7 +29,7 @@ pnpm docs:dev
   - [Core Replay](/examples/core-replay)
   - [Runtime Store](/examples/runtime-store)
   - [React Player](/examples/react-player)
-  - [Vue Controller](/examples/vue-controller)
+  - [Vue Player/Controller](/examples/vue-controller)
   - [HTML Visor Custom](/examples/html-visor-custom)
 
 ## Documentacion por paquete

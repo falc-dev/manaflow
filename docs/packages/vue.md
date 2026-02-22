@@ -1,38 +1,48 @@
 # @manaflow/vue
 
-Helpers de integracion para Vue sobre el runtime de replay.
+Integracion para Vue con dos capas:
+
+- APIs headless (`controller`, `store`, composable).
+- Componentes Vue reutilizables (`ReplayPlayer`, `ReplayControls`, `ReplayViewport`).
 
 ## Export clave
 
-- `createVueReplayController(replay, { renderer?, htmlRendererOptions? })`
+- `createVueReplayController(replay, { renderer? })`
+- `createVueReplayStore(replay, { renderer? })`
+- `useReplayStore(store, selector?)`
+- `ReplayPlayer`, `ReplayControls`, `ReplayViewport`
 
 ## API resultante
 
-El controlador Vue expone:
+El controlador/store usan `@manaflow/replay-runtime` por debajo:
 
-- `frame()`
+- `getFrame()`
 - `next()`
 - `previous()`
-- `mount(container)`
+- `seek(frame)`
+- `render(container)` (si pasas `renderer`)
 - `destroy()`
+- `subscribe(listener)` (en store)
+- `getState()` (en store)
 
 ## Ejemplo
 
 ```ts
 import { ReplayEngine } from '@manaflow/core';
-import { createVueReplayController } from '@manaflow/vue';
+import { createVueReplayStore, ReplayPlayer } from '@manaflow/vue';
+import '@manaflow/vue/styles.css';
 
 const replay = ReplayEngine.fromJson(jsonPayload);
-const controller = createVueReplayController(replay);
+const store = createVueReplayStore(replay);
 
-controller.mount(container);
-controller.next();
+// en un SFC Vue:
+// <ReplayPlayer :store="store" />
 ```
 
 ## Notas
 
-- Si no se pasa `renderer`, crea por defecto `HtmlRendererAdapter`.
-- Se puede personalizar ese renderer con `htmlRendererOptions`.
+- `@manaflow/vue` es headless por defecto; no depende de `@manaflow/html-visor`.
+- Si quieres renderer imperativo, pasa `renderer` explícitamente (por ejemplo `HtmlRendererAdapter`).
 
 ## Build
 

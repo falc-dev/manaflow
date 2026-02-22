@@ -1,43 +1,17 @@
-import { ReplayEngine, ReplayFrame } from '@manaflow/core';
-import { HtmlRendererAdapter, HtmlRendererAdapterOptions } from '@manaflow/html-visor';
-import { createReplayController } from '@manaflow/replay-runtime';
-import { RendererAdapter } from '@manaflow/types';
+export { createVueReplayController } from './controller';
+export type { CreateVueReplayControllerOptions, VueReplayController } from './controller';
 
-export interface VueReplayController {
-  frame(): ReplayFrame;
-  next(): ReplayFrame | null;
-  previous(): ReplayFrame | null;
-  mount(container: HTMLElement): void;
-  destroy(): void;
-}
+export { createVueReplayStore } from './store';
+export type { CreateVueReplayStoreOptions, VueReplayState, VueReplayStore } from './store';
 
-export interface CreateVueReplayControllerOptions {
-  renderer?: RendererAdapter;
-  htmlRendererOptions?: HtmlRendererAdapterOptions;
-}
+export { useReplayStore } from './use-replay-store';
 
-export function createVueReplayController(
-  replay: ReplayEngine,
-  options: CreateVueReplayControllerOptions = {}
-): VueReplayController {
-  const renderer = options.renderer ?? new HtmlRendererAdapter(options.htmlRendererOptions);
-  const controller = createReplayController(replay, { renderer });
-
-  return {
-    frame() {
-      return controller.getFrame();
-    },
-    next() {
-      return controller.next();
-    },
-    previous() {
-      return controller.previous();
-    },
-    mount(container: HTMLElement) {
-      controller.render(container);
-    },
-    destroy() {
-      controller.destroy();
-    }
-  };
-}
+export { ReplayPlayer } from './components/replay-player';
+export { ReplayControls } from './components/replay-controls';
+export { ReplayViewport } from './components/replay-viewport';
+export type {
+  ReplayViewportCardRenderContext,
+  ReplayViewportTimelineRenderContext,
+  ReplayViewportZoneConfig,
+  ReplayViewportZoneTitleRenderContext
+} from './components/replay-viewport';

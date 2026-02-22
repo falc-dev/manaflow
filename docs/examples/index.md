@@ -10,5 +10,5 @@ Coleccion de ejemplos practicos para integrar Manaflow en distintos niveles.
 ## UI e integraciones
 
 - [Renderizar un player con @manaflow/react](./react-player)
-- [Controlador minimo con @manaflow/vue](./vue-controller)
+- [Player y controlador con @manaflow/vue](./vue-controller)
 - [Renderer HTML personalizable con @manaflow/html-visor](./html-visor-custom)
