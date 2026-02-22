@@ -1,0 +1,113 @@
+import { Card, GameSnapshot } from '@manaflow/types';
+import { ReactNode } from 'react';
+import { ReplayPlayerField as ReplayPlayerFieldData } from '../player-field';
+import { ReactReplayState } from '../store';
+
+export interface ReplayPlayerFieldProps {
+  state: ReactReplayState;
+  field: ReplayPlayerFieldData;
+  className?: string;
+  cardClassName?: string;
+  zones?: ReplayPlayerFieldZoneConfig[];
+  renderZoneTitle?: (context: ReplayPlayerFieldZoneTitleRenderContext) => ReactNode;
+  renderCard?: (context: ReplayPlayerFieldCardRenderContext) => ReactNode;
+}
+
+export interface ReplayPlayerFieldZoneConfig {
+  id: keyof ReplayPlayerFieldData['zones'];
+  title: string;
+}
+
+export interface ReplayPlayerFieldZoneTitleRenderContext {
+  zone: ReplayPlayerFieldZoneConfig;
+  snapshot: GameSnapshot;
+  field: ReplayPlayerFieldData;
+  entityIds: string[];
+}
+
+export interface ReplayPlayerFieldCardRenderContext {
+  zone: ReplayPlayerFieldZoneConfig;
+  snapshot: GameSnapshot;
+  field: ReplayPlayerFieldData;
+  entityId: string;
+  card: Card | undefined;
+}
+
+const DEFAULT_ZONES: ReplayPlayerFieldZoneConfig[] = [
+  { id: 'hand', title: 'Hand' },
+  { id: 'deck', title: 'Deck' },
+  { id: 'trash', title: 'Trash' }
+];
+
+function joinClassNames(...parts: Array<string | undefined>): string {
+  return parts.filter(Boolean).join(' ');
+}
+
+function getCardMetadata(entityId: string, snapshot: GameSnapshot): Card | undefined {
+  const entity = snapshot.entities[entityId];
+  return entity?.components.find((component) => component.componentType === 'CARD')?.metadata as Card | undefined;
+}
+
+export function ReplayPlayerField({
+  state,
+  field,
+  className,
+  cardClassName,
+  zones = DEFAULT_ZONES,
+  renderZoneTitle,
+  renderCard
+}: ReplayPlayerFieldProps) {
+  const snapshot = state.frame.snapshot;
+
+  return (
+    <article className={joinClassNames('replay-player-field', className)} aria-label={`${field.playerName} field`}>
+      <header className="replay-player-field__header">
+        <strong>{field.playerName}</strong>
+        <span>HP {field.health}</span>
+      </header>
+
+      <div className="replay-player-field__zones">
+        {zones.map((zone) => {
+          const entityIds = field.zones[zone.id] ?? [];
+          return (
+            <section
+              key={zone.id}
+              className={joinClassNames('replay-player-field__zone', `replay-player-field__zone--${zone.id}`)}
+              aria-label={zone.title}
+            >
+              <div className="replay-player-field__zone-title">
+                {renderZoneTitle
+                  ? renderZoneTitle({
+                      zone,
+                      snapshot,
+                      field,
+                      entityIds
+                    })
+                  : `${zone.title} (${entityIds.length})`}
+              </div>
+
+              <div className="replay-player-field__zone-rail">
+                {entityIds.map((entityId) => {
+                  const card = getCardMetadata(entityId, snapshot);
+                  return (
+                    <div key={entityId} className={joinClassNames('replay-player-field__card', cardClassName)}>
+                      {renderCard
+                        ? renderCard({
+                            zone,
+                            snapshot,
+                            field,
+                            entityId,
+                            card
+                          })
+                        : card?.name ?? entityId}
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          );
+        })}
+      </div>
+    </article>
+  );
+}

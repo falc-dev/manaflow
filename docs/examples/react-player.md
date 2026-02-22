@@ -71,6 +71,25 @@ const current = selectPlayerField(snapshot, snapshot.currentPlayer);
 const fields = selectPlayerFields(snapshot);
 ```
 
+Tambien puedes componer UI reusable con `ReplayPlayerField` + `ReplayTable`:
+
+```tsx
+import { ReplayPlayerField, ReplayTable, selectPlayerFields, useReplayStore } from '@manaflow/react';
+
+function TwoSidedTable({ store }) {
+  const state = useReplayStore(store);
+  const fields = selectPlayerFields(state.frame.snapshot);
+
+  return (
+    <>
+      <ReplayPlayerField state={state} field={fields[0]} />
+      <ReplayTable state={state} />
+      <ReplayPlayerField state={state} field={fields[1]} />
+    </>
+  );
+}
+```
+
 ## Props de componentes
 
 ### `ReplayPlayer`

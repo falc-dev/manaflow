@@ -269,6 +269,25 @@ const allFields = selectPlayerFields(snapshot);
 
 `selectPlayerField` / `selectPlayerFields` expose player-centric `hand` / `deck` / `trash` data, useful for top-vs-bottom battlefield layouts.
 
+## Player field & table components
+
+```tsx
+import { ReplayPlayerField, ReplayTable, selectPlayerFields, useReplayStore } from '@manaflow/react';
+
+function TwoSidedTable({ store }) {
+  const state = useReplayStore(store);
+  const fields = selectPlayerFields(state.frame.snapshot);
+
+  return (
+    <section>
+      <ReplayPlayerField state={state} field={fields[0]} />
+      <ReplayTable state={state} />
+      <ReplayPlayerField state={state} field={fields[1]} />
+    </section>
+  );
+}
+```
+
 ## Store API
 
 ```ts

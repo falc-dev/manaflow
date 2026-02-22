@@ -204,6 +204,92 @@
   color: var(--replay-player-card-cost-text);
 }
 
+.replay-player-field {
+  display: grid;
+  gap: 8px;
+  border: 1px solid #2d4c6d;
+  border-radius: 10px;
+  background: #132a43;
+  color: #d9e7f5;
+  padding: 10px;
+}
+
+.replay-player-field__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.replay-player-field__zones {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.replay-player-field__zone {
+  border: 1px solid #3f5f84;
+  border-radius: 8px;
+  padding: 6px;
+  display: grid;
+  gap: 6px;
+}
+
+.replay-player-field__zone-title {
+  font-size: 11px;
+}
+
+.replay-player-field__zone-rail {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+}
+
+.replay-player-field__card {
+  min-width: 80px;
+  border: 1px solid #8ca6c3;
+  border-radius: 6px;
+  background: #f2f7ff;
+  color: #163150;
+  padding: 4px 6px;
+  font-size: 11px;
+}
+
+.replay-table {
+  display: grid;
+  gap: 8px;
+}
+
+.replay-table__zone {
+  border: 1px solid #3f5f84;
+  border-radius: 8px;
+  padding: 8px;
+  display: grid;
+  gap: 6px;
+}
+
+.replay-table__zone-title {
+  color: var(--replay-player-text);
+  font-weight: 600;
+}
+
+.replay-table__zone-rail {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.replay-table__card {
+  width: var(--replay-player-card-width);
+  min-height: var(--replay-player-card-min-height);
+  border-radius: var(--replay-player-card-radius);
+  background: var(--replay-player-card-bg);
+  border: 2px solid var(--replay-player-card-border);
+  color: var(--replay-player-card-text);
+  padding: 8px;
+  box-sizing: border-box;
+}
+
 @media (max-width: 980px) {
   .replay-player__viewport--layout-board {
     grid-template-columns: minmax(0, 1fr);
@@ -214,5 +300,9 @@
       "deck"
       "graveyard"
       "stack";
+  }
+
+  .replay-player-field__zones {
+    grid-template-columns: 1fr;
   }
 }

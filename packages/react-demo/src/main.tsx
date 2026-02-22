@@ -5,7 +5,7 @@ import {
   createReactReplayStore,
   loadDemoReplay,
   ReplayPlayer,
-  ReplayPlayerField,
+  ReplayPlayerFieldData,
   ReplayTimeline,
   ReplayTimelineMarker,
   ReplayViewportCardRenderContext,
@@ -253,7 +253,7 @@ function PlayerField({
   state,
   orientation
 }: {
-  field: ReplayPlayerField;
+  field: ReplayPlayerFieldData;
   state: ReactReplayState;
   orientation: 'top' | 'bottom';
 }) {

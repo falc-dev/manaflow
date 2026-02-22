@@ -14,6 +14,20 @@ export { ReplayControls } from './components/replay-controls';
 export type { ReplayControlsProps } from './components/replay-controls';
 export { ReplayTimeline } from './components/replay-timeline';
 export type { ReplayTimelineProps, ReplayTimelineRenderContext } from './components/replay-timeline';
+export { ReplayPlayerField } from './components/replay-player-field';
+export type {
+  ReplayPlayerFieldCardRenderContext,
+  ReplayPlayerFieldProps,
+  ReplayPlayerFieldZoneConfig,
+  ReplayPlayerFieldZoneTitleRenderContext
+} from './components/replay-player-field';
+export { ReplayTable } from './components/replay-table';
+export type {
+  ReplayTableCardRenderContext,
+  ReplayTableProps,
+  ReplayTableZoneConfig,
+  ReplayTableZoneTitleRenderContext
+} from './components/replay-table';
 export { ReplayViewport } from './components/replay-viewport';
 export type {
   ReplayViewportCardRenderContext,
@@ -25,7 +39,7 @@ export type {
 export { buildReplayMarkers, getReplayActionLabel } from './replay-markers';
 export type { BuildReplayMarkersOptions, ReplayMarkerInput, ReplayTimelineMarker } from './replay-markers';
 export { selectPlayerField, selectPlayerFields } from './player-field';
-export type { ReplayPlayerField, ReplayPlayerFieldZones } from './player-field';
+export type { ReplayPlayerField as ReplayPlayerFieldData, ReplayPlayerFieldZones } from './player-field';
 
 export { loadDemoReplay } from './loader';
 
