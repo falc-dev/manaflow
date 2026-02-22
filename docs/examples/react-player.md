@@ -31,6 +31,36 @@ export function ReplayPage() {
 }
 ```
 
+## Timeline por frame reutilizable
+
+```tsx
+import { ReplayTimeline, buildReplayMarkers, useReplayStore } from '@manaflow/react';
+
+export function ReplayTimelinePanel({ store, replayPayload }) {
+  const state = useReplayStore(store);
+  const markers = buildReplayMarkers(replayPayload.events ?? []);
+
+  return <ReplayTimeline state={state} markers={markers} onSeek={(frame) => store.seek(frame)} />;
+}
+```
+
+Tambien puedes integrarla directamente dentro de `ReplayPlayer`:
+
+```tsx
+import { ReplayPlayer, buildReplayMarkers } from '@manaflow/react';
+
+const markers = buildReplayMarkers(replayPayload.events ?? []);
+
+<ReplayPlayer
+  store={store}
+  showTimeline
+  timelineMarkers={markers}
+  timelinePosition="afterViewport"
+  timelineAriaLabel="Frames del replay"
+  timelineFramePrefix="Frame "
+/>;
+```
+
 ## Props de componentes
 
 ### `ReplayPlayer`
@@ -44,8 +74,16 @@ export function ReplayPage() {
 | `onPlayingChange` | `(playing: boolean) => void` | `undefined` | Callback al cambiar play/pause. |
 | `className` | `string` | `undefined` | Clase extra del contenedor principal. |
 | `controlsClassName` | `string` | `undefined` | Clase extra para `ReplayControls`. |
+| `timelineClassName` | `string` | `undefined` | Clase extra para la timeline integrada. |
 | `viewportClassName` | `string` | `undefined` | Clase extra para `ReplayViewport`. |
 | `viewportCardClassName` | `string` | `undefined` | Clase extra para cada card del viewport. |
+| `showTimeline` | `boolean` | `false` | Si renderiza `ReplayTimeline` dentro del player. |
+| `timelinePosition` | `'beforeViewport' \| 'afterViewport'` | `'beforeViewport'` | Posicion de la timeline integrada respecto al viewport. |
+| `timelineAriaLabel` | `string` | `Replay timeline` | Label accesible para la timeline integrada. |
+| `timelineFramePrefix` | `string` | `F` | Prefijo de cada marcador de frame (`F1`, `F2`, ...). |
+| `timelineMarkers` | `ReplayTimelineMarker[]` | frames por defecto | Marcadores usados por la timeline integrada. |
+| `renderTimelineMarker` | `(context: ReplayTimelineRenderContext) => ReactNode` | renderer por defecto | Render custom de marcadores en timeline. |
+| `onTimelineSeek` | `(frame: number) => void` | `undefined` | Callback cuando timeline hace `seek`. |
 | `zones` | `ReplayViewportZoneConfig[]` | zonas por defecto | Lista de zonas a renderizar. |
 | `timelineFormatter` | `(snapshot: GameSnapshot) => string` | formatter por defecto | Texto de timeline personalizado. |
 | `renderCard` | `(context: ReplayViewportCardRenderContext) => ReactNode` | renderer por defecto | Render de carta personalizado. |

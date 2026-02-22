@@ -41,8 +41,16 @@ import type { ReplayPlayerProps } from '@manaflow/react';
 | `onPlayingChange` | `(playing: boolean) => void` | `undefined` | Called when play/pause changes. |
 | `className` | `string` | `undefined` | Root container class (`replay-player`). |
 | `controlsClassName` | `string` | `undefined` | Extra class for `ReplayControls`. |
+| `timelineClassName` | `string` | `undefined` | Extra class for integrated `ReplayTimeline` when enabled. |
 | `viewportClassName` | `string` | `undefined` | Extra class for `ReplayViewport`. |
 | `viewportCardClassName` | `string` | `undefined` | Extra class for each viewport card. |
+| `showTimeline` | `boolean` | `false` | Renders integrated `ReplayTimeline` inside `ReplayPlayer`. |
+| `timelinePosition` | `'beforeViewport' \| 'afterViewport'` | `'beforeViewport'` | Controls where integrated timeline is rendered. |
+| `timelineAriaLabel` | `string` | `Replay timeline` | Accessible label for integrated timeline list. |
+| `timelineFramePrefix` | `string` | `F` | Prefix used for frame chip labels (`F1`, `F2`, ...). |
+| `timelineMarkers` | `ReplayTimelineMarker[]` | generated from total frames | Marker list used by integrated timeline. |
+| `renderTimelineMarker` | `(context: ReplayTimelineRenderContext) => ReactNode` | built-in marker | Override marker UI in integrated timeline. |
+| `onTimelineSeek` | `(frame: number) => void` | `undefined` | Called after integrated timeline seeks a frame. |
 | `zones` | `ReplayViewportZoneConfig[]` | built-in zones | Zone list rendered in viewport. |
 | `timelineFormatter` | `(snapshot: GameSnapshot) => string` | built-in formatter | Timeline text renderer. |
 | `renderCard` | `(context: ReplayViewportCardRenderContext) => ReactNode` | built-in card | Card content renderer override. |
@@ -63,6 +71,22 @@ import type { ReplayControlsProps } from '@manaflow/react';
 | `onTogglePlay` | `() => void` | required | Called when user clicks `Play/Pause`. |
 | `onSeek` | `(frame: number) => void` | required | Called when user moves the frame slider. |
 | `className` | `string` | `undefined` | Extra class for controls root element. |
+
+## ReplayTimeline props
+
+```tsx
+import type { ReplayTimelineProps } from '@manaflow/react';
+```
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `state` | `ReactReplayState` | required | Replay state used to resolve active marker and frame bounds. |
+| `onSeek` | `(frame: number) => void` | required | Called when the user clicks a marker. |
+| `markers` | `ReplayTimelineMarker[]` | generated from total frames | Markers to render (`frame`, `label`, `actionType`). |
+| `className` | `string` | `undefined` | Extra class for timeline root. |
+| `ariaLabel` | `string` | `Replay timeline` | Accessible label for timeline list. |
+| `framePrefix` | `string` | `F` | Prefix used for frame chip labels (`F1`, `F2`, ...). |
+| `renderMarker` | `(context: ReplayTimelineRenderContext) => ReactNode` | built-in marker | Override marker content rendering. |
 
 ## ReplayViewport props
 
@@ -119,7 +143,28 @@ function ControlledPlayer({ store }) {
 }
 ```
 
-### 2) Compose `ReplayControls` + `ReplayViewport`
+### 2) `ReplayPlayer` with integrated timeline
+
+```tsx
+import { ReplayPlayer, buildReplayMarkers } from '@manaflow/react';
+
+const markers = buildReplayMarkers(replayPayload.events ?? []);
+
+function PlayerWithTimeline({ store }) {
+  return (
+    <ReplayPlayer
+      store={store}
+      showTimeline
+      timelineMarkers={markers}
+      timelinePosition="afterViewport"
+      timelineAriaLabel="Replay frames"
+      timelineFramePrefix="Frame "
+    />
+  );
+}
+```
+
+### 3) Compose `ReplayControls` + `ReplayViewport`
 
 ```tsx
 import { useState } from 'react';
@@ -149,7 +194,20 @@ function CustomLayout({ store }) {
 }
 ```
 
-### 3) Viewport customization (cards + zones)
+### 4) Compose `ReplayTimeline` with marker helper
+
+```tsx
+import { ReplayTimeline, buildReplayMarkers, useReplayStore } from '@manaflow/react';
+
+function TimelineSection({ store, replayPayload }) {
+  const state = useReplayStore(store);
+  const markers = buildReplayMarkers(replayPayload.events ?? []);
+
+  return <ReplayTimeline state={state} markers={markers} onSeek={(frame) => store.seek(frame)} />;
+}
+```
+
+### 5) Viewport customization (cards + zones)
 
 ```tsx
 import { ReplayPlayer } from '@manaflow/react';
@@ -165,6 +223,20 @@ import { ReplayPlayer } from '@manaflow/react';
     </>
   )}
 />;
+```
+
+## Replay marker helpers
+
+```ts
+import { buildReplayMarkers, getReplayActionLabel } from '@manaflow/react';
+
+const markers = buildReplayMarkers(payload.events ?? [], {
+  actionLabels: {
+    PLAY_CARD: 'Hand -> Battle'
+  }
+});
+
+const fallback = getReplayActionLabel('CUSTOM_ACTION');
 ```
 
 ## Store API

@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
+  buildReplayMarkers,
   createReactReplayStore,
   loadDemoReplay,
   ReplayPlayer,
+  ReplayTimeline,
+  ReplayTimelineMarker,
   ReplayViewportCardRenderContext,
   ReplayViewportZoneConfig,
   ReactReplayState,
@@ -17,6 +20,16 @@ interface MovementInfo {
   cardId: string;
   from: string;
   to: string;
+}
+
+interface DemoReplayPayload {
+  events?: Array<{
+    event?: {
+      action?: {
+        type?: unknown;
+      };
+    };
+  }>;
 }
 
 const ZONES: ReplayViewportZoneConfig[] = [
@@ -114,9 +127,16 @@ function getEventExplanation(state: ReactReplayState): { title: string; detail: 
   };
 }
 
-function DemoExperience({ store }: { store: ReactReplayStore }) {
+function DemoExperience({ store, frameMarkers }: { store: ReactReplayStore; frameMarkers: ReplayTimelineMarker[] }) {
   const state = useReplayStore(store);
   const [playing, setPlaying] = useState(false);
+  const [isFrameTransitioning, setIsFrameTransitioning] = useState(false);
+
+  useEffect(() => {
+    setIsFrameTransitioning(true);
+    const timer = window.setTimeout(() => setIsFrameTransitioning(false), 320);
+    return () => window.clearTimeout(timer);
+  }, [state.frame.index]);
 
   const movement = getMovement(state);
   const eventExplanation = getEventExplanation(state);
@@ -141,36 +161,22 @@ function DemoExperience({ store }: { store: ReactReplayStore }) {
 
   return (
     <section className="demo-layout" aria-label="React replay demo avanzada">
-      <aside className="demo-panel">
+      <aside className={`demo-panel${isFrameTransitioning ? ' demo-panel--frame-animating' : ''}`}>
         <h2 className="demo-panel__title">React Demo</h2>
         <p className="demo-panel__subtitle">Demo guiada sobre APIs headless + componentes UI</p>
 
         <div className="demo-panel__group">
           <h3 className="demo-panel__group-title">Frame actual</h3>
-          <p className="demo-panel__frame">Frame {state.frame.index + 1} / {state.totalFrames}</p>
-          <p className="demo-panel__event-title">{eventExplanation.title}</p>
-          <p className="demo-panel__event-detail">{eventExplanation.detail}</p>
+          <div key={`frame-${state.frame.index}`} className="demo-panel__event">
+            <p className="demo-panel__frame">Frame {state.frame.index + 1} / {state.totalFrames}</p>
+            <p className="demo-panel__event-title">{eventExplanation.title}</p>
+            <p className="demo-panel__event-detail">{eventExplanation.detail}</p>
+          </div>
         </div>
 
         <div className="demo-panel__group">
-          <h3 className="demo-panel__group-title">Key moments</h3>
-          <div className="demo-panel__actions">
-            <button type="button" className="demo-panel__chip" onClick={() => store.seek(0)}>
-              Setup
-            </button>
-            <button type="button" className="demo-panel__chip" onClick={() => store.seek(1)}>
-              Hand {'->'} Battle
-            </button>
-            <button type="button" className="demo-panel__chip" onClick={() => store.seek(3)}>
-              Deck {'->'} Hand
-            </button>
-            <button type="button" className="demo-panel__chip" onClick={() => store.seek(5)}>
-              Board {'->'} Graveyard
-            </button>
-            <button type="button" className="demo-panel__chip" onClick={() => store.seek(state.totalFrames - 1)}>
-              Final state
-            </button>
-          </div>
+          <h3 className="demo-panel__group-title">Timeline</h3>
+          <ReplayTimeline state={state} markers={frameMarkers} onSeek={(frame) => store.seek(frame)} className="demo-panel__timeline" />
         </div>
 
         <div className="demo-panel__group">
@@ -187,7 +193,7 @@ function DemoExperience({ store }: { store: ReactReplayStore }) {
       <div className="demo-board">
         <ReplayPlayer
           store={store}
-          className={`demo-replay ${movementClassName}`}
+          className={`demo-replay ${movementClassName}${isFrameTransitioning ? ' demo-replay--frame-animating' : ''}`}
           playing={playing}
           onPlayingChange={setPlaying}
           autoplayIntervalMs={900}
@@ -216,6 +222,7 @@ function DemoExperience({ store }: { store: ReactReplayStore }) {
 
 function App() {
   const [store, setStore] = useState<ReactReplayStore | null>(null);
+  const [frameMarkers, setFrameMarkers] = useState<ReplayTimelineMarker[]>([]);
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
@@ -224,13 +231,27 @@ function App() {
 
     const bootstrap = async () => {
       try {
-        const replay = await loadDemoReplay('/replay.demo.json');
+        const replayUrl = '/replay.demo.json';
+        const [replay, timelineResponse] = await Promise.all([loadDemoReplay(replayUrl), fetch(replayUrl)]);
+        if (!timelineResponse.ok) {
+          throw new Error(`Cannot load timeline payload: ${timelineResponse.status}`);
+        }
+        const timelinePayload = (await timelineResponse.json()) as DemoReplayPayload;
         activeStore = createReactReplayStore(replay);
         if (disposed) {
           activeStore.destroy();
           return;
         }
         setStore(activeStore);
+        setFrameMarkers(
+          buildReplayMarkers(timelinePayload.events ?? [], {
+            actionLabels: {
+              PLAY_CARD: 'Hand -> Battle',
+              DRAW_CARD: 'Deck -> Hand',
+              DESTROY_CARD: 'Board -> Graveyard'
+            }
+          })
+        );
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
         if (!disposed) {
@@ -260,8 +281,8 @@ function App() {
       return <p className="replay-player replay-player--loading">Loading replay...</p>;
     }
 
-    return <DemoExperience store={store} />;
-  }, [error, store]);
+    return <DemoExperience store={store} frameMarkers={frameMarkers} />;
+  }, [error, frameMarkers, store]);
 
   return content;
 }

@@ -1,8 +1,10 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { GameSnapshot } from '@manaflow/types';
 import { ReactReplayStore } from '../store';
+import { ReplayTimelineMarker } from '../replay-markers';
 import { useReplayStore } from '../use-replay-store-react';
 import { ReplayControls } from './replay-controls';
+import { ReplayTimeline, ReplayTimelineRenderContext } from './replay-timeline';
 import {
   ReplayViewport,
   ReplayViewportCardRenderContext,
@@ -18,8 +20,16 @@ export interface ReplayPlayerProps {
   onPlayingChange?: (playing: boolean) => void;
   className?: string;
   controlsClassName?: string;
+  timelineClassName?: string;
   viewportClassName?: string;
   viewportCardClassName?: string;
+  showTimeline?: boolean;
+  timelinePosition?: 'beforeViewport' | 'afterViewport';
+  timelineAriaLabel?: string;
+  timelineFramePrefix?: string;
+  timelineMarkers?: ReplayTimelineMarker[];
+  renderTimelineMarker?: (context: ReplayTimelineRenderContext) => ReactNode;
+  onTimelineSeek?: (frame: number) => void;
   zones?: ReplayViewportZoneConfig[];
   timelineFormatter?: (snapshot: GameSnapshot) => string;
   renderCard?: (context: ReplayViewportCardRenderContext) => ReactNode;
@@ -38,8 +48,16 @@ export function ReplayPlayer({
   onPlayingChange,
   className,
   controlsClassName,
+  timelineClassName,
   viewportClassName,
   viewportCardClassName,
+  showTimeline = false,
+  timelinePosition = 'beforeViewport',
+  timelineAriaLabel,
+  timelineFramePrefix,
+  timelineMarkers,
+  renderTimelineMarker,
+  onTimelineSeek,
   zones,
   timelineFormatter,
   renderCard,
@@ -83,6 +101,21 @@ export function ReplayPlayer({
     };
   }, [playing, autoplayIntervalMs, state.canStepForward, state.totalFrames, store]);
 
+  const timelineNode = showTimeline ? (
+    <ReplayTimeline
+      className={timelineClassName}
+      state={state}
+      markers={timelineMarkers}
+      ariaLabel={timelineAriaLabel}
+      framePrefix={timelineFramePrefix}
+      renderMarker={renderTimelineMarker}
+      onSeek={(frame) => {
+        store.seek(frame);
+        onTimelineSeek?.(frame);
+      }}
+    />
+  ) : null;
+
   return (
     <div className={joinClassNames('replay-player', className)}>
       <ReplayControls
@@ -94,6 +127,7 @@ export function ReplayPlayer({
         onTogglePlay={() => setPlaying((value) => !value)}
         onSeek={(frame) => store.seek(frame)}
       />
+      {timelinePosition === 'beforeViewport' ? timelineNode : null}
       <ReplayViewport
         className={viewportClassName}
         cardClassName={viewportCardClassName}
@@ -103,6 +137,7 @@ export function ReplayPlayer({
         renderCard={renderCard}
         renderZoneTitle={renderZoneTitle}
       />
+      {timelinePosition === 'afterViewport' ? timelineNode : null}
     </div>
   );
 }
