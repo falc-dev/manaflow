@@ -6,6 +6,8 @@ Aplicacion demo ejecutable para validar el paquete `@manaflow/react` en navegado
 
 - Probar controles de replay y viewport en desarrollo
 - Ver estilos y comportamiento de autoplay/manual step
+- Revisar render personalizado de cartas/zonas y explicaciones por frame
+- Validar transiciones visuales de zonas (`hand -> board`, `deck -> hand`, `board -> graveyard`)
 
 ## Comandos
 

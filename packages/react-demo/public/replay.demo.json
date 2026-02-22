@@ -229,12 +229,12 @@
       "event": {
         "id": "evt_3",
         "action": {
-          "type": "PLAY_CARD",
+          "type": "DRAW_CARD",
           "playerId": "player2",
-          "payload": { "cardId": "card_b", "from": "hand", "to": "board" },
-          "timestamp": 3000
+          "payload": { "cardId": "card_d", "from": "deck", "to": "hand" },
+          "timestamp": 2500
         },
-        "timestamp": 3000,
+        "timestamp": 2500,
         "playerId": "player2"
       },
       "snapshot": {
@@ -254,9 +254,9 @@
             "id": "player2",
             "name": "Player 2",
             "health": 20,
-            "resources": [{ "type": "MANA", "amount": 0, "max": 10 }],
-            "hand": [],
-            "deck": ["card_d"],
+            "resources": [{ "type": "MANA", "amount": 1, "max": 10 }],
+            "hand": ["card_b", "card_d"],
+            "deck": [],
             "discard": [],
             "zones": {}
           }
@@ -287,10 +287,152 @@
           }
         },
         "zones": {
-          "deck": ["card_c", "card_d"],
-          "hand": [],
+          "deck": ["card_c"],
+          "hand": ["card_b", "card_d"],
+          "board": ["card_a"],
+          "graveyard": [],
+          "stack": []
+        },
+        "metadata": {}
+      }
+    },
+    {
+      "event": {
+        "id": "evt_4",
+        "action": {
+          "type": "PLAY_CARD",
+          "playerId": "player2",
+          "payload": { "cardId": "card_b", "from": "hand", "to": "board" },
+          "timestamp": 3000
+        },
+        "timestamp": 3000,
+        "playerId": "player2"
+      },
+      "snapshot": {
+        "id": "game_demo",
+        "players": [
+          {
+            "id": "player1",
+            "name": "Player 1",
+            "health": 20,
+            "resources": [{ "type": "MANA", "amount": 0, "max": 10 }],
+            "hand": [],
+            "deck": ["card_c"],
+            "discard": [],
+            "zones": {}
+          },
+          {
+            "id": "player2",
+            "name": "Player 2",
+            "health": 20,
+            "resources": [{ "type": "MANA", "amount": 0, "max": 10 }],
+            "hand": ["card_d"],
+            "deck": [],
+            "discard": [],
+            "zones": {}
+          }
+        ],
+        "currentPhase": "MAIN",
+        "currentPlayer": "player2",
+        "turn": 2,
+        "entities": {
+          "card_a": {
+            "id": "card_a",
+            "type": "card",
+            "components": [{ "componentType": "CARD", "entityId": "card_a", "metadata": { "id": "c_a", "name": "Arc Bolt", "description": "Deal 2", "cost": 1, "rarity": "common" } }]
+          },
+          "card_b": {
+            "id": "card_b",
+            "type": "card",
+            "components": [{ "componentType": "CARD", "entityId": "card_b", "metadata": { "id": "c_b", "name": "Stone Golem", "description": "3/3", "cost": 2, "rarity": "rare" } }]
+          },
+          "card_c": {
+            "id": "card_c",
+            "type": "card",
+            "components": [{ "componentType": "CARD", "entityId": "card_c", "metadata": { "id": "c_c", "name": "Forest Sprite", "description": "1/1", "cost": 1, "rarity": "common" } }]
+          },
+          "card_d": {
+            "id": "card_d",
+            "type": "card",
+            "components": [{ "componentType": "CARD", "entityId": "card_d", "metadata": { "id": "c_d", "name": "Mind Siphon", "description": "Draw 1", "cost": 2, "rarity": "epic" } }]
+          }
+        },
+        "zones": {
+          "deck": ["card_c"],
+          "hand": ["card_d"],
           "board": ["card_a", "card_b"],
           "graveyard": [],
+          "stack": []
+        },
+        "metadata": {}
+      }
+    },
+    {
+      "event": {
+        "id": "evt_5",
+        "action": {
+          "type": "DESTROY_CARD",
+          "playerId": "player2",
+          "payload": { "cardId": "card_a", "from": "board", "to": "graveyard" },
+          "timestamp": 3600
+        },
+        "timestamp": 3600,
+        "playerId": "player2"
+      },
+      "snapshot": {
+        "id": "game_demo",
+        "players": [
+          {
+            "id": "player1",
+            "name": "Player 1",
+            "health": 20,
+            "resources": [{ "type": "MANA", "amount": 0, "max": 10 }],
+            "hand": [],
+            "deck": ["card_c"],
+            "discard": [],
+            "zones": {}
+          },
+          {
+            "id": "player2",
+            "name": "Player 2",
+            "health": 20,
+            "resources": [{ "type": "MANA", "amount": 0, "max": 10 }],
+            "hand": ["card_d"],
+            "deck": [],
+            "discard": [],
+            "zones": {}
+          }
+        ],
+        "currentPhase": "COMBAT",
+        "currentPlayer": "player2",
+        "turn": 2,
+        "entities": {
+          "card_a": {
+            "id": "card_a",
+            "type": "card",
+            "components": [{ "componentType": "CARD", "entityId": "card_a", "metadata": { "id": "c_a", "name": "Arc Bolt", "description": "Deal 2", "cost": 1, "rarity": "common" } }]
+          },
+          "card_b": {
+            "id": "card_b",
+            "type": "card",
+            "components": [{ "componentType": "CARD", "entityId": "card_b", "metadata": { "id": "c_b", "name": "Stone Golem", "description": "3/3", "cost": 2, "rarity": "rare" } }]
+          },
+          "card_c": {
+            "id": "card_c",
+            "type": "card",
+            "components": [{ "componentType": "CARD", "entityId": "card_c", "metadata": { "id": "c_c", "name": "Forest Sprite", "description": "1/1", "cost": 1, "rarity": "common" } }]
+          },
+          "card_d": {
+            "id": "card_d",
+            "type": "card",
+            "components": [{ "componentType": "CARD", "entityId": "card_d", "metadata": { "id": "c_d", "name": "Mind Siphon", "description": "Draw 1", "cost": 2, "rarity": "epic" } }]
+          }
+        },
+        "zones": {
+          "deck": ["card_c"],
+          "hand": ["card_d"],
+          "board": ["card_b"],
+          "graveyard": ["card_a"],
           "stack": []
         },
         "metadata": {}
