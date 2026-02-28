@@ -1,38 +1,38 @@
 # @manaflow/react-demo
 
-Executable browser demo for replay controls built with `@manaflow/react` components.
+Executable browser demo that replays a Riftbound-style match using `@manaflow/react` headless store + UI components.
 
 ## What this demo showcases
 
-- `ReplayDuelLayout` as the primary board preset (top player + center objective + bottom player)
-- Controlled `ReplayPlayer` playback (`playing` / `onPlayingChange`)
-- `useReplayStore` to render frame-by-frame explanations
-- Custom card + zone rendering via `renderCard` / `renderZoneTitle`
-- `ReplayTimeline` + `buildReplayMarkers` for frame navigation
-- Player-vs-player field view with zone alias mapping (`fieldZoneMap`) for hand/deck/trash
-- `viewportLayout="board"` for board-centric zone arrangement
-- Deck cards rendered as reversed stacked pile using `renderCard` + `zoneId`
-- Single-page transition animations when frame changes
-- Transition-focused replay events:
-  - `hand -> board` (`PLAY_CARD`)
-  - `deck -> hand` (`DRAW_CARD`)
-  - `board -> graveyard` (`DESTROY_CARD`)
+- Quickstart-inspired match flow: draw to four, bank runes, deploy units, end-turn battlefield scoring.
+- Two stacked playmats (top/bottom) plus a shared battlefield band for 1v1.
+- Official-skin visual tokens via optional `replay-skin-official` class.
+- Guided vs detailed visual mode toggle for onboarding.
+- Controlled playback with `ReplayControls` + `useReplayStore`.
+- `useReplayStore` for frame-by-frame rule explanations and scoreboard updates.
+- `ReplayTimeline` + `buildReplayMarkers` for direct frame navigation.
+- Custom zone and card rendering (`renderZoneTitle`, `renderCard`) including battlefield control chips.
+- Score race metadata (`targetScore`, lane control state) rendered in a side panel.
 
-## Layout architecture in the demo
+## Layout architecture
 
-1. `ReplayDuelLayout` renders player fields + center objective and stack-focused center lane.
-2. `ReplayPlayer` remains in the page as the integrated control surface (controls + viewport animations).
-3. `useReplayStore` drives frame explanations and timeline sidebar.
+1. One `demo-dual-playmat` surface renders two playmat grids (top and bottom) without visual rotation.
+2. A central battlefield band visualizes contested lanes and control state.
+3. `ReplayControls` + `useReplayStore` drive deterministic frame playback.
 
 ## Styling
 
-The demo imports the default React package styles in `src/main.tsx`:
+The demo imports default package styles in `src/main.tsx`:
 
 ```ts
 import '@manaflow/react/styles.css';
 ```
 
-`src/main.css` is only used for demo-shell layout and page-level presentation.
+`src/main.css` contains demo-specific presentation and motion.
+
+## Replay structure (Riftbound 1v1)
+
+See the format guide: [`docs/examples/riftbound-replay-format.md`](../../docs/examples/riftbound-replay-format.md).
 
 ## Run
 

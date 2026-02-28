@@ -29,6 +29,20 @@
   box-sizing: border-box;
 }
 
+.replay-skin-official {
+  --manaflow-playmat-border: #173551;
+  --manaflow-playmat-bg:
+    radial-gradient(1100px 520px at 18% -18%, rgba(19, 77, 138, 0.35) 0%, rgba(19, 77, 138, 0) 68%),
+    linear-gradient(165deg, #0d2138 0%, #112944 46%, #0b1f35 100%);
+  --manaflow-zone-border: rgba(209, 183, 104, 0.78);
+  --manaflow-zone-bg:
+    radial-gradient(340px 160px at 22% 6%, rgba(34, 96, 164, 0.2) 0%, rgba(34, 96, 164, 0) 80%),
+    linear-gradient(160deg, rgba(17, 43, 72, 0.88) 0%, rgba(14, 33, 56, 0.92) 100%);
+  --manaflow-zone-title: #f4f7fb;
+  --manaflow-zone-subtitle: #9eb9d4;
+  --manaflow-zone-inner-ring: rgba(251, 232, 167, 0.2);
+}
+
 .replay-player__controls {
   display: flex;
   gap: 8px;
@@ -329,6 +343,64 @@
 .replay-duel-layout__center {
   display: grid;
   gap: 10px;
+}
+
+.replay-onboarding-legend {
+  border: 1px solid #3c5f82;
+  border-radius: 10px;
+  background: linear-gradient(160deg, #132c45 0%, #1c3b5a 100%);
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.replay-onboarding-legend__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.replay-onboarding-legend__title {
+  margin: 0;
+  color: var(--replay-player-text);
+  font-size: 14px;
+}
+
+.replay-onboarding-legend__dismiss {
+  border: 1px solid #7998ba;
+  background: #f5f9ff;
+  color: #173454;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.replay-onboarding-legend__description {
+  margin: 0;
+  color: #cbdef3;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.replay-onboarding-legend__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.replay-onboarding-legend__chip {
+  border-radius: 999px;
+  border: 1px solid #6c89a8;
+  color: #d6e6f8;
+  background: rgba(122, 157, 193, 0.18);
+  padding: 3px 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 @media (max-width: 980px) {
