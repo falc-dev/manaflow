@@ -57,4 +57,58 @@ describe('ReplayEngine', () => {
     expect(engine.seek({ timestamp: 1500 })?.snapshot.turn).toBe(2);
     expect(engine.seek({ timestamp: 3000 })?.snapshot.turn).toBe(3);
   });
+
+  it('loads from JSONC and NDJSON serialized payloads', () => {
+    const jsoncPayload = `
+      {
+        // Replay
+        "schemaVersion": 1,
+        "initialState": {
+          "id": "game_jsonc",
+          "players": [],
+          "currentPhase": "DRAW",
+          "currentPlayer": "p1",
+          "turn": 1,
+          "entities": {},
+          "zones": { "deck": [], "hand": [], "board": [], "graveyard": [], "stack": [], },
+          "metadata": {}
+        },
+        "events": []
+      }
+    `;
+
+    const ndjsonPayload = `${JSON.stringify({
+      schemaVersion: 1,
+      initialState: {
+        id: 'game_ndjson',
+        players: [],
+        currentPhase: 'DRAW',
+        currentPlayer: 'p1',
+        turn: 1,
+        entities: {},
+        zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
+        metadata: {}
+      }
+    })}\n${JSON.stringify({
+      event: {
+        id: 'evt_1',
+        action: { type: 'DRAW', playerId: 'p1', payload: {}, timestamp: 1 },
+        timestamp: 1,
+        playerId: 'p1'
+      },
+      snapshot: {
+        id: 'game_ndjson',
+        players: [],
+        currentPhase: 'MAIN',
+        currentPlayer: 'p1',
+        turn: 1,
+        entities: {},
+        zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
+        metadata: {}
+      }
+    })}\n`;
+
+    expect(ReplayEngine.fromJsonc(jsoncPayload).getCurrentState().id).toBe('game_jsonc');
+    expect(ReplayEngine.fromSerialized(ndjsonPayload).getTotalFrames()).toBe(2);
+  });
 });

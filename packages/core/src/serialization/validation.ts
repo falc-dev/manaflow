@@ -7,7 +7,7 @@ import { ReplaySchema, ReplaySchemaType } from './schema';
 export interface ReplayValidationIssue {
   path: string;
   message: string;
-  source: 'schema' | 'profile' | 'json';
+  source: 'schema' | 'profile' | 'json' | 'jsonc' | 'ndjson';
 }
 
 export interface ReplayValidationOptions {
@@ -100,6 +100,208 @@ export function validateReplayJson(
 
 export function parseReplayJson(jsonString: string, options: ReplayValidationOptions = {}): ReplaySchemaType {
   const result = validateReplayJson(jsonString, options);
+  if (!result.ok) {
+    throw new ReplayValidationError(result.issues);
+  }
+  return result.replay;
+}
+
+function stripJsonComments(jsonLike: string): string {
+  let result = '';
+  let i = 0;
+  let inString = false;
+  let escaped = false;
+
+  while (i < jsonLike.length) {
+    const current = jsonLike[i];
+    const next = jsonLike[i + 1];
+
+    if (inString) {
+      result += current;
+      if (escaped) {
+        escaped = false;
+      } else if (current === '\\') {
+        escaped = true;
+      } else if (current === '"') {
+        inString = false;
+      }
+      i += 1;
+      continue;
+    }
+
+    if (current === '"') {
+      inString = true;
+      result += current;
+      i += 1;
+      continue;
+    }
+
+    if (current === '/' && next === '/') {
+      i += 2;
+      while (i < jsonLike.length && jsonLike[i] !== '\n') {
+        i += 1;
+      }
+      continue;
+    }
+
+    if (current === '/' && next === '*') {
+      i += 2;
+      while (i < jsonLike.length && !(jsonLike[i] === '*' && jsonLike[i + 1] === '/')) {
+        i += 1;
+      }
+      i += 2;
+      continue;
+    }
+
+    result += current;
+    i += 1;
+  }
+
+  return result;
+}
+
+function stripTrailingCommas(jsonLike: string): string {
+  let result = '';
+  let i = 0;
+  let inString = false;
+  let escaped = false;
+
+  while (i < jsonLike.length) {
+    const current = jsonLike[i];
+
+    if (inString) {
+      result += current;
+      if (escaped) {
+        escaped = false;
+      } else if (current === '\\') {
+        escaped = true;
+      } else if (current === '"') {
+        inString = false;
+      }
+      i += 1;
+      continue;
+    }
+
+    if (current === '"') {
+      inString = true;
+      result += current;
+      i += 1;
+      continue;
+    }
+
+    if (current === ',') {
+      let cursor = i + 1;
+      while (cursor < jsonLike.length && /\s/.test(jsonLike[cursor])) {
+        cursor += 1;
+      }
+      if (cursor < jsonLike.length && (jsonLike[cursor] === '}' || jsonLike[cursor] === ']')) {
+        i += 1;
+        continue;
+      }
+    }
+
+    result += current;
+    i += 1;
+  }
+
+  return result;
+}
+
+function parseJsonc(jsoncString: string): unknown {
+  const withoutComments = stripJsonComments(jsoncString);
+  const normalized = stripTrailingCommas(withoutComments);
+  return JSON.parse(normalized);
+}
+
+export function validateReplayJsonc(
+  jsoncString: string,
+  options: ReplayValidationOptions = {}
+): ReplayValidationResult {
+  try {
+    const data = parseJsonc(jsoncString);
+    return validateReplayData(data, options);
+  } catch (error) {
+    if (error instanceof ReplayValidationError) {
+      return { ok: false, issues: error.issues };
+    }
+    return {
+      ok: false,
+      issues: [{ path: 'root', message: error instanceof Error ? error.message : String(error), source: 'jsonc' }]
+    };
+  }
+}
+
+export function parseReplayJsonc(jsoncString: string, options: ReplayValidationOptions = {}): ReplaySchemaType {
+  const result = validateReplayJsonc(jsoncString, options);
+  if (!result.ok) {
+    throw new ReplayValidationError(result.issues);
+  }
+  return result.replay;
+}
+
+function parseNdjson(ndjsonString: string): unknown {
+  const lines = ndjsonString
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+
+  if (lines.length === 0) {
+    throw new Error('NDJSON payload is empty');
+  }
+
+  const first = JSON.parse(lines[0]) as Record<string, unknown>;
+  const hasReplayHeader =
+    typeof first === 'object' && first !== null && 'schemaVersion' in first && 'initialState' in first;
+  const hasReplayEvents = typeof first === 'object' && first !== null && Array.isArray(first.events);
+
+  if (!hasReplayHeader) {
+    throw new Error('NDJSON first line must contain replay header (schemaVersion + initialState)');
+  }
+
+  if (lines.length === 1) {
+    return first;
+  }
+
+  if (hasReplayEvents && first.events.length > 0) {
+    throw new Error('NDJSON header cannot include events when additional event lines are present');
+  }
+
+  const events = lines.slice(1).map((line, index) => {
+    const entry = JSON.parse(line) as Record<string, unknown>;
+    const hasEvent = typeof entry === 'object' && entry !== null && 'event' in entry;
+    const hasSnapshot = typeof entry === 'object' && entry !== null && 'snapshot' in entry;
+    if (!hasEvent || !hasSnapshot) {
+      throw new Error(`NDJSON line ${index + 2} must be a replay frame entry with event and snapshot`);
+    }
+    return entry;
+  });
+
+  return {
+    ...first,
+    events
+  };
+}
+
+export function validateReplayNdjson(
+  ndjsonString: string,
+  options: ReplayValidationOptions = {}
+): ReplayValidationResult {
+  try {
+    const data = parseNdjson(ndjsonString);
+    return validateReplayData(data, options);
+  } catch (error) {
+    if (error instanceof ReplayValidationError) {
+      return { ok: false, issues: error.issues };
+    }
+    return {
+      ok: false,
+      issues: [{ path: 'root', message: error instanceof Error ? error.message : String(error), source: 'ndjson' }]
+    };
+  }
+}
+
+export function parseReplayNdjson(ndjsonString: string, options: ReplayValidationOptions = {}): ReplaySchemaType {
+  const result = validateReplayNdjson(ndjsonString, options);
   if (!result.ok) {
     throw new ReplayValidationError(result.issues);
   }

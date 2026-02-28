@@ -9,6 +9,9 @@ import {
 import { deepClone } from './utils';
 import { YamlLoader } from './serialization/yaml-loader';
 import { JsonLoader } from './serialization/json-loader';
+import { JsoncLoader } from './serialization/jsonc-loader';
+import { NdjsonLoader } from './serialization/ndjson-loader';
+import { ReplayLoader, ReplaySerializationFormat } from './serialization/replay-loader';
 
 export interface SeekQuery {
   frame?: number;
@@ -126,5 +129,17 @@ export class ReplayEngine {
 
   static fromJson(jsonString: string): ReplayEngine {
     return JsonLoader.loadReplay(jsonString);
+  }
+
+  static fromJsonc(jsoncString: string): ReplayEngine {
+    return JsoncLoader.loadReplay(jsoncString);
+  }
+
+  static fromNdjson(ndjsonString: string): ReplayEngine {
+    return NdjsonLoader.loadReplay(ndjsonString);
+  }
+
+  static fromSerialized(payload: string, format?: ReplaySerializationFormat): ReplayEngine {
+    return ReplayLoader.loadReplay(payload, format);
   }
 }

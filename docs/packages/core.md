@@ -6,15 +6,18 @@ Motor base de juego y replay.
 
 - Aplicar acciones sobre snapshots (`GameEngine`)
 - Navegar frames deterministas (`ReplayEngine`)
-- Cargar replay desde JSON/YAML
+- Cargar replay desde JSON/YAML/JSONC/NDJSON
 
 ## Exports clave
 
 - `GameEngine`
 - `ReplayEngine`
 - `loadReplayFromJson(json)`
+- `loadReplayFromJsonc(jsonc)`
+- `loadReplayFromNdjson(ndjson)`
 - `loadReplayFromYaml(yaml)`
-- `JsonLoader`, `YamlLoader`
+- `loadReplay(payload, format?)` (autodetect)
+- `JsonLoader`, `JsoncLoader`, `NdjsonLoader`, `YamlLoader`, `ReplayLoader`
 
 ## Ejemplo
 
@@ -22,6 +25,15 @@ Motor base de juego y replay.
 import { ReplayEngine } from '@manaflow/core';
 
 const replay = ReplayEngine.fromJson(jsonPayload);
+
+// JSONC (comentarios + trailing commas)
+const replayFromJsonc = ReplayEngine.fromJsonc(jsoncPayload);
+
+// NDJSON (header + frames por linea)
+const replayFromNdjson = ReplayEngine.fromNdjson(ndjsonPayload);
+
+// Autodetect
+const replayAuto = ReplayEngine.fromSerialized(serializedPayload);
 
 replay.stepForward();
 replay.seek({ frame: 2 });
@@ -32,6 +44,7 @@ const frame = replay.getCurrentFrame();
 
 - `ReplayEngine` soporta `stepForward`, `stepBack` y `seek({ frame | timestamp })`.
 - `toReplayData()` serializa el replay al formato v1.
+- Para NDJSON, usa: linea 1 = header (`schemaVersion` + `initialState`), lineas siguientes = entradas `{"event", "snapshot"}`.
 
 ## Build/Test
 

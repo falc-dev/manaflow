@@ -1,17 +1,28 @@
 import { JsonLoader } from './serialization/json-loader';
+import { JsoncLoader } from './serialization/jsonc-loader';
+import { NdjsonLoader } from './serialization/ndjson-loader';
+import { ReplayLoader, ReplaySerializationFormat } from './serialization/replay-loader';
 import { YamlLoader } from './serialization/yaml-loader';
 
 export { GameEngine } from './game-engine';
 export { ReplayEngine } from './replay-engine';
 export { YamlLoader } from './serialization/yaml-loader';
 export { JsonLoader } from './serialization/json-loader';
+export { JsoncLoader } from './serialization/jsonc-loader';
+export { NdjsonLoader } from './serialization/ndjson-loader';
+export { ReplayLoader } from './serialization/replay-loader';
+export type { ReplaySerializationFormat } from './serialization/replay-loader';
 export {
   ReplayValidationError,
   parseReplayData,
   parseReplayJson,
+  parseReplayJsonc,
+  parseReplayNdjson,
   parseReplayYaml,
   validateReplayData,
   validateReplayJson,
+  validateReplayJsonc,
+  validateReplayNdjson,
   validateReplayYaml
 } from './serialization/validation';
 export type {
@@ -30,6 +41,18 @@ export function loadReplayFromYaml(yaml: string) {
 
 export function loadReplayFromJson(json: string) {
   return JsonLoader.loadReplay(json);
+}
+
+export function loadReplayFromJsonc(jsonc: string) {
+  return JsoncLoader.loadReplay(jsonc);
+}
+
+export function loadReplayFromNdjson(ndjson: string) {
+  return NdjsonLoader.loadReplay(ndjson);
+}
+
+export function loadReplay(payload: string, format?: ReplaySerializationFormat) {
+  return ReplayLoader.loadReplay(payload, format);
 }
 
 export type {
