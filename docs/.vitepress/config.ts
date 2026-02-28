@@ -24,6 +24,7 @@ export default {
         text: "Ejemplos",
         items: [
           { text: "Indice", link: "/examples/" },
+          { text: "Guia TCG paso a paso", link: "/examples/tcg-replay-step-by-step" },
           { text: "Core Replay", link: "/examples/core-replay" },
           { text: "Runtime Store", link: "/examples/runtime-store" },
           { text: "React Player", link: "/examples/react-player" },
