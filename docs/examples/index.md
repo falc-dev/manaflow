@@ -10,11 +10,12 @@ Coleccion de ejemplos practicos para integrar Manaflow en distintos niveles.
 ## UI e integraciones
 
 - [Renderizar un player con @manaflow/react](./react-player)
+- [Formato de replay para Riftbound 1v1](./riftbound-replay-format)
 - [Player y controlador con @manaflow/vue](./vue-controller)
 - [Renderer HTML personalizable con @manaflow/html-visor](./html-visor-custom)
 
 ### Variantes recomendadas en React
 
 - Modo simple: `ReplayPlayer` con `showTimeline` para tener controles + timeline + viewport en un solo componente.
-- Modo duelo: `ReplayDuelLayout` para top/bottom players + objetivo central + stack configurable.
+- Modo playmat 1v1: composicion custom con dos grids (tapete superior/inferior) y banda central de battlefields.
 - Modo avanzado: composicion `ReplayControls` + `ReplayTimeline` + `ReplayViewport` para layout totalmente custom.

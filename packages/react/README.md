@@ -226,6 +226,27 @@ function TimelineSection({ store, replayPayload }) {
 }
 ```
 
+### 5) Optional onboarding legend (`ReplayOnboardingLegend`)
+
+```tsx
+import { ReplayOnboardingLegend } from '@manaflow/react';
+
+function BoardLegend() {
+  return (
+    <ReplayOnboardingLegend
+      title="Board guide"
+      description="Quick legend for first-time users."
+      onDismiss={() => console.log('dismissed')}
+      items={[
+        { id: 'battlefield', label: 'Battlefields', tone: 'battlefield' },
+        { id: 'rune', label: 'Runes', tone: 'rune' },
+        { id: 'control-blue', label: 'Control Blue', tone: 'control-blue' }
+      ]}
+    />
+  );
+}
+```
+
 ### 5) Viewport customization (cards + zones)
 
 ```tsx

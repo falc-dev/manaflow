@@ -11,7 +11,7 @@ Capa React para consumir replay runtime y renderizar componentes reutilizables.
 
 - Estado/control: `createReactReplayController`, `createReactReplayStore`
 - Hooks: `useReplayStore`, `createUseReplayStore`
-- Componentes: `ReplayPlayer`, `ReplayControls`, `ReplayViewport`
+- Componentes: `ReplayPlayer`, `ReplayControls`, `ReplayViewport`, `ReplayOnboardingLegend`
 - Utilidades: `loadDemoReplay`
 - Legacy: `mountReplayDemo` (deprecado)
 
