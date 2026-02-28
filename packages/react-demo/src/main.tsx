@@ -4,6 +4,7 @@ import {
   buildReplayMarkers,
   createReactReplayStore,
   loadDemoReplay,
+  validateReplayJson,
   ReplayControls,
   ReplayOnboardingLegend,
   ReplayTimeline,
@@ -12,6 +13,7 @@ import {
   ReactReplayStore,
   useReplayStore
 } from '@manaflow/react';
+import type { ReplayValidationIssue } from '@manaflow/react';
 import '@manaflow/react/styles.css';
 import './main.css';
 
@@ -669,6 +671,7 @@ function App() {
   const [store, setStore] = useState<ReactReplayStore | null>(null);
   const [frameMarkers, setFrameMarkers] = useState<ReplayTimelineMarker[]>([]);
   const [error, setError] = useState('');
+  const [validationIssues, setValidationIssues] = useState<ReplayValidationIssue[]>([]);
 
   useEffect(() => {
     let disposed = false;
@@ -677,12 +680,20 @@ function App() {
     const bootstrap = async () => {
       try {
         const replayUrl = '/replay.demo.json';
-        const [replay, timelineResponse] = await Promise.all([loadDemoReplay(replayUrl), fetch(replayUrl)]);
+        const timelineResponse = await fetch(replayUrl);
         if (!timelineResponse.ok) {
-          throw new Error(`Cannot load timeline payload: ${timelineResponse.status}`);
+          throw new Error(`Cannot load replay payload: ${timelineResponse.status}`);
+        }
+        const replayRaw = await timelineResponse.text();
+        const validation = validateReplayJson(replayRaw, { normalizeRiftboundAliases: true });
+        if (!validation.ok) {
+          setValidationIssues(validation.issues);
+          throw new Error('Replay validation failed');
         }
 
-        const timelinePayload = (await timelineResponse.json()) as DemoReplayPayload;
+        const replay = await loadDemoReplay(replayUrl);
+
+        const timelinePayload = JSON.parse(replayRaw) as DemoReplayPayload;
         activeStore = createReactReplayStore(replay);
 
         if (disposed) {
@@ -723,9 +734,18 @@ function App() {
   const content = useMemo(() => {
     if (error) {
       return (
-        <p className="error" role="alert">
-          {error}
-        </p>
+        <section className="error" role="alert">
+          <p>{error}</p>
+          {validationIssues.length > 0 ? (
+            <ul className="error__issues">
+              {validationIssues.map((issue, index) => (
+                <li key={`${issue.path}-${index}`}>
+                  {issue.path}: {issue.message}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </section>
       );
     }
 
@@ -734,7 +754,7 @@ function App() {
     }
 
     return <DemoExperience store={store} frameMarkers={frameMarkers} />;
-  }, [error, frameMarkers, store]);
+  }, [error, frameMarkers, store, validationIssues]);
 
   return content;
 }

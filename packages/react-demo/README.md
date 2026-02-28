@@ -13,6 +13,7 @@ Executable browser demo that replays a Riftbound-style match using `@manaflow/re
 - `ReplayTimeline` + `buildReplayMarkers` for direct frame navigation.
 - Custom zone and card rendering (`renderZoneTitle`, `renderCard`) including battlefield control chips.
 - Score race metadata (`targetScore`, lane control state) rendered in a side panel.
+- Replay validation on load with field-level issues surfaced in UI when JSON is invalid.
 
 ## Layout architecture
 

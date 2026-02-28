@@ -14,6 +14,12 @@ export { ReplayControls } from './components/replay-controls';
 export type { ReplayControlsProps } from './components/replay-controls';
 export { ReplayTimeline } from './components/replay-timeline';
 export type { ReplayTimelineProps, ReplayTimelineRenderContext } from './components/replay-timeline';
+export { ReplayOnboardingLegend } from './components/replay-onboarding-legend';
+export type {
+  ReplayOnboardingLegendItem,
+  ReplayOnboardingLegendProps,
+  ReplayOnboardingLegendRenderItemContext
+} from './components/replay-onboarding-legend';
 export { ReplayPlayerField } from './components/replay-player-field';
 export type {
   ReplayPlayerFieldCardRenderContext,
@@ -57,6 +63,8 @@ export type {
 } from './player-field';
 
 export { loadDemoReplay } from './loader';
+export { validateReplayJson } from '@manaflow/core';
+export type { ReplayValidationIssue, ReplayValidationResult } from '@manaflow/core';
 
 export { mountReplayDemo } from './demo';
 export type { ReplayDemoHandle, ReplayDemoOptions } from './demo';

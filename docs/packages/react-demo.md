@@ -11,6 +11,7 @@ Aplicacion demo ejecutable para validar `@manaflow/react` en navegador con una p
 - Validar timeline y autoplay/manual step en una secuencia de partida completa
 - Probar modo visual guiado/detallado para onboarding
 - Verificar skin oficial reusable (`replay-skin-official`) como clase opcional
+- Ver errores de validacion de replay por campo en la UI del demo
 
 ## Comandos
 
