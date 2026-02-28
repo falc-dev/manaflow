@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "presetId": "riftbound-1v1-official-v1",
+  "title": "Riftbound 1v1 Official",
+  "rulesProfile": "riftbound-1v1-v1",
+  "viewport": {
+    "layout": "board",
+    "zones": [
+      { "id": "battlefield_north", "title": "Battlefield North" },
+      { "id": "battlefield_south", "title": "Battlefield South" },
+      { "id": "stack", "title": "Legend Zone" },
+      { "id": "champion_red", "title": "Champion Red" },
+      { "id": "champion_blue", "title": "Champion Blue" },
+      { "id": "deck_red", "title": "Deck Red" },
+      { "id": "deck_blue", "title": "Deck Blue" },
+      { "id": "trash_red", "title": "Trash Red" },
+      { "id": "trash_blue", "title": "Trash Blue" }
+    ]
+  },
+  "duelLayout": {
+    "fieldZoneMap": {
+      "deck": ["deck", "deck_blue", "deck_red"],
+      "trash": ["discard", "graveyard", "trash", "trash_blue", "trash_red"]
+    },
+    "sharedObjective": {
+      "title": "Battlefields",
+      "zoneIds": ["battlefield_north", "battlefield_south"]
+    },
+    "table": {
+      "zones": [{ "id": "stack", "title": "Legend Zone" }]
+    }
+  },
+  "zoneAliases": {
+    "battlefield_north": ["battlefield_north", "battlefield_top"],
+    "battlefield_south": ["battlefield_south", "battlefield_bot", "battlefield_mid"],
+    "champion_blue": ["champion_blue", "blue_base"],
+    "champion_red": ["champion_red", "red_base"],
+    "trash_blue": ["trash_blue", "graveyard"],
+    "trash_red": ["trash_red", "graveyard"]
+  },
+  "styles": {
+    "classNames": {
+      "root": "replay-skin-official"
+    },
+    "stylesheet": "./riftbound.theme.css"
+  }
+}

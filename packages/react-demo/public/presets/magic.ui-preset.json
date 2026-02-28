@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "presetId": "magic-1v1-classic-v1",
+  "title": "Magic 1v1 Classic",
+  "rulesProfile": "mtg-1v1-v1",
+  "viewport": {
+    "layout": "board",
+    "zones": [
+      { "id": "battlefield_p1", "title": "Battlefield P1" },
+      { "id": "battlefield_p2", "title": "Battlefield P2" },
+      { "id": "stack", "title": "Stack" },
+      { "id": "graveyard_p1", "title": "Graveyard P1" },
+      { "id": "graveyard_p2", "title": "Graveyard P2" },
+      { "id": "exile", "title": "Exile" }
+    ]
+  },
+  "duelLayout": {
+    "fieldZoneMap": {
+      "hand": ["hand", "hand_p1", "hand_p2"],
+      "deck": ["deck", "library", "library_p1", "library_p2"],
+      "trash": ["discard", "graveyard", "graveyard_p1", "graveyard_p2"]
+    },
+    "sharedObjective": {
+      "title": "Battlefields",
+      "zoneIds": ["battlefield_p1", "battlefield_p2"]
+    },
+    "table": {
+      "zones": [
+        { "id": "stack", "title": "Stack" },
+        { "id": "exile", "title": "Exile" }
+      ]
+    }
+  },
+  "zoneAliases": {
+    "deck": ["deck", "library"],
+    "trash": ["trash", "discard", "graveyard"],
+    "board": ["board", "battlefield", "battlefield_p1", "battlefield_p2"]
+  },
+  "styles": {
+    "classNames": {
+      "root": "replay-skin-magic"
+    },
+    "stylesheet": "./magic.theme.css"
+  }
+}

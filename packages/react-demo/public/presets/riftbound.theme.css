@@ -1,0 +1,10 @@
+.replay-skin-official {
+  --replay-player-bg: linear-gradient(180deg, #173049 0%, #0c1b2a 100%);
+  --replay-player-text: #dce8f6;
+  --replay-player-timeline-highlight-bg: #244a72;
+  --replay-player-card-bg: #f5f3ef;
+  --replay-player-card-border: #d7c29d;
+  --replay-player-control-bg: #10243b;
+  --replay-player-control-border: #3b5573;
+  --replay-player-control-text: #d9e7f5;
+}

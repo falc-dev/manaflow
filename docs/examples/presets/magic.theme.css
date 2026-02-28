@@ -1,0 +1,10 @@
+.replay-skin-magic {
+  --replay-player-bg: linear-gradient(180deg, #28332d 0%, #1b251f 100%);
+  --replay-player-text: #ebf3e9;
+  --replay-player-timeline-highlight-bg: #3f5447;
+  --replay-player-card-bg: #f8f4e8;
+  --replay-player-card-border: #b9a77d;
+  --replay-player-control-bg: #2f3f35;
+  --replay-player-control-border: #556d5e;
+  --replay-player-control-text: #e9f1e7;
+}

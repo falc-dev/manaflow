@@ -35,6 +35,10 @@ import '@manaflow/react/styles.css';
 
 See the format guide: [`docs/examples/riftbound-replay-format.md`](../../docs/examples/riftbound-replay-format.md).
 
+Reusable UI presets (zones + theme) are available at [`public/presets`](./public/presets):
+- `riftbound.ui-preset.json` + `riftbound.theme.css`
+- `magic.ui-preset.json` + `magic.theme.css`
+
 ## Run
 
 ```bash
