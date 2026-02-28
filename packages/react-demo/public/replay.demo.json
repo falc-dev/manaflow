@@ -1,441 +1,3835 @@
 {
   "schemaVersion": 1,
   "initialState": {
-    "id": "game_demo",
+    "id": "riftbound_demo_match_1v1",
     "players": [
       {
-        "id": "player1",
-        "name": "Player 1",
+        "id": "blue",
+        "name": "Blue - Jinx",
         "health": 20,
-        "resources": [{ "type": "MANA", "amount": 1, "max": 10 }],
-        "hand": ["card_a"],
-        "deck": ["card_c"],
+        "resources": [
+          {
+            "type": "RUNE",
+            "amount": 2,
+            "max": 12
+          }
+        ],
+        "hand": [
+          "blue_sniper",
+          "spell_shockblast",
+          "blue_rune_spark"
+        ],
+        "deck": [
+          "blue_rocket"
+        ],
         "discard": [],
         "zones": {}
       },
       {
-        "id": "player2",
-        "name": "Player 2",
+        "id": "red",
+        "name": "Red - Viktor",
         "health": 20,
-        "resources": [{ "type": "MANA", "amount": 1, "max": 10 }],
-        "hand": ["card_b"],
-        "deck": ["card_d"],
+        "resources": [
+          {
+            "type": "RUNE",
+            "amount": 2,
+            "max": 12
+          }
+        ],
+        "hand": [
+          "spell_emp_burst"
+        ],
+        "deck": [
+          "red_scout"
+        ],
         "discard": [],
         "zones": {}
       }
     ],
-    "currentPhase": "DRAW",
-    "currentPlayer": "player1",
-    "turn": 1,
+    "currentPhase": "MAIN",
+    "currentPlayer": "blue",
+    "turn": 4,
     "entities": {
-      "card_a": {
-        "id": "card_a",
+      "bf_north": {
+        "id": "bf_north",
         "type": "card",
         "components": [
           {
             "componentType": "CARD",
-            "entityId": "card_a",
-            "metadata": { "id": "c_a", "name": "Arc Bolt", "description": "Deal 2", "cost": 1, "rarity": "common" }
+            "entityId": "bf_north",
+            "metadata": {
+              "id": "bf_north",
+              "name": "North Battlefield",
+              "description": "Score if you control this battlefield at end of turn.",
+              "cost": 0,
+              "rarity": "rare",
+              "metadata": {
+                "cardType": "battlefield",
+                "faction": "neutral"
+              }
+            }
           }
         ]
       },
-      "card_b": {
-        "id": "card_b",
+      "bf_south": {
+        "id": "bf_south",
         "type": "card",
         "components": [
           {
             "componentType": "CARD",
-            "entityId": "card_b",
-            "metadata": { "id": "c_b", "name": "Stone Golem", "description": "3/3", "cost": 2, "rarity": "rare" }
+            "entityId": "bf_south",
+            "metadata": {
+              "id": "bf_south",
+              "name": "South Battlefield",
+              "description": "Score if you control this battlefield at end of turn.",
+              "cost": 0,
+              "rarity": "rare",
+              "metadata": {
+                "cardType": "battlefield",
+                "faction": "neutral"
+              }
+            }
           }
         ]
       },
-      "card_c": {
-        "id": "card_c",
+      "legend_jinx": {
+        "id": "legend_jinx",
         "type": "card",
         "components": [
           {
             "componentType": "CARD",
-            "entityId": "card_c",
-            "metadata": { "id": "c_c", "name": "Forest Sprite", "description": "1/1", "cost": 1, "rarity": "common" }
+            "entityId": "legend_jinx",
+            "metadata": {
+              "id": "legend_jinx",
+              "name": "Legend: Jinx",
+              "description": "Blue legend anchoring aggro pressure.",
+              "cost": 0,
+              "rarity": "legendary",
+              "metadata": {
+                "cardType": "legend",
+                "faction": "blue"
+              }
+            }
           }
         ]
       },
-      "card_d": {
-        "id": "card_d",
+      "legend_viktor": {
+        "id": "legend_viktor",
         "type": "card",
         "components": [
           {
             "componentType": "CARD",
-            "entityId": "card_d",
-            "metadata": { "id": "c_d", "name": "Mind Siphon", "description": "Draw 1", "cost": 2, "rarity": "epic" }
+            "entityId": "legend_viktor",
+            "metadata": {
+              "id": "legend_viktor",
+              "name": "Legend: Viktor",
+              "description": "Red legend enabling control lines.",
+              "cost": 0,
+              "rarity": "legendary",
+              "metadata": {
+                "cardType": "legend",
+                "faction": "red"
+              }
+            }
+          }
+        ]
+      },
+      "blue_vanguard": {
+        "id": "blue_vanguard",
+        "type": "card",
+        "components": [
+          {
+            "componentType": "CARD",
+            "entityId": "blue_vanguard",
+            "metadata": {
+              "id": "blue_vanguard",
+              "name": "Zaun Vanguard",
+              "description": "Unit holding base before deploy.",
+              "cost": 2,
+              "rarity": "common",
+              "metadata": {
+                "cardType": "unit",
+                "faction": "blue"
+              }
+            }
+          }
+        ]
+      },
+      "blue_sniper": {
+        "id": "blue_sniper",
+        "type": "card",
+        "components": [
+          {
+            "componentType": "CARD",
+            "entityId": "blue_sniper",
+            "metadata": {
+              "id": "blue_sniper",
+              "name": "Pow-Pow Sniper",
+              "description": "Ranged unit that can pressure open lanes.",
+              "cost": 3,
+              "rarity": "rare",
+              "metadata": {
+                "cardType": "unit",
+                "faction": "blue"
+              }
+            }
+          }
+        ]
+      },
+      "blue_rocket": {
+        "id": "blue_rocket",
+        "type": "card",
+        "components": [
+          {
+            "componentType": "CARD",
+            "entityId": "blue_rocket",
+            "metadata": {
+              "id": "blue_rocket",
+              "name": "Super Mega Rocket Team",
+              "description": "Late push finisher unit.",
+              "cost": 4,
+              "rarity": "epic",
+              "metadata": {
+                "cardType": "unit",
+                "faction": "blue"
+              }
+            }
+          }
+        ]
+      },
+      "blue_rune_spark": {
+        "id": "blue_rune_spark",
+        "type": "card",
+        "components": [
+          {
+            "componentType": "CARD",
+            "entityId": "blue_rune_spark",
+            "metadata": {
+              "id": "blue_rune_spark",
+              "name": "Spark Rune",
+              "description": "Bank this rune to increase your rune count.",
+              "cost": 0,
+              "rarity": "common",
+              "metadata": {
+                "cardType": "rune",
+                "faction": "blue"
+              }
+            }
+          }
+        ]
+      },
+      "red_bruiser": {
+        "id": "red_bruiser",
+        "type": "card",
+        "components": [
+          {
+            "componentType": "CARD",
+            "entityId": "red_bruiser",
+            "metadata": {
+              "id": "red_bruiser",
+              "name": "Chemtech Bruiser",
+              "description": "Defender currently controlling north battlefield.",
+              "cost": 3,
+              "rarity": "rare",
+              "metadata": {
+                "cardType": "unit",
+                "faction": "red"
+              }
+            }
+          }
+        ]
+      },
+      "red_scout": {
+        "id": "red_scout",
+        "type": "card",
+        "components": [
+          {
+            "componentType": "CARD",
+            "entityId": "red_scout",
+            "metadata": {
+              "id": "red_scout",
+              "name": "Hex Scout",
+              "description": "Flexible skirmish unit from deck.",
+              "cost": 2,
+              "rarity": "common",
+              "metadata": {
+                "cardType": "unit",
+                "faction": "red"
+              }
+            }
+          }
+        ]
+      },
+      "spell_shockblast": {
+        "id": "spell_shockblast",
+        "type": "card",
+        "components": [
+          {
+            "componentType": "CARD",
+            "entityId": "spell_shockblast",
+            "metadata": {
+              "id": "spell_shockblast",
+              "name": "Shockblast",
+              "description": "Deal enough damage to remove a unit from battlefield.",
+              "cost": 2,
+              "rarity": "rare",
+              "metadata": {
+                "cardType": "spell",
+                "faction": "blue"
+              }
+            }
+          }
+        ]
+      },
+      "spell_emp_burst": {
+        "id": "spell_emp_burst",
+        "type": "card",
+        "components": [
+          {
+            "componentType": "CARD",
+            "entityId": "spell_emp_burst",
+            "metadata": {
+              "id": "spell_emp_burst",
+              "name": "EMP Burst",
+              "description": "Control spell held by red player.",
+              "cost": 2,
+              "rarity": "common",
+              "metadata": {
+                "cardType": "spell",
+                "faction": "red"
+              }
+            }
+          }
+        ]
+      },
+      "rune_blue_1": {
+        "id": "rune_blue_1",
+        "type": "card",
+        "components": [
+          {
+            "componentType": "CARD",
+            "entityId": "rune_blue_1",
+            "metadata": {
+              "id": "rune_blue_1",
+              "name": "Blue Rune I",
+              "description": "Banked rune resource.",
+              "cost": 0,
+              "rarity": "common",
+              "metadata": {
+                "cardType": "rune",
+                "faction": "blue"
+              }
+            }
+          }
+        ]
+      },
+      "rune_blue_2": {
+        "id": "rune_blue_2",
+        "type": "card",
+        "components": [
+          {
+            "componentType": "CARD",
+            "entityId": "rune_blue_2",
+            "metadata": {
+              "id": "rune_blue_2",
+              "name": "Blue Rune II",
+              "description": "Banked rune resource.",
+              "cost": 0,
+              "rarity": "common",
+              "metadata": {
+                "cardType": "rune",
+                "faction": "blue"
+              }
+            }
+          }
+        ]
+      },
+      "rune_blue_3": {
+        "id": "rune_blue_3",
+        "type": "card",
+        "components": [
+          {
+            "componentType": "CARD",
+            "entityId": "rune_blue_3",
+            "metadata": {
+              "id": "rune_blue_3",
+              "name": "Blue Rune III",
+              "description": "Newly banked rune resource.",
+              "cost": 0,
+              "rarity": "common",
+              "metadata": {
+                "cardType": "rune",
+                "faction": "blue"
+              }
+            }
+          }
+        ]
+      },
+      "rune_red_1": {
+        "id": "rune_red_1",
+        "type": "card",
+        "components": [
+          {
+            "componentType": "CARD",
+            "entityId": "rune_red_1",
+            "metadata": {
+              "id": "rune_red_1",
+              "name": "Red Rune I",
+              "description": "Banked rune resource.",
+              "cost": 0,
+              "rarity": "common",
+              "metadata": {
+                "cardType": "rune",
+                "faction": "red"
+              }
+            }
+          }
+        ]
+      },
+      "rune_red_2": {
+        "id": "rune_red_2",
+        "type": "card",
+        "components": [
+          {
+            "componentType": "CARD",
+            "entityId": "rune_red_2",
+            "metadata": {
+              "id": "rune_red_2",
+              "name": "Red Rune II",
+              "description": "Banked rune resource.",
+              "cost": 0,
+              "rarity": "common",
+              "metadata": {
+                "cardType": "rune",
+                "faction": "red"
+              }
+            }
           }
         ]
       }
     },
     "zones": {
-      "deck": ["card_c", "card_d"],
-      "hand": ["card_a", "card_b"],
-      "board": [],
-      "graveyard": [],
+      "battlefield_north": [
+        "bf_north",
+        "red_bruiser"
+      ],
+      "battlefield_south": [
+        "bf_south"
+      ],
+      "champion_blue": [
+        "legend_jinx"
+      ],
+      "champion_red": [
+        "legend_viktor"
+      ],
+      "base_blue": [
+        "blue_vanguard"
+      ],
+      "base_red": [],
+      "runes_blue": [
+        "rune_blue_1",
+        "rune_blue_2"
+      ],
+      "runes_red": [
+        "rune_red_1",
+        "rune_red_2"
+      ],
+      "rune_deck_blue": [],
+      "rune_deck_red": [],
+      "deck_blue": [
+        "blue_rocket"
+      ],
+      "deck_red": [
+        "red_scout"
+      ],
+      "trash_blue": [],
+      "trash_red": [],
       "stack": []
     },
-    "metadata": {}
+    "metadata": {
+      "format": "Riftbound TCG - Quickstart inspired",
+      "source": "https://riftbound.leagueoflegends.com/en-us/how-to-play/",
+      "rulesProfile": "riftbound-1v1-v1",
+      "battlefieldCount": 2,
+      "targetScore": 8,
+      "score": {
+        "blue": 6,
+        "red": 7
+      },
+      "control": {
+        "battlefield_north": "red",
+        "battlefield_south": "neutral"
+      }
+    }
   },
   "events": [
     {
       "event": {
         "id": "evt_1",
         "action": {
-          "type": "PLAY_CARD",
-          "playerId": "player1",
-          "payload": { "cardId": "card_a", "from": "hand", "to": "board" },
+          "type": "DRAW_TO_FOUR",
+          "playerId": "blue",
+          "payload": {
+            "cardId": "blue_rocket",
+            "from": "deck_blue",
+            "to": "hand",
+            "targetHandSize": 4
+          },
           "timestamp": 1000
         },
         "timestamp": 1000,
-        "playerId": "player1"
+        "playerId": "blue"
       },
       "snapshot": {
-        "id": "game_demo",
+        "id": "riftbound_demo_match_1v1",
         "players": [
           {
-            "id": "player1",
-            "name": "Player 1",
+            "id": "blue",
+            "name": "Blue - Jinx",
             "health": 20,
-            "resources": [{ "type": "MANA", "amount": 0, "max": 10 }],
-            "hand": [],
-            "deck": ["card_c"],
+            "resources": [
+              {
+                "type": "RUNE",
+                "amount": 2,
+                "max": 12
+              }
+            ],
+            "hand": [
+              "blue_sniper",
+              "spell_shockblast",
+              "blue_rune_spark",
+              "blue_rocket"
+            ],
+            "deck": [],
             "discard": [],
             "zones": {}
           },
           {
-            "id": "player2",
-            "name": "Player 2",
+            "id": "red",
+            "name": "Red - Viktor",
             "health": 20,
-            "resources": [{ "type": "MANA", "amount": 1, "max": 10 }],
-            "hand": ["card_b"],
-            "deck": ["card_d"],
+            "resources": [
+              {
+                "type": "RUNE",
+                "amount": 2,
+                "max": 12
+              }
+            ],
+            "hand": [
+              "spell_emp_burst"
+            ],
+            "deck": [
+              "red_scout"
+            ],
             "discard": [],
             "zones": {}
           }
         ],
         "currentPhase": "MAIN",
-        "currentPlayer": "player1",
-        "turn": 1,
+        "currentPlayer": "blue",
+        "turn": 4,
         "entities": {
-          "card_a": {
-            "id": "card_a",
+          "bf_north": {
+            "id": "bf_north",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_a", "metadata": { "id": "c_a", "name": "Arc Bolt", "description": "Deal 2", "cost": 1, "rarity": "common" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "bf_north",
+                "metadata": {
+                  "id": "bf_north",
+                  "name": "North Battlefield",
+                  "description": "Score if you control this battlefield at end of turn.",
+                  "cost": 0,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "battlefield",
+                    "faction": "neutral"
+                  }
+                }
+              }
+            ]
           },
-          "card_b": {
-            "id": "card_b",
+          "bf_south": {
+            "id": "bf_south",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_b", "metadata": { "id": "c_b", "name": "Stone Golem", "description": "3/3", "cost": 2, "rarity": "rare" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "bf_south",
+                "metadata": {
+                  "id": "bf_south",
+                  "name": "South Battlefield",
+                  "description": "Score if you control this battlefield at end of turn.",
+                  "cost": 0,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "battlefield",
+                    "faction": "neutral"
+                  }
+                }
+              }
+            ]
           },
-          "card_c": {
-            "id": "card_c",
+          "legend_jinx": {
+            "id": "legend_jinx",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_c", "metadata": { "id": "c_c", "name": "Forest Sprite", "description": "1/1", "cost": 1, "rarity": "common" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "legend_jinx",
+                "metadata": {
+                  "id": "legend_jinx",
+                  "name": "Legend: Jinx",
+                  "description": "Blue legend anchoring aggro pressure.",
+                  "cost": 0,
+                  "rarity": "legendary",
+                  "metadata": {
+                    "cardType": "legend",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
           },
-          "card_d": {
-            "id": "card_d",
+          "legend_viktor": {
+            "id": "legend_viktor",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_d", "metadata": { "id": "c_d", "name": "Mind Siphon", "description": "Draw 1", "cost": 2, "rarity": "epic" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "legend_viktor",
+                "metadata": {
+                  "id": "legend_viktor",
+                  "name": "Legend: Viktor",
+                  "description": "Red legend enabling control lines.",
+                  "cost": 0,
+                  "rarity": "legendary",
+                  "metadata": {
+                    "cardType": "legend",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_vanguard": {
+            "id": "blue_vanguard",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_vanguard",
+                "metadata": {
+                  "id": "blue_vanguard",
+                  "name": "Zaun Vanguard",
+                  "description": "Unit holding base before deploy.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_sniper": {
+            "id": "blue_sniper",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_sniper",
+                "metadata": {
+                  "id": "blue_sniper",
+                  "name": "Pow-Pow Sniper",
+                  "description": "Ranged unit that can pressure open lanes.",
+                  "cost": 3,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_rocket": {
+            "id": "blue_rocket",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_rocket",
+                "metadata": {
+                  "id": "blue_rocket",
+                  "name": "Super Mega Rocket Team",
+                  "description": "Late push finisher unit.",
+                  "cost": 4,
+                  "rarity": "epic",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_rune_spark": {
+            "id": "blue_rune_spark",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_rune_spark",
+                "metadata": {
+                  "id": "blue_rune_spark",
+                  "name": "Spark Rune",
+                  "description": "Bank this rune to increase your rune count.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "red_bruiser": {
+            "id": "red_bruiser",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "red_bruiser",
+                "metadata": {
+                  "id": "red_bruiser",
+                  "name": "Chemtech Bruiser",
+                  "description": "Defender currently controlling north battlefield.",
+                  "cost": 3,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "red_scout": {
+            "id": "red_scout",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "red_scout",
+                "metadata": {
+                  "id": "red_scout",
+                  "name": "Hex Scout",
+                  "description": "Flexible skirmish unit from deck.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "spell_shockblast": {
+            "id": "spell_shockblast",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "spell_shockblast",
+                "metadata": {
+                  "id": "spell_shockblast",
+                  "name": "Shockblast",
+                  "description": "Deal enough damage to remove a unit from battlefield.",
+                  "cost": 2,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "spell",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "spell_emp_burst": {
+            "id": "spell_emp_burst",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "spell_emp_burst",
+                "metadata": {
+                  "id": "spell_emp_burst",
+                  "name": "EMP Burst",
+                  "description": "Control spell held by red player.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "spell",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_1": {
+            "id": "rune_blue_1",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_1",
+                "metadata": {
+                  "id": "rune_blue_1",
+                  "name": "Blue Rune I",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_2": {
+            "id": "rune_blue_2",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_2",
+                "metadata": {
+                  "id": "rune_blue_2",
+                  "name": "Blue Rune II",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_3": {
+            "id": "rune_blue_3",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_3",
+                "metadata": {
+                  "id": "rune_blue_3",
+                  "name": "Blue Rune III",
+                  "description": "Newly banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_red_1": {
+            "id": "rune_red_1",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_red_1",
+                "metadata": {
+                  "id": "rune_red_1",
+                  "name": "Red Rune I",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_red_2": {
+            "id": "rune_red_2",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_red_2",
+                "metadata": {
+                  "id": "rune_red_2",
+                  "name": "Red Rune II",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
           }
         },
         "zones": {
-          "deck": ["card_c", "card_d"],
-          "hand": ["card_b"],
-          "board": ["card_a"],
-          "graveyard": [],
+          "battlefield_north": [
+            "bf_north",
+            "red_bruiser"
+          ],
+          "battlefield_south": [
+            "bf_south"
+          ],
+          "champion_blue": [
+            "legend_jinx"
+          ],
+          "champion_red": [
+            "legend_viktor"
+          ],
+          "base_blue": [
+            "blue_vanguard"
+          ],
+          "base_red": [],
+          "runes_blue": [
+            "rune_blue_1",
+            "rune_blue_2"
+          ],
+          "runes_red": [
+            "rune_red_1",
+            "rune_red_2"
+          ],
+          "rune_deck_blue": [],
+          "rune_deck_red": [],
+          "deck_blue": [],
+          "deck_red": [
+            "red_scout"
+          ],
+          "trash_blue": [],
+          "trash_red": [],
           "stack": []
         },
-        "metadata": {}
+        "metadata": {
+          "format": "Riftbound TCG - Quickstart inspired",
+          "source": "https://riftbound.leagueoflegends.com/en-us/how-to-play/",
+          "rulesProfile": "riftbound-1v1-v1",
+          "battlefieldCount": 2,
+          "targetScore": 8,
+          "score": {
+            "blue": 6,
+            "red": 7
+          },
+          "control": {
+            "battlefield_north": "red",
+            "battlefield_south": "neutral"
+          }
+        }
       }
     },
     {
       "event": {
         "id": "evt_2",
         "action": {
-          "type": "END_TURN",
-          "playerId": "player1",
-          "payload": {},
-          "timestamp": 2000
+          "type": "BANK_RUNE",
+          "playerId": "blue",
+          "payload": {
+            "cardId": "blue_rune_spark",
+            "runeId": "rune_blue_3",
+            "from": "hand",
+            "to": "runes_blue",
+            "resourceDelta": 1
+          },
+          "timestamp": 1700
         },
-        "timestamp": 2000,
-        "playerId": "player1"
+        "timestamp": 1700,
+        "playerId": "blue"
       },
       "snapshot": {
-        "id": "game_demo",
+        "id": "riftbound_demo_match_1v1",
         "players": [
           {
-            "id": "player1",
-            "name": "Player 1",
+            "id": "blue",
+            "name": "Blue - Jinx",
             "health": 20,
-            "resources": [{ "type": "MANA", "amount": 0, "max": 10 }],
-            "hand": [],
-            "deck": ["card_c"],
+            "resources": [
+              {
+                "type": "RUNE",
+                "amount": 3,
+                "max": 12
+              }
+            ],
+            "hand": [
+              "blue_sniper",
+              "spell_shockblast",
+              "blue_rocket"
+            ],
+            "deck": [],
             "discard": [],
             "zones": {}
           },
           {
-            "id": "player2",
-            "name": "Player 2",
+            "id": "red",
+            "name": "Red - Viktor",
             "health": 20,
-            "resources": [{ "type": "MANA", "amount": 1, "max": 10 }],
-            "hand": ["card_b"],
-            "deck": ["card_d"],
+            "resources": [
+              {
+                "type": "RUNE",
+                "amount": 2,
+                "max": 12
+              }
+            ],
+            "hand": [
+              "spell_emp_burst"
+            ],
+            "deck": [
+              "red_scout"
+            ],
             "discard": [],
             "zones": {}
           }
         ],
-        "currentPhase": "DRAW",
-        "currentPlayer": "player2",
-        "turn": 2,
+        "currentPhase": "MAIN",
+        "currentPlayer": "blue",
+        "turn": 4,
         "entities": {
-          "card_a": {
-            "id": "card_a",
+          "bf_north": {
+            "id": "bf_north",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_a", "metadata": { "id": "c_a", "name": "Arc Bolt", "description": "Deal 2", "cost": 1, "rarity": "common" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "bf_north",
+                "metadata": {
+                  "id": "bf_north",
+                  "name": "North Battlefield",
+                  "description": "Score if you control this battlefield at end of turn.",
+                  "cost": 0,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "battlefield",
+                    "faction": "neutral"
+                  }
+                }
+              }
+            ]
           },
-          "card_b": {
-            "id": "card_b",
+          "bf_south": {
+            "id": "bf_south",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_b", "metadata": { "id": "c_b", "name": "Stone Golem", "description": "3/3", "cost": 2, "rarity": "rare" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "bf_south",
+                "metadata": {
+                  "id": "bf_south",
+                  "name": "South Battlefield",
+                  "description": "Score if you control this battlefield at end of turn.",
+                  "cost": 0,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "battlefield",
+                    "faction": "neutral"
+                  }
+                }
+              }
+            ]
           },
-          "card_c": {
-            "id": "card_c",
+          "legend_jinx": {
+            "id": "legend_jinx",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_c", "metadata": { "id": "c_c", "name": "Forest Sprite", "description": "1/1", "cost": 1, "rarity": "common" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "legend_jinx",
+                "metadata": {
+                  "id": "legend_jinx",
+                  "name": "Legend: Jinx",
+                  "description": "Blue legend anchoring aggro pressure.",
+                  "cost": 0,
+                  "rarity": "legendary",
+                  "metadata": {
+                    "cardType": "legend",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
           },
-          "card_d": {
-            "id": "card_d",
+          "legend_viktor": {
+            "id": "legend_viktor",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_d", "metadata": { "id": "c_d", "name": "Mind Siphon", "description": "Draw 1", "cost": 2, "rarity": "epic" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "legend_viktor",
+                "metadata": {
+                  "id": "legend_viktor",
+                  "name": "Legend: Viktor",
+                  "description": "Red legend enabling control lines.",
+                  "cost": 0,
+                  "rarity": "legendary",
+                  "metadata": {
+                    "cardType": "legend",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_vanguard": {
+            "id": "blue_vanguard",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_vanguard",
+                "metadata": {
+                  "id": "blue_vanguard",
+                  "name": "Zaun Vanguard",
+                  "description": "Unit holding base before deploy.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_sniper": {
+            "id": "blue_sniper",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_sniper",
+                "metadata": {
+                  "id": "blue_sniper",
+                  "name": "Pow-Pow Sniper",
+                  "description": "Ranged unit that can pressure open lanes.",
+                  "cost": 3,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_rocket": {
+            "id": "blue_rocket",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_rocket",
+                "metadata": {
+                  "id": "blue_rocket",
+                  "name": "Super Mega Rocket Team",
+                  "description": "Late push finisher unit.",
+                  "cost": 4,
+                  "rarity": "epic",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_rune_spark": {
+            "id": "blue_rune_spark",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_rune_spark",
+                "metadata": {
+                  "id": "blue_rune_spark",
+                  "name": "Spark Rune",
+                  "description": "Bank this rune to increase your rune count.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "red_bruiser": {
+            "id": "red_bruiser",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "red_bruiser",
+                "metadata": {
+                  "id": "red_bruiser",
+                  "name": "Chemtech Bruiser",
+                  "description": "Defender currently controlling north battlefield.",
+                  "cost": 3,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "red_scout": {
+            "id": "red_scout",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "red_scout",
+                "metadata": {
+                  "id": "red_scout",
+                  "name": "Hex Scout",
+                  "description": "Flexible skirmish unit from deck.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "spell_shockblast": {
+            "id": "spell_shockblast",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "spell_shockblast",
+                "metadata": {
+                  "id": "spell_shockblast",
+                  "name": "Shockblast",
+                  "description": "Deal enough damage to remove a unit from battlefield.",
+                  "cost": 2,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "spell",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "spell_emp_burst": {
+            "id": "spell_emp_burst",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "spell_emp_burst",
+                "metadata": {
+                  "id": "spell_emp_burst",
+                  "name": "EMP Burst",
+                  "description": "Control spell held by red player.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "spell",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_1": {
+            "id": "rune_blue_1",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_1",
+                "metadata": {
+                  "id": "rune_blue_1",
+                  "name": "Blue Rune I",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_2": {
+            "id": "rune_blue_2",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_2",
+                "metadata": {
+                  "id": "rune_blue_2",
+                  "name": "Blue Rune II",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_3": {
+            "id": "rune_blue_3",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_3",
+                "metadata": {
+                  "id": "rune_blue_3",
+                  "name": "Blue Rune III",
+                  "description": "Newly banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_red_1": {
+            "id": "rune_red_1",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_red_1",
+                "metadata": {
+                  "id": "rune_red_1",
+                  "name": "Red Rune I",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_red_2": {
+            "id": "rune_red_2",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_red_2",
+                "metadata": {
+                  "id": "rune_red_2",
+                  "name": "Red Rune II",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
           }
         },
         "zones": {
-          "deck": ["card_c", "card_d"],
-          "hand": ["card_b"],
-          "board": ["card_a"],
-          "graveyard": [],
+          "battlefield_north": [
+            "bf_north",
+            "red_bruiser"
+          ],
+          "battlefield_south": [
+            "bf_south"
+          ],
+          "champion_blue": [
+            "legend_jinx"
+          ],
+          "champion_red": [
+            "legend_viktor"
+          ],
+          "base_blue": [
+            "blue_vanguard"
+          ],
+          "base_red": [],
+          "runes_blue": [
+            "rune_blue_1",
+            "rune_blue_2",
+            "rune_blue_3"
+          ],
+          "runes_red": [
+            "rune_red_1",
+            "rune_red_2"
+          ],
+          "rune_deck_blue": [],
+          "rune_deck_red": [],
+          "deck_blue": [],
+          "deck_red": [
+            "red_scout"
+          ],
+          "trash_blue": [],
+          "trash_red": [],
           "stack": []
         },
-        "metadata": {}
+        "metadata": {
+          "format": "Riftbound TCG - Quickstart inspired",
+          "source": "https://riftbound.leagueoflegends.com/en-us/how-to-play/",
+          "rulesProfile": "riftbound-1v1-v1",
+          "battlefieldCount": 2,
+          "targetScore": 8,
+          "score": {
+            "blue": 6,
+            "red": 7
+          },
+          "control": {
+            "battlefield_north": "red",
+            "battlefield_south": "neutral"
+          }
+        }
       }
     },
     {
       "event": {
         "id": "evt_3",
         "action": {
-          "type": "DRAW_CARD",
-          "playerId": "player2",
-          "payload": { "cardId": "card_d", "from": "deck", "to": "hand" },
-          "timestamp": 2500
+          "type": "DEPLOY_UNIT",
+          "playerId": "blue",
+          "payload": {
+            "cardId": "blue_sniper",
+            "from": "hand",
+            "to": "battlefield_south"
+          },
+          "timestamp": 2300
         },
-        "timestamp": 2500,
-        "playerId": "player2"
+        "timestamp": 2300,
+        "playerId": "blue"
       },
       "snapshot": {
-        "id": "game_demo",
+        "id": "riftbound_demo_match_1v1",
         "players": [
           {
-            "id": "player1",
-            "name": "Player 1",
+            "id": "blue",
+            "name": "Blue - Jinx",
             "health": 20,
-            "resources": [{ "type": "MANA", "amount": 0, "max": 10 }],
-            "hand": [],
-            "deck": ["card_c"],
+            "resources": [
+              {
+                "type": "RUNE",
+                "amount": 3,
+                "max": 12
+              }
+            ],
+            "hand": [
+              "spell_shockblast",
+              "blue_rocket"
+            ],
+            "deck": [],
             "discard": [],
             "zones": {}
           },
           {
-            "id": "player2",
-            "name": "Player 2",
+            "id": "red",
+            "name": "Red - Viktor",
             "health": 20,
-            "resources": [{ "type": "MANA", "amount": 1, "max": 10 }],
-            "hand": ["card_b", "card_d"],
-            "deck": [],
+            "resources": [
+              {
+                "type": "RUNE",
+                "amount": 2,
+                "max": 12
+              }
+            ],
+            "hand": [
+              "spell_emp_burst"
+            ],
+            "deck": [
+              "red_scout"
+            ],
             "discard": [],
             "zones": {}
           }
         ],
         "currentPhase": "MAIN",
-        "currentPlayer": "player2",
-        "turn": 2,
+        "currentPlayer": "blue",
+        "turn": 4,
         "entities": {
-          "card_a": {
-            "id": "card_a",
+          "bf_north": {
+            "id": "bf_north",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_a", "metadata": { "id": "c_a", "name": "Arc Bolt", "description": "Deal 2", "cost": 1, "rarity": "common" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "bf_north",
+                "metadata": {
+                  "id": "bf_north",
+                  "name": "North Battlefield",
+                  "description": "Score if you control this battlefield at end of turn.",
+                  "cost": 0,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "battlefield",
+                    "faction": "neutral"
+                  }
+                }
+              }
+            ]
           },
-          "card_b": {
-            "id": "card_b",
+          "bf_south": {
+            "id": "bf_south",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_b", "metadata": { "id": "c_b", "name": "Stone Golem", "description": "3/3", "cost": 2, "rarity": "rare" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "bf_south",
+                "metadata": {
+                  "id": "bf_south",
+                  "name": "South Battlefield",
+                  "description": "Score if you control this battlefield at end of turn.",
+                  "cost": 0,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "battlefield",
+                    "faction": "neutral"
+                  }
+                }
+              }
+            ]
           },
-          "card_c": {
-            "id": "card_c",
+          "legend_jinx": {
+            "id": "legend_jinx",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_c", "metadata": { "id": "c_c", "name": "Forest Sprite", "description": "1/1", "cost": 1, "rarity": "common" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "legend_jinx",
+                "metadata": {
+                  "id": "legend_jinx",
+                  "name": "Legend: Jinx",
+                  "description": "Blue legend anchoring aggro pressure.",
+                  "cost": 0,
+                  "rarity": "legendary",
+                  "metadata": {
+                    "cardType": "legend",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
           },
-          "card_d": {
-            "id": "card_d",
+          "legend_viktor": {
+            "id": "legend_viktor",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_d", "metadata": { "id": "c_d", "name": "Mind Siphon", "description": "Draw 1", "cost": 2, "rarity": "epic" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "legend_viktor",
+                "metadata": {
+                  "id": "legend_viktor",
+                  "name": "Legend: Viktor",
+                  "description": "Red legend enabling control lines.",
+                  "cost": 0,
+                  "rarity": "legendary",
+                  "metadata": {
+                    "cardType": "legend",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_vanguard": {
+            "id": "blue_vanguard",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_vanguard",
+                "metadata": {
+                  "id": "blue_vanguard",
+                  "name": "Zaun Vanguard",
+                  "description": "Unit holding base before deploy.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_sniper": {
+            "id": "blue_sniper",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_sniper",
+                "metadata": {
+                  "id": "blue_sniper",
+                  "name": "Pow-Pow Sniper",
+                  "description": "Ranged unit that can pressure open lanes.",
+                  "cost": 3,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_rocket": {
+            "id": "blue_rocket",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_rocket",
+                "metadata": {
+                  "id": "blue_rocket",
+                  "name": "Super Mega Rocket Team",
+                  "description": "Late push finisher unit.",
+                  "cost": 4,
+                  "rarity": "epic",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_rune_spark": {
+            "id": "blue_rune_spark",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_rune_spark",
+                "metadata": {
+                  "id": "blue_rune_spark",
+                  "name": "Spark Rune",
+                  "description": "Bank this rune to increase your rune count.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "red_bruiser": {
+            "id": "red_bruiser",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "red_bruiser",
+                "metadata": {
+                  "id": "red_bruiser",
+                  "name": "Chemtech Bruiser",
+                  "description": "Defender currently controlling north battlefield.",
+                  "cost": 3,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "red_scout": {
+            "id": "red_scout",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "red_scout",
+                "metadata": {
+                  "id": "red_scout",
+                  "name": "Hex Scout",
+                  "description": "Flexible skirmish unit from deck.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "spell_shockblast": {
+            "id": "spell_shockblast",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "spell_shockblast",
+                "metadata": {
+                  "id": "spell_shockblast",
+                  "name": "Shockblast",
+                  "description": "Deal enough damage to remove a unit from battlefield.",
+                  "cost": 2,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "spell",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "spell_emp_burst": {
+            "id": "spell_emp_burst",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "spell_emp_burst",
+                "metadata": {
+                  "id": "spell_emp_burst",
+                  "name": "EMP Burst",
+                  "description": "Control spell held by red player.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "spell",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_1": {
+            "id": "rune_blue_1",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_1",
+                "metadata": {
+                  "id": "rune_blue_1",
+                  "name": "Blue Rune I",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_2": {
+            "id": "rune_blue_2",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_2",
+                "metadata": {
+                  "id": "rune_blue_2",
+                  "name": "Blue Rune II",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_3": {
+            "id": "rune_blue_3",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_3",
+                "metadata": {
+                  "id": "rune_blue_3",
+                  "name": "Blue Rune III",
+                  "description": "Newly banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_red_1": {
+            "id": "rune_red_1",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_red_1",
+                "metadata": {
+                  "id": "rune_red_1",
+                  "name": "Red Rune I",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_red_2": {
+            "id": "rune_red_2",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_red_2",
+                "metadata": {
+                  "id": "rune_red_2",
+                  "name": "Red Rune II",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
           }
         },
         "zones": {
-          "deck": ["card_c"],
-          "hand": ["card_b", "card_d"],
-          "board": ["card_a"],
-          "graveyard": [],
+          "battlefield_north": [
+            "bf_north",
+            "red_bruiser"
+          ],
+          "battlefield_south": [
+            "bf_south",
+            "blue_sniper"
+          ],
+          "champion_blue": [
+            "legend_jinx"
+          ],
+          "champion_red": [
+            "legend_viktor"
+          ],
+          "base_blue": [
+            "blue_vanguard"
+          ],
+          "base_red": [],
+          "runes_blue": [
+            "rune_blue_1",
+            "rune_blue_2",
+            "rune_blue_3"
+          ],
+          "runes_red": [
+            "rune_red_1",
+            "rune_red_2"
+          ],
+          "rune_deck_blue": [],
+          "rune_deck_red": [],
+          "deck_blue": [],
+          "deck_red": [
+            "red_scout"
+          ],
+          "trash_blue": [],
+          "trash_red": [],
           "stack": []
         },
-        "metadata": {}
+        "metadata": {
+          "format": "Riftbound TCG - Quickstart inspired",
+          "source": "https://riftbound.leagueoflegends.com/en-us/how-to-play/",
+          "rulesProfile": "riftbound-1v1-v1",
+          "battlefieldCount": 2,
+          "targetScore": 8,
+          "score": {
+            "blue": 6,
+            "red": 7
+          },
+          "control": {
+            "battlefield_north": "red",
+            "battlefield_south": "neutral"
+          }
+        }
       }
     },
     {
       "event": {
         "id": "evt_4",
         "action": {
-          "type": "PLAY_CARD",
-          "playerId": "player2",
-          "payload": { "cardId": "card_b", "from": "hand", "to": "board" },
+          "type": "CAST_SPELL",
+          "playerId": "blue",
+          "payload": {
+            "cardId": "spell_shockblast",
+            "from": "hand",
+            "to": "trash_blue",
+            "targetId": "red_bruiser",
+            "targetFrom": "battlefield_north",
+            "targetTo": "trash_red"
+          },
           "timestamp": 3000
         },
         "timestamp": 3000,
-        "playerId": "player2"
+        "playerId": "blue"
       },
       "snapshot": {
-        "id": "game_demo",
+        "id": "riftbound_demo_match_1v1",
         "players": [
           {
-            "id": "player1",
-            "name": "Player 1",
+            "id": "blue",
+            "name": "Blue - Jinx",
             "health": 20,
-            "resources": [{ "type": "MANA", "amount": 0, "max": 10 }],
-            "hand": [],
-            "deck": ["card_c"],
-            "discard": [],
+            "resources": [
+              {
+                "type": "RUNE",
+                "amount": 2,
+                "max": 12
+              }
+            ],
+            "hand": [
+              "blue_rocket"
+            ],
+            "deck": [],
+            "discard": [
+              "spell_shockblast"
+            ],
             "zones": {}
           },
           {
-            "id": "player2",
-            "name": "Player 2",
+            "id": "red",
+            "name": "Red - Viktor",
             "health": 20,
-            "resources": [{ "type": "MANA", "amount": 0, "max": 10 }],
-            "hand": ["card_d"],
-            "deck": [],
-            "discard": [],
+            "resources": [
+              {
+                "type": "RUNE",
+                "amount": 2,
+                "max": 12
+              }
+            ],
+            "hand": [
+              "spell_emp_burst"
+            ],
+            "deck": [
+              "red_scout"
+            ],
+            "discard": [
+              "red_bruiser"
+            ],
             "zones": {}
           }
         ],
         "currentPhase": "MAIN",
-        "currentPlayer": "player2",
-        "turn": 2,
+        "currentPlayer": "blue",
+        "turn": 4,
         "entities": {
-          "card_a": {
-            "id": "card_a",
+          "bf_north": {
+            "id": "bf_north",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_a", "metadata": { "id": "c_a", "name": "Arc Bolt", "description": "Deal 2", "cost": 1, "rarity": "common" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "bf_north",
+                "metadata": {
+                  "id": "bf_north",
+                  "name": "North Battlefield",
+                  "description": "Score if you control this battlefield at end of turn.",
+                  "cost": 0,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "battlefield",
+                    "faction": "neutral"
+                  }
+                }
+              }
+            ]
           },
-          "card_b": {
-            "id": "card_b",
+          "bf_south": {
+            "id": "bf_south",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_b", "metadata": { "id": "c_b", "name": "Stone Golem", "description": "3/3", "cost": 2, "rarity": "rare" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "bf_south",
+                "metadata": {
+                  "id": "bf_south",
+                  "name": "South Battlefield",
+                  "description": "Score if you control this battlefield at end of turn.",
+                  "cost": 0,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "battlefield",
+                    "faction": "neutral"
+                  }
+                }
+              }
+            ]
           },
-          "card_c": {
-            "id": "card_c",
+          "legend_jinx": {
+            "id": "legend_jinx",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_c", "metadata": { "id": "c_c", "name": "Forest Sprite", "description": "1/1", "cost": 1, "rarity": "common" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "legend_jinx",
+                "metadata": {
+                  "id": "legend_jinx",
+                  "name": "Legend: Jinx",
+                  "description": "Blue legend anchoring aggro pressure.",
+                  "cost": 0,
+                  "rarity": "legendary",
+                  "metadata": {
+                    "cardType": "legend",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
           },
-          "card_d": {
-            "id": "card_d",
+          "legend_viktor": {
+            "id": "legend_viktor",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_d", "metadata": { "id": "c_d", "name": "Mind Siphon", "description": "Draw 1", "cost": 2, "rarity": "epic" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "legend_viktor",
+                "metadata": {
+                  "id": "legend_viktor",
+                  "name": "Legend: Viktor",
+                  "description": "Red legend enabling control lines.",
+                  "cost": 0,
+                  "rarity": "legendary",
+                  "metadata": {
+                    "cardType": "legend",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_vanguard": {
+            "id": "blue_vanguard",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_vanguard",
+                "metadata": {
+                  "id": "blue_vanguard",
+                  "name": "Zaun Vanguard",
+                  "description": "Unit holding base before deploy.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_sniper": {
+            "id": "blue_sniper",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_sniper",
+                "metadata": {
+                  "id": "blue_sniper",
+                  "name": "Pow-Pow Sniper",
+                  "description": "Ranged unit that can pressure open lanes.",
+                  "cost": 3,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_rocket": {
+            "id": "blue_rocket",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_rocket",
+                "metadata": {
+                  "id": "blue_rocket",
+                  "name": "Super Mega Rocket Team",
+                  "description": "Late push finisher unit.",
+                  "cost": 4,
+                  "rarity": "epic",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_rune_spark": {
+            "id": "blue_rune_spark",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_rune_spark",
+                "metadata": {
+                  "id": "blue_rune_spark",
+                  "name": "Spark Rune",
+                  "description": "Bank this rune to increase your rune count.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "red_bruiser": {
+            "id": "red_bruiser",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "red_bruiser",
+                "metadata": {
+                  "id": "red_bruiser",
+                  "name": "Chemtech Bruiser",
+                  "description": "Defender currently controlling north battlefield.",
+                  "cost": 3,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "red_scout": {
+            "id": "red_scout",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "red_scout",
+                "metadata": {
+                  "id": "red_scout",
+                  "name": "Hex Scout",
+                  "description": "Flexible skirmish unit from deck.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "spell_shockblast": {
+            "id": "spell_shockblast",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "spell_shockblast",
+                "metadata": {
+                  "id": "spell_shockblast",
+                  "name": "Shockblast",
+                  "description": "Deal enough damage to remove a unit from battlefield.",
+                  "cost": 2,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "spell",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "spell_emp_burst": {
+            "id": "spell_emp_burst",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "spell_emp_burst",
+                "metadata": {
+                  "id": "spell_emp_burst",
+                  "name": "EMP Burst",
+                  "description": "Control spell held by red player.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "spell",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_1": {
+            "id": "rune_blue_1",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_1",
+                "metadata": {
+                  "id": "rune_blue_1",
+                  "name": "Blue Rune I",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_2": {
+            "id": "rune_blue_2",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_2",
+                "metadata": {
+                  "id": "rune_blue_2",
+                  "name": "Blue Rune II",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_3": {
+            "id": "rune_blue_3",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_3",
+                "metadata": {
+                  "id": "rune_blue_3",
+                  "name": "Blue Rune III",
+                  "description": "Newly banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_red_1": {
+            "id": "rune_red_1",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_red_1",
+                "metadata": {
+                  "id": "rune_red_1",
+                  "name": "Red Rune I",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_red_2": {
+            "id": "rune_red_2",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_red_2",
+                "metadata": {
+                  "id": "rune_red_2",
+                  "name": "Red Rune II",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
           }
         },
         "zones": {
-          "deck": ["card_c"],
-          "hand": ["card_d"],
-          "board": ["card_a", "card_b"],
-          "graveyard": [],
+          "battlefield_north": [
+            "bf_north"
+          ],
+          "battlefield_south": [
+            "bf_south",
+            "blue_sniper"
+          ],
+          "champion_blue": [
+            "legend_jinx"
+          ],
+          "champion_red": [
+            "legend_viktor"
+          ],
+          "base_blue": [
+            "blue_vanguard"
+          ],
+          "base_red": [],
+          "runes_blue": [
+            "rune_blue_1",
+            "rune_blue_2",
+            "rune_blue_3"
+          ],
+          "runes_red": [
+            "rune_red_1",
+            "rune_red_2"
+          ],
+          "rune_deck_blue": [],
+          "rune_deck_red": [],
+          "deck_blue": [],
+          "deck_red": [
+            "red_scout"
+          ],
+          "trash_blue": [
+            "spell_shockblast"
+          ],
+          "trash_red": [
+            "red_bruiser"
+          ],
           "stack": []
         },
-        "metadata": {}
+        "metadata": {
+          "format": "Riftbound TCG - Quickstart inspired",
+          "source": "https://riftbound.leagueoflegends.com/en-us/how-to-play/",
+          "rulesProfile": "riftbound-1v1-v1",
+          "battlefieldCount": 2,
+          "targetScore": 8,
+          "score": {
+            "blue": 6,
+            "red": 7
+          },
+          "control": {
+            "battlefield_north": "neutral",
+            "battlefield_south": "neutral"
+          }
+        }
       }
     },
     {
       "event": {
         "id": "evt_5",
         "action": {
-          "type": "DESTROY_CARD",
-          "playerId": "player2",
-          "payload": { "cardId": "card_a", "from": "board", "to": "graveyard" },
+          "type": "END_TURN",
+          "playerId": "blue",
+          "payload": {
+            "reason": "Proceed to scoring step"
+          },
           "timestamp": 3600
         },
         "timestamp": 3600,
-        "playerId": "player2"
+        "playerId": "blue"
       },
       "snapshot": {
-        "id": "game_demo",
+        "id": "riftbound_demo_match_1v1",
         "players": [
           {
-            "id": "player1",
-            "name": "Player 1",
+            "id": "blue",
+            "name": "Blue - Jinx",
             "health": 20,
-            "resources": [{ "type": "MANA", "amount": 0, "max": 10 }],
-            "hand": [],
-            "deck": ["card_c"],
-            "discard": [],
+            "resources": [
+              {
+                "type": "RUNE",
+                "amount": 2,
+                "max": 12
+              }
+            ],
+            "hand": [
+              "blue_rocket"
+            ],
+            "deck": [],
+            "discard": [
+              "spell_shockblast"
+            ],
             "zones": {}
           },
           {
-            "id": "player2",
-            "name": "Player 2",
+            "id": "red",
+            "name": "Red - Viktor",
             "health": 20,
-            "resources": [{ "type": "MANA", "amount": 0, "max": 10 }],
-            "hand": ["card_d"],
-            "deck": [],
-            "discard": [],
+            "resources": [
+              {
+                "type": "RUNE",
+                "amount": 2,
+                "max": 12
+              }
+            ],
+            "hand": [
+              "spell_emp_burst"
+            ],
+            "deck": [
+              "red_scout"
+            ],
+            "discard": [
+              "red_bruiser"
+            ],
             "zones": {}
           }
         ],
-        "currentPhase": "COMBAT",
-        "currentPlayer": "player2",
-        "turn": 2,
+        "currentPhase": "END",
+        "currentPlayer": "blue",
+        "turn": 4,
         "entities": {
-          "card_a": {
-            "id": "card_a",
+          "bf_north": {
+            "id": "bf_north",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_a", "metadata": { "id": "c_a", "name": "Arc Bolt", "description": "Deal 2", "cost": 1, "rarity": "common" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "bf_north",
+                "metadata": {
+                  "id": "bf_north",
+                  "name": "North Battlefield",
+                  "description": "Score if you control this battlefield at end of turn.",
+                  "cost": 0,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "battlefield",
+                    "faction": "neutral"
+                  }
+                }
+              }
+            ]
           },
-          "card_b": {
-            "id": "card_b",
+          "bf_south": {
+            "id": "bf_south",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_b", "metadata": { "id": "c_b", "name": "Stone Golem", "description": "3/3", "cost": 2, "rarity": "rare" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "bf_south",
+                "metadata": {
+                  "id": "bf_south",
+                  "name": "South Battlefield",
+                  "description": "Score if you control this battlefield at end of turn.",
+                  "cost": 0,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "battlefield",
+                    "faction": "neutral"
+                  }
+                }
+              }
+            ]
           },
-          "card_c": {
-            "id": "card_c",
+          "legend_jinx": {
+            "id": "legend_jinx",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_c", "metadata": { "id": "c_c", "name": "Forest Sprite", "description": "1/1", "cost": 1, "rarity": "common" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "legend_jinx",
+                "metadata": {
+                  "id": "legend_jinx",
+                  "name": "Legend: Jinx",
+                  "description": "Blue legend anchoring aggro pressure.",
+                  "cost": 0,
+                  "rarity": "legendary",
+                  "metadata": {
+                    "cardType": "legend",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
           },
-          "card_d": {
-            "id": "card_d",
+          "legend_viktor": {
+            "id": "legend_viktor",
             "type": "card",
-            "components": [{ "componentType": "CARD", "entityId": "card_d", "metadata": { "id": "c_d", "name": "Mind Siphon", "description": "Draw 1", "cost": 2, "rarity": "epic" } }]
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "legend_viktor",
+                "metadata": {
+                  "id": "legend_viktor",
+                  "name": "Legend: Viktor",
+                  "description": "Red legend enabling control lines.",
+                  "cost": 0,
+                  "rarity": "legendary",
+                  "metadata": {
+                    "cardType": "legend",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_vanguard": {
+            "id": "blue_vanguard",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_vanguard",
+                "metadata": {
+                  "id": "blue_vanguard",
+                  "name": "Zaun Vanguard",
+                  "description": "Unit holding base before deploy.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_sniper": {
+            "id": "blue_sniper",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_sniper",
+                "metadata": {
+                  "id": "blue_sniper",
+                  "name": "Pow-Pow Sniper",
+                  "description": "Ranged unit that can pressure open lanes.",
+                  "cost": 3,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_rocket": {
+            "id": "blue_rocket",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_rocket",
+                "metadata": {
+                  "id": "blue_rocket",
+                  "name": "Super Mega Rocket Team",
+                  "description": "Late push finisher unit.",
+                  "cost": 4,
+                  "rarity": "epic",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_rune_spark": {
+            "id": "blue_rune_spark",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_rune_spark",
+                "metadata": {
+                  "id": "blue_rune_spark",
+                  "name": "Spark Rune",
+                  "description": "Bank this rune to increase your rune count.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "red_bruiser": {
+            "id": "red_bruiser",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "red_bruiser",
+                "metadata": {
+                  "id": "red_bruiser",
+                  "name": "Chemtech Bruiser",
+                  "description": "Defender currently controlling north battlefield.",
+                  "cost": 3,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "red_scout": {
+            "id": "red_scout",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "red_scout",
+                "metadata": {
+                  "id": "red_scout",
+                  "name": "Hex Scout",
+                  "description": "Flexible skirmish unit from deck.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "spell_shockblast": {
+            "id": "spell_shockblast",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "spell_shockblast",
+                "metadata": {
+                  "id": "spell_shockblast",
+                  "name": "Shockblast",
+                  "description": "Deal enough damage to remove a unit from battlefield.",
+                  "cost": 2,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "spell",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "spell_emp_burst": {
+            "id": "spell_emp_burst",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "spell_emp_burst",
+                "metadata": {
+                  "id": "spell_emp_burst",
+                  "name": "EMP Burst",
+                  "description": "Control spell held by red player.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "spell",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_1": {
+            "id": "rune_blue_1",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_1",
+                "metadata": {
+                  "id": "rune_blue_1",
+                  "name": "Blue Rune I",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_2": {
+            "id": "rune_blue_2",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_2",
+                "metadata": {
+                  "id": "rune_blue_2",
+                  "name": "Blue Rune II",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_3": {
+            "id": "rune_blue_3",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_3",
+                "metadata": {
+                  "id": "rune_blue_3",
+                  "name": "Blue Rune III",
+                  "description": "Newly banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_red_1": {
+            "id": "rune_red_1",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_red_1",
+                "metadata": {
+                  "id": "rune_red_1",
+                  "name": "Red Rune I",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_red_2": {
+            "id": "rune_red_2",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_red_2",
+                "metadata": {
+                  "id": "rune_red_2",
+                  "name": "Red Rune II",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
           }
         },
         "zones": {
-          "deck": ["card_c"],
-          "hand": ["card_d"],
-          "board": ["card_b"],
-          "graveyard": ["card_a"],
+          "battlefield_north": [
+            "bf_north"
+          ],
+          "battlefield_south": [
+            "bf_south",
+            "blue_sniper"
+          ],
+          "champion_blue": [
+            "legend_jinx"
+          ],
+          "champion_red": [
+            "legend_viktor"
+          ],
+          "base_blue": [
+            "blue_vanguard"
+          ],
+          "base_red": [],
+          "runes_blue": [
+            "rune_blue_1",
+            "rune_blue_2",
+            "rune_blue_3"
+          ],
+          "runes_red": [
+            "rune_red_1",
+            "rune_red_2"
+          ],
+          "rune_deck_blue": [],
+          "rune_deck_red": [],
+          "deck_blue": [],
+          "deck_red": [
+            "red_scout"
+          ],
+          "trash_blue": [
+            "spell_shockblast"
+          ],
+          "trash_red": [
+            "red_bruiser"
+          ],
           "stack": []
         },
-        "metadata": {}
+        "metadata": {
+          "format": "Riftbound TCG - Quickstart inspired",
+          "source": "https://riftbound.leagueoflegends.com/en-us/how-to-play/",
+          "rulesProfile": "riftbound-1v1-v1",
+          "battlefieldCount": 2,
+          "targetScore": 8,
+          "score": {
+            "blue": 6,
+            "red": 7
+          },
+          "control": {
+            "battlefield_north": "neutral",
+            "battlefield_south": "neutral"
+          }
+        }
+      }
+    },
+    {
+      "event": {
+        "id": "evt_6",
+        "action": {
+          "type": "SCORE_BATTLEFIELDS",
+          "playerId": "blue",
+          "payload": {
+            "controlledBattlefields": [
+              "battlefield_north",
+              "battlefield_south"
+            ],
+            "pointsGained": 2,
+            "fromScore": 6,
+            "toScore": 8,
+            "targetScore": 8
+          },
+          "timestamp": 4200
+        },
+        "timestamp": 4200,
+        "playerId": "blue"
+      },
+      "snapshot": {
+        "id": "riftbound_demo_match_1v1",
+        "players": [
+          {
+            "id": "blue",
+            "name": "Blue - Jinx",
+            "health": 20,
+            "resources": [
+              {
+                "type": "RUNE",
+                "amount": 2,
+                "max": 12
+              }
+            ],
+            "hand": [
+              "blue_rocket"
+            ],
+            "deck": [],
+            "discard": [
+              "spell_shockblast"
+            ],
+            "zones": {}
+          },
+          {
+            "id": "red",
+            "name": "Red - Viktor",
+            "health": 20,
+            "resources": [
+              {
+                "type": "RUNE",
+                "amount": 2,
+                "max": 12
+              }
+            ],
+            "hand": [
+              "spell_emp_burst"
+            ],
+            "deck": [
+              "red_scout"
+            ],
+            "discard": [
+              "red_bruiser"
+            ],
+            "zones": {}
+          }
+        ],
+        "currentPhase": "DRAW",
+        "currentPlayer": "red",
+        "turn": 5,
+        "entities": {
+          "bf_north": {
+            "id": "bf_north",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "bf_north",
+                "metadata": {
+                  "id": "bf_north",
+                  "name": "North Battlefield",
+                  "description": "Score if you control this battlefield at end of turn.",
+                  "cost": 0,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "battlefield",
+                    "faction": "neutral"
+                  }
+                }
+              }
+            ]
+          },
+          "bf_south": {
+            "id": "bf_south",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "bf_south",
+                "metadata": {
+                  "id": "bf_south",
+                  "name": "South Battlefield",
+                  "description": "Score if you control this battlefield at end of turn.",
+                  "cost": 0,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "battlefield",
+                    "faction": "neutral"
+                  }
+                }
+              }
+            ]
+          },
+          "legend_jinx": {
+            "id": "legend_jinx",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "legend_jinx",
+                "metadata": {
+                  "id": "legend_jinx",
+                  "name": "Legend: Jinx",
+                  "description": "Blue legend anchoring aggro pressure.",
+                  "cost": 0,
+                  "rarity": "legendary",
+                  "metadata": {
+                    "cardType": "legend",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "legend_viktor": {
+            "id": "legend_viktor",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "legend_viktor",
+                "metadata": {
+                  "id": "legend_viktor",
+                  "name": "Legend: Viktor",
+                  "description": "Red legend enabling control lines.",
+                  "cost": 0,
+                  "rarity": "legendary",
+                  "metadata": {
+                    "cardType": "legend",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_vanguard": {
+            "id": "blue_vanguard",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_vanguard",
+                "metadata": {
+                  "id": "blue_vanguard",
+                  "name": "Zaun Vanguard",
+                  "description": "Unit holding base before deploy.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_sniper": {
+            "id": "blue_sniper",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_sniper",
+                "metadata": {
+                  "id": "blue_sniper",
+                  "name": "Pow-Pow Sniper",
+                  "description": "Ranged unit that can pressure open lanes.",
+                  "cost": 3,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_rocket": {
+            "id": "blue_rocket",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_rocket",
+                "metadata": {
+                  "id": "blue_rocket",
+                  "name": "Super Mega Rocket Team",
+                  "description": "Late push finisher unit.",
+                  "cost": 4,
+                  "rarity": "epic",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_rune_spark": {
+            "id": "blue_rune_spark",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_rune_spark",
+                "metadata": {
+                  "id": "blue_rune_spark",
+                  "name": "Spark Rune",
+                  "description": "Bank this rune to increase your rune count.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "red_bruiser": {
+            "id": "red_bruiser",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "red_bruiser",
+                "metadata": {
+                  "id": "red_bruiser",
+                  "name": "Chemtech Bruiser",
+                  "description": "Defender currently controlling north battlefield.",
+                  "cost": 3,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "red_scout": {
+            "id": "red_scout",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "red_scout",
+                "metadata": {
+                  "id": "red_scout",
+                  "name": "Hex Scout",
+                  "description": "Flexible skirmish unit from deck.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "spell_shockblast": {
+            "id": "spell_shockblast",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "spell_shockblast",
+                "metadata": {
+                  "id": "spell_shockblast",
+                  "name": "Shockblast",
+                  "description": "Deal enough damage to remove a unit from battlefield.",
+                  "cost": 2,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "spell",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "spell_emp_burst": {
+            "id": "spell_emp_burst",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "spell_emp_burst",
+                "metadata": {
+                  "id": "spell_emp_burst",
+                  "name": "EMP Burst",
+                  "description": "Control spell held by red player.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "spell",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_1": {
+            "id": "rune_blue_1",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_1",
+                "metadata": {
+                  "id": "rune_blue_1",
+                  "name": "Blue Rune I",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_2": {
+            "id": "rune_blue_2",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_2",
+                "metadata": {
+                  "id": "rune_blue_2",
+                  "name": "Blue Rune II",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_3": {
+            "id": "rune_blue_3",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_3",
+                "metadata": {
+                  "id": "rune_blue_3",
+                  "name": "Blue Rune III",
+                  "description": "Newly banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_red_1": {
+            "id": "rune_red_1",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_red_1",
+                "metadata": {
+                  "id": "rune_red_1",
+                  "name": "Red Rune I",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_red_2": {
+            "id": "rune_red_2",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_red_2",
+                "metadata": {
+                  "id": "rune_red_2",
+                  "name": "Red Rune II",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "zones": {
+          "battlefield_north": [
+            "bf_north"
+          ],
+          "battlefield_south": [
+            "bf_south",
+            "blue_sniper"
+          ],
+          "champion_blue": [
+            "legend_jinx"
+          ],
+          "champion_red": [
+            "legend_viktor"
+          ],
+          "base_blue": [
+            "blue_vanguard"
+          ],
+          "base_red": [],
+          "runes_blue": [
+            "rune_blue_1",
+            "rune_blue_2",
+            "rune_blue_3"
+          ],
+          "runes_red": [
+            "rune_red_1",
+            "rune_red_2"
+          ],
+          "rune_deck_blue": [],
+          "rune_deck_red": [],
+          "deck_blue": [],
+          "deck_red": [
+            "red_scout"
+          ],
+          "trash_blue": [
+            "spell_shockblast"
+          ],
+          "trash_red": [
+            "red_bruiser"
+          ],
+          "stack": []
+        },
+        "metadata": {
+          "format": "Riftbound TCG - Quickstart inspired",
+          "source": "https://riftbound.leagueoflegends.com/en-us/how-to-play/",
+          "rulesProfile": "riftbound-1v1-v1",
+          "battlefieldCount": 2,
+          "targetScore": 8,
+          "score": {
+            "blue": 8,
+            "red": 7
+          },
+          "control": {
+            "battlefield_north": "blue",
+            "battlefield_south": "blue"
+          }
+        }
+      }
+    },
+    {
+      "event": {
+        "id": "evt_7",
+        "action": {
+          "type": "WIN_GAME",
+          "playerId": "blue",
+          "payload": {
+            "winnerId": "blue",
+            "finalScore": {
+              "blue": 8,
+              "red": 7
+            },
+            "targetScore": 8
+          },
+          "timestamp": 4700
+        },
+        "timestamp": 4700,
+        "playerId": "blue"
+      },
+      "snapshot": {
+        "id": "riftbound_demo_match_1v1",
+        "players": [
+          {
+            "id": "blue",
+            "name": "Blue - Jinx",
+            "health": 20,
+            "resources": [
+              {
+                "type": "RUNE",
+                "amount": 2,
+                "max": 12
+              }
+            ],
+            "hand": [
+              "blue_rocket"
+            ],
+            "deck": [],
+            "discard": [
+              "spell_shockblast"
+            ],
+            "zones": {}
+          },
+          {
+            "id": "red",
+            "name": "Red - Viktor",
+            "health": 20,
+            "resources": [
+              {
+                "type": "RUNE",
+                "amount": 2,
+                "max": 12
+              }
+            ],
+            "hand": [
+              "spell_emp_burst"
+            ],
+            "deck": [
+              "red_scout"
+            ],
+            "discard": [
+              "red_bruiser"
+            ],
+            "zones": {}
+          }
+        ],
+        "currentPhase": "GAME_END",
+        "currentPlayer": "blue",
+        "turn": 5,
+        "entities": {
+          "bf_north": {
+            "id": "bf_north",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "bf_north",
+                "metadata": {
+                  "id": "bf_north",
+                  "name": "North Battlefield",
+                  "description": "Score if you control this battlefield at end of turn.",
+                  "cost": 0,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "battlefield",
+                    "faction": "neutral"
+                  }
+                }
+              }
+            ]
+          },
+          "bf_south": {
+            "id": "bf_south",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "bf_south",
+                "metadata": {
+                  "id": "bf_south",
+                  "name": "South Battlefield",
+                  "description": "Score if you control this battlefield at end of turn.",
+                  "cost": 0,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "battlefield",
+                    "faction": "neutral"
+                  }
+                }
+              }
+            ]
+          },
+          "legend_jinx": {
+            "id": "legend_jinx",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "legend_jinx",
+                "metadata": {
+                  "id": "legend_jinx",
+                  "name": "Legend: Jinx",
+                  "description": "Blue legend anchoring aggro pressure.",
+                  "cost": 0,
+                  "rarity": "legendary",
+                  "metadata": {
+                    "cardType": "legend",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "legend_viktor": {
+            "id": "legend_viktor",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "legend_viktor",
+                "metadata": {
+                  "id": "legend_viktor",
+                  "name": "Legend: Viktor",
+                  "description": "Red legend enabling control lines.",
+                  "cost": 0,
+                  "rarity": "legendary",
+                  "metadata": {
+                    "cardType": "legend",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_vanguard": {
+            "id": "blue_vanguard",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_vanguard",
+                "metadata": {
+                  "id": "blue_vanguard",
+                  "name": "Zaun Vanguard",
+                  "description": "Unit holding base before deploy.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_sniper": {
+            "id": "blue_sniper",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_sniper",
+                "metadata": {
+                  "id": "blue_sniper",
+                  "name": "Pow-Pow Sniper",
+                  "description": "Ranged unit that can pressure open lanes.",
+                  "cost": 3,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_rocket": {
+            "id": "blue_rocket",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_rocket",
+                "metadata": {
+                  "id": "blue_rocket",
+                  "name": "Super Mega Rocket Team",
+                  "description": "Late push finisher unit.",
+                  "cost": 4,
+                  "rarity": "epic",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "blue_rune_spark": {
+            "id": "blue_rune_spark",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "blue_rune_spark",
+                "metadata": {
+                  "id": "blue_rune_spark",
+                  "name": "Spark Rune",
+                  "description": "Bank this rune to increase your rune count.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "red_bruiser": {
+            "id": "red_bruiser",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "red_bruiser",
+                "metadata": {
+                  "id": "red_bruiser",
+                  "name": "Chemtech Bruiser",
+                  "description": "Defender currently controlling north battlefield.",
+                  "cost": 3,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "red_scout": {
+            "id": "red_scout",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "red_scout",
+                "metadata": {
+                  "id": "red_scout",
+                  "name": "Hex Scout",
+                  "description": "Flexible skirmish unit from deck.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "unit",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "spell_shockblast": {
+            "id": "spell_shockblast",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "spell_shockblast",
+                "metadata": {
+                  "id": "spell_shockblast",
+                  "name": "Shockblast",
+                  "description": "Deal enough damage to remove a unit from battlefield.",
+                  "cost": 2,
+                  "rarity": "rare",
+                  "metadata": {
+                    "cardType": "spell",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "spell_emp_burst": {
+            "id": "spell_emp_burst",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "spell_emp_burst",
+                "metadata": {
+                  "id": "spell_emp_burst",
+                  "name": "EMP Burst",
+                  "description": "Control spell held by red player.",
+                  "cost": 2,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "spell",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_1": {
+            "id": "rune_blue_1",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_1",
+                "metadata": {
+                  "id": "rune_blue_1",
+                  "name": "Blue Rune I",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_2": {
+            "id": "rune_blue_2",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_2",
+                "metadata": {
+                  "id": "rune_blue_2",
+                  "name": "Blue Rune II",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_blue_3": {
+            "id": "rune_blue_3",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_blue_3",
+                "metadata": {
+                  "id": "rune_blue_3",
+                  "name": "Blue Rune III",
+                  "description": "Newly banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "blue"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_red_1": {
+            "id": "rune_red_1",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_red_1",
+                "metadata": {
+                  "id": "rune_red_1",
+                  "name": "Red Rune I",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          },
+          "rune_red_2": {
+            "id": "rune_red_2",
+            "type": "card",
+            "components": [
+              {
+                "componentType": "CARD",
+                "entityId": "rune_red_2",
+                "metadata": {
+                  "id": "rune_red_2",
+                  "name": "Red Rune II",
+                  "description": "Banked rune resource.",
+                  "cost": 0,
+                  "rarity": "common",
+                  "metadata": {
+                    "cardType": "rune",
+                    "faction": "red"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "zones": {
+          "battlefield_north": [
+            "bf_north"
+          ],
+          "battlefield_south": [
+            "bf_south",
+            "blue_sniper"
+          ],
+          "champion_blue": [
+            "legend_jinx"
+          ],
+          "champion_red": [
+            "legend_viktor"
+          ],
+          "base_blue": [
+            "blue_vanguard"
+          ],
+          "base_red": [],
+          "runes_blue": [
+            "rune_blue_1",
+            "rune_blue_2",
+            "rune_blue_3"
+          ],
+          "runes_red": [
+            "rune_red_1",
+            "rune_red_2"
+          ],
+          "rune_deck_blue": [],
+          "rune_deck_red": [],
+          "deck_blue": [],
+          "deck_red": [
+            "red_scout"
+          ],
+          "trash_blue": [
+            "spell_shockblast"
+          ],
+          "trash_red": [
+            "red_bruiser"
+          ],
+          "stack": []
+        },
+        "metadata": {
+          "format": "Riftbound TCG - Quickstart inspired",
+          "source": "https://riftbound.leagueoflegends.com/en-us/how-to-play/",
+          "rulesProfile": "riftbound-1v1-v1",
+          "battlefieldCount": 2,
+          "targetScore": 8,
+          "score": {
+            "blue": 8,
+            "red": 7
+          },
+          "control": {
+            "battlefield_north": "blue",
+            "battlefield_south": "blue"
+          },
+          "winner": "blue"
+        }
       }
     }
   ]
