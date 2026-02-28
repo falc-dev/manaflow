@@ -5,6 +5,23 @@ export { GameEngine } from './game-engine';
 export { ReplayEngine } from './replay-engine';
 export { YamlLoader } from './serialization/yaml-loader';
 export { JsonLoader } from './serialization/json-loader';
+export {
+  ReplayValidationError,
+  parseReplayData,
+  parseReplayJson,
+  parseReplayYaml,
+  validateReplayData,
+  validateReplayJson,
+  validateReplayYaml
+} from './serialization/validation';
+export type {
+  ReplayValidationFailure,
+  ReplayValidationIssue,
+  ReplayValidationOptions,
+  ReplayValidationResult,
+  ReplayValidationSuccess
+} from './serialization/validation';
+export { collectReplayProfileIssues, validateReplayProfile } from './serialization/profile-validation';
 export { createAction, createInitialState, deepClone, generateUUID } from './utils';
 
 export function loadReplayFromYaml(yaml: string) {

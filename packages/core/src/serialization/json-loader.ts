@@ -1,14 +1,18 @@
 import { ReplayEngine } from '../replay-engine';
-import { ReplaySchema } from './schema';
+import { ReplayValidationError, parseReplayJson } from './validation';
 
 export class JsonLoader {
   static loadReplay(jsonString: string): ReplayEngine {
     try {
-      const parsedJson = JSON.parse(jsonString);
-      const parsed = ReplaySchema.parse(parsedJson);
+      const parsed = parseReplayJson(jsonString, { normalizeRiftboundAliases: true });
       return new ReplayEngine(parsed.initialState, parsed.events);
     } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
+      const message =
+        error instanceof ReplayValidationError
+          ? error.issues.map((issue) => `${issue.path}: ${issue.message}`).join('; ')
+          : error instanceof Error
+            ? error.message
+            : String(error);
       throw new Error(`Invalid replay JSON: ${message}`);
     }
   }
