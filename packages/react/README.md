@@ -377,6 +377,7 @@ const store = createReactReplayStore(replayEngine, {
 import { loadDemoReplay } from '@manaflow/react';
 
 const replay = await loadDemoReplay('/replay.demo.json');
+// `loadDemoReplay` autodetects json/jsonc/yaml/ndjson payloads.
 
 // Optional: reuse an already fetched payload to avoid a second network request.
 const replayFromPayload = await loadDemoReplay('/replay.demo.json', {

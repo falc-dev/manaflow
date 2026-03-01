@@ -1,4 +1,4 @@
-import { ReplayEngine } from '@manaflow/core';
+import { loadReplay, ReplayEngine } from '@manaflow/core';
 
 export interface LoadDemoReplayOptions {
   payload?: string;
@@ -6,7 +6,7 @@ export interface LoadDemoReplayOptions {
 
 export async function loadDemoReplay(url: string, options: LoadDemoReplayOptions = {}): Promise<ReplayEngine> {
   if (typeof options.payload === 'string') {
-    return ReplayEngine.fromJson(options.payload);
+    return loadReplay(options.payload);
   }
 
   const response = await fetch(url);
@@ -14,5 +14,5 @@ export async function loadDemoReplay(url: string, options: LoadDemoReplayOptions
     throw new Error(`Cannot load replay demo: ${response.status}`);
   }
   const payload = await response.text();
-  return ReplayEngine.fromJson(payload);
+  return loadReplay(payload);
 }

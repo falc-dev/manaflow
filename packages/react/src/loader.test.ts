@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { ReplayEngine } from '@manaflow/core';
+import * as core from '@manaflow/core';
 import { loadDemoReplay } from './loader';
 
 describe('loadDemoReplay', () => {
@@ -7,8 +7,8 @@ describe('loadDemoReplay', () => {
     vi.restoreAllMocks();
   });
 
-  it('loads replay JSON through ReplayEngine.fromJson', async () => {
-    const fromJson = vi.spyOn(ReplayEngine, 'fromJson').mockReturnValue({} as ReplayEngine);
+  it('loads replay payload through core loadReplay autodetection', async () => {
+    const loadReplay = vi.spyOn(core, 'loadReplay').mockReturnValue({} as core.ReplayEngine);
     vi.stubGlobal(
       'fetch',
       vi.fn().mockResolvedValue({
@@ -19,17 +19,17 @@ describe('loadDemoReplay', () => {
 
     const replay = await loadDemoReplay('/replay.demo.json');
     expect(replay).toBeDefined();
-    expect(fromJson).toHaveBeenCalledWith('{"schemaVersion":1}');
+    expect(loadReplay).toHaveBeenCalledWith('{"schemaVersion":1}');
   });
 
   it('loads replay from provided payload without fetching', async () => {
-    const fromJson = vi.spyOn(ReplayEngine, 'fromJson').mockReturnValue({} as ReplayEngine);
+    const loadReplay = vi.spyOn(core, 'loadReplay').mockReturnValue({} as core.ReplayEngine);
     const fetchMock = vi.fn();
     vi.stubGlobal('fetch', fetchMock);
 
     const replay = await loadDemoReplay('/replay.demo.json', { payload: '{"schemaVersion":1}' });
     expect(replay).toBeDefined();
-    expect(fromJson).toHaveBeenCalledWith('{"schemaVersion":1}');
+    expect(loadReplay).toHaveBeenCalledWith('{"schemaVersion":1}');
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
