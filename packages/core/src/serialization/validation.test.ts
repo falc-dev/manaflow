@@ -50,7 +50,7 @@ function createReplayWithLegacyAliases() {
         runes_red: [],
         rune_deck_blue: [],
         rune_deck_red: [],
-        graveyard: [],
+        trash_blue: [],
         trash_red: [],
         stack: []
       },
@@ -115,7 +115,7 @@ function createReplayWithLegacyAliases() {
             runes_red: [],
             rune_deck_blue: [],
             rune_deck_red: [],
-            graveyard: [],
+            trash_blue: [],
             trash_red: [],
             stack: []
           },
@@ -152,6 +152,22 @@ describe('Replay validation utilities', () => {
     expect(replay.initialState.zones.champion_red).toEqual([]);
     expect(replay.initialState.zones.trash_blue).toEqual([]);
     expect(replay.events[0].event.action.payload.to).toBe('battlefield_north');
+  });
+
+  it('does not rewrite ambiguous graveyard aliases into player trash zones', () => {
+    const legacy = createReplayWithLegacyAliases();
+    delete legacy.initialState.zones.trash_blue;
+    legacy.initialState.zones.graveyard = [];
+    delete legacy.events[0].snapshot.zones.trash_blue;
+    legacy.events[0].snapshot.zones.graveyard = [];
+
+    const result = validateReplayJson(JSON.stringify(legacy), { normalizeRiftboundAliases: true });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.issues.some((issue) => issue.path.includes('.zones') && issue.message.includes('trash_blue'))).toBe(
+        true
+      );
+    }
   });
 
   it('supports JSONC payloads with comments and trailing commas', () => {

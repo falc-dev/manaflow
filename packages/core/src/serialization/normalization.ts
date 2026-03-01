@@ -6,8 +6,7 @@ const ZONE_ALIASES: Record<string, string> = {
   battlefield_bot: 'battlefield_south',
   battlefield_mid: 'battlefield_south',
   blue_base: 'champion_blue',
-  red_base: 'champion_red',
-  graveyard: 'trash_blue'
+  red_base: 'champion_red'
 };
 
 function canonicalizeZoneId(zoneId: string): string {
