@@ -5,7 +5,8 @@ import {
   parseReplayNdjson,
   validateReplayJson,
   validateReplayJsonc,
-  validateReplayNdjson
+  validateReplayNdjson,
+  validateReplayYaml
 } from './validation';
 
 function createReplayWithLegacyAliases() {
@@ -241,6 +242,14 @@ describe('Replay validation utilities', () => {
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.issues[0].source).toBe('ndjson');
+    }
+  });
+
+  it('reports YAML parse errors with yaml source', () => {
+    const result = validateReplayYaml('schemaVersion: [');
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.issues[0].source).toBe('yaml');
     }
   });
 });

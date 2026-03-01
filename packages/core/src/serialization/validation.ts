@@ -7,7 +7,7 @@ import { ReplaySchema, ReplaySchemaType } from './schema';
 export interface ReplayValidationIssue {
   path: string;
   message: string;
-  source: 'schema' | 'profile' | 'json' | 'jsonc' | 'ndjson';
+  source: 'schema' | 'profile' | 'json' | 'jsonc' | 'ndjson' | 'yaml';
 }
 
 export interface ReplayValidationOptions {
@@ -321,7 +321,7 @@ export function validateReplayYaml(
     }
     return {
       ok: false,
-      issues: [{ path: 'root', message: error instanceof Error ? error.message : String(error), source: 'schema' }]
+      issues: [{ path: 'root', message: error instanceof Error ? error.message : String(error), source: 'yaml' }]
     };
   }
 }

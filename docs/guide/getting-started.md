@@ -61,6 +61,9 @@ Para validar antes de renderizar:
 import { validateReplayJson, validateReplayJsonc, validateReplayNdjson, validateReplayYaml } from '@manaflow/core';
 ```
 
+Cada issue de validacion incluye `path`, `message` y `source`, donde `source` puede ser:
+`schema`, `profile`, `json`, `jsonc`, `ndjson` o `yaml`.
+
 ## 5) Renderiza rapido en React
 
 ```tsx
