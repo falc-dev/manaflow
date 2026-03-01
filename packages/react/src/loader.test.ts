@@ -22,6 +22,17 @@ describe('loadDemoReplay', () => {
     expect(fromJson).toHaveBeenCalledWith('{"schemaVersion":1}');
   });
 
+  it('loads replay from provided payload without fetching', async () => {
+    const fromJson = vi.spyOn(ReplayEngine, 'fromJson').mockReturnValue({} as ReplayEngine);
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+
+    const replay = await loadDemoReplay('/replay.demo.json', { payload: '{"schemaVersion":1}' });
+    expect(replay).toBeDefined();
+    expect(fromJson).toHaveBeenCalledWith('{"schemaVersion":1}');
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
   it('throws when fetch fails', async () => {
     vi.stubGlobal(
       'fetch',

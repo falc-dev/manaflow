@@ -377,6 +377,11 @@ const store = createReactReplayStore(replayEngine, {
 import { loadDemoReplay } from '@manaflow/react';
 
 const replay = await loadDemoReplay('/replay.demo.json');
+
+// Optional: reuse an already fetched payload to avoid a second network request.
+const replayFromPayload = await loadDemoReplay('/replay.demo.json', {
+  payload: replayJsonString
+});
 ```
 
 ## Hook (recommended)

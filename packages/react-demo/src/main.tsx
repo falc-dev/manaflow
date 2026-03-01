@@ -691,7 +691,7 @@ function App() {
           throw new Error('Replay validation failed');
         }
 
-        const replay = await loadDemoReplay(replayUrl);
+        const replay = await loadDemoReplay(replayUrl, { payload: replayRaw });
 
         const timelinePayload = JSON.parse(replayRaw) as DemoReplayPayload;
         activeStore = createReactReplayStore(replay);

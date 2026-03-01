@@ -63,6 +63,7 @@ export type {
 } from './player-field';
 
 export { loadDemoReplay } from './loader';
+export type { LoadDemoReplayOptions } from './loader';
 export { validateReplayJson } from '@manaflow/core';
 export type { ReplayValidationIssue, ReplayValidationResult } from '@manaflow/core';
 
