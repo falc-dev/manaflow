@@ -262,7 +262,7 @@ function parseNdjson(ndjsonString: string): unknown {
     return first;
   }
 
-  if (hasReplayEvents && first.events.length > 0) {
+  if (hasReplayEvents && (first.events as unknown[]).length > 0) {
     throw new Error('NDJSON header cannot include events when additional event lines are present');
   }
 

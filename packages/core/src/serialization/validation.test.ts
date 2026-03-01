@@ -157,10 +157,13 @@ describe('Replay validation utilities', () => {
 
   it('does not rewrite ambiguous graveyard aliases into player trash zones', () => {
     const legacy = createReplayWithLegacyAliases();
-    delete legacy.initialState.zones.trash_blue;
-    legacy.initialState.zones.graveyard = [];
-    delete legacy.events[0].snapshot.zones.trash_blue;
-    legacy.events[0].snapshot.zones.graveyard = [];
+    const initialZones = legacy.initialState.zones as Record<string, string[]>;
+    delete initialZones.trash_blue;
+    initialZones.graveyard = [];
+
+    const eventZones = legacy.events[0].snapshot.zones as Record<string, string[]>;
+    delete eventZones.trash_blue;
+    eventZones.graveyard = [];
 
     const result = validateReplayJson(JSON.stringify(legacy), { normalizeRiftboundAliases: true });
     expect(result.ok).toBe(false);
