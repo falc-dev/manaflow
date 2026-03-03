@@ -26,6 +26,23 @@ export function ReplayPage() {
 }
 ```
 
+## Quick start from URL
+
+```tsx
+import { ReplayPlayer, useReplayBootstrap } from '@manaflow/react';
+import '@manaflow/react/styles.css';
+
+export function ReplayPage() {
+  const { loading, error, store } = useReplayBootstrap('/replay.demo.json', {
+    normalizeRiftboundAliases: true
+  });
+
+  if (loading) return <p>Loading replay…</p>;
+  if (error || !store) return <p>Unable to load replay</p>;
+  return <ReplayPlayer store={store} showTimeline />;
+}
+```
+
 ## ReplayPlayer props
 
 ```tsx

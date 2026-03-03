@@ -66,6 +66,10 @@ export { loadDemoReplay } from './loader';
 export type { LoadDemoReplayOptions } from './loader';
 export { validateReplayJson } from '@manaflow/core';
 export type { ReplayValidationIssue, ReplayValidationResult } from '@manaflow/core';
+export { createReplayStoreFromUrl, ReplayBootstrapError } from './bootstrap';
+export type { CreateReplayStoreFromUrlOptions, ReplayStoreBootstrapResult } from './bootstrap';
+export { useReplayBootstrap } from './use-replay-bootstrap';
+export type { UseReplayBootstrapResult } from './use-replay-bootstrap';
 
 export { mountReplayDemo } from './demo';
 export type { ReplayDemoHandle, ReplayDemoOptions } from './demo';
