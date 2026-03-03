@@ -1,10 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
-  buildReplayMarkers,
-  createReactReplayStore,
-  loadDemoReplay,
-  validateReplayJson,
   ReplayControls,
   ReplayOnboardingLegend,
   ReplayTimeline,
@@ -14,6 +10,7 @@ import {
   useReplayStore
 } from '@manaflow/react';
 import type { ReplayValidationIssue } from '@manaflow/react';
+import { bootstrapReplay, ReplayBootstrapError } from './replay-bootstrap';
 import '@manaflow/react/styles.css';
 import './main.css';
 
@@ -31,16 +28,6 @@ interface ScoreboardInfo {
   blue: number;
   red: number;
   target: number;
-}
-
-interface DemoReplayPayload {
-  events?: Array<{
-    event?: {
-      action?: {
-        type?: unknown;
-      };
-    };
-  }>;
 }
 
 function toRecord(value: unknown): Record<string, unknown> | null {
@@ -679,22 +666,8 @@ function App() {
 
     const bootstrap = async () => {
       try {
-        const replayUrl = '/replay.demo.json';
-        const timelineResponse = await fetch(replayUrl);
-        if (!timelineResponse.ok) {
-          throw new Error(`Cannot load replay payload: ${timelineResponse.status}`);
-        }
-        const replayRaw = await timelineResponse.text();
-        const validation = validateReplayJson(replayRaw, { normalizeRiftboundAliases: true });
-        if (!validation.ok) {
-          setValidationIssues(validation.issues);
-          throw new Error('Replay validation failed');
-        }
-
-        const replay = await loadDemoReplay(replayUrl, { payload: replayRaw });
-
-        const timelinePayload = JSON.parse(replayRaw) as DemoReplayPayload;
-        activeStore = createReactReplayStore(replay);
+        const replayData = await bootstrapReplay('/replay.demo.json');
+        activeStore = replayData.store;
 
         if (disposed) {
           activeStore.destroy();
@@ -702,20 +675,11 @@ function App() {
         }
 
         setStore(activeStore);
-        setFrameMarkers(
-          buildReplayMarkers(timelinePayload.events ?? [], {
-            actionLabels: {
-              DRAW_TO_FOUR: 'Draw To Four',
-              BANK_RUNE: 'Bank Rune',
-              DEPLOY_UNIT: 'Deploy Unit',
-              CAST_SPELL: 'Cast Spell',
-              END_TURN: 'End Turn',
-              SCORE_BATTLEFIELDS: 'Score Battlefields',
-              WIN_GAME: 'Win Game'
-            }
-          })
-        );
+        setFrameMarkers(replayData.frameMarkers);
       } catch (err) {
+        if (err instanceof ReplayBootstrapError) {
+          setValidationIssues(err.issues);
+        }
         const message = err instanceof Error ? err.message : String(err);
         if (!disposed) {
           setError(`Failed to load replay demo: ${message}`);
