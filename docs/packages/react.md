@@ -56,6 +56,7 @@ const store = createReactReplayStore(replay);
 | `onNext` | `() => void` | requerida | Handler del boton `Next`. |
 | `onTogglePlay` | `() => void` | requerida | Handler de `Play/Pause`. |
 | `onSeek` | `(frame: number) => void` | requerida | Handler del slider de frames. |
+| `labels` | `ReplayControlsLabels` | defaults | Labels opcionales para accesibilidad (`previous`, `next`, `play`, `pause`, `frameSlider`). |
 | `className` | `string` | `undefined` | Clase extra del root del control. |
 
 ### `ReplayViewport`

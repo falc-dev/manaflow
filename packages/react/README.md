@@ -83,6 +83,7 @@ import type { ReplayControlsProps } from '@manaflow/react';
 | `onSeek` | `(frame: number) => void` | required | Called when user moves the frame slider. |
 | `onPlaybackRateChange` | `(rate: number) => void` | `undefined` | Called when a speed preset is selected. |
 | `className` | `string` | `undefined` | Extra class for controls root element. |
+| `labels` | `ReplayControlsLabels` | defaults | Optional accessibility labels (`previous`, `next`, `play`, `pause`, `frameSlider`). |
 
 ## ReplayTimeline props
 

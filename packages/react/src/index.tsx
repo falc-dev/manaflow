@@ -11,7 +11,7 @@ export { useReplayStore } from './use-replay-store-react';
 export { ReplayPlayer } from './components/replay-player';
 export type { ReplayPlayerProps } from './components/replay-player';
 export { ReplayControls } from './components/replay-controls';
-export type { ReplayControlsProps } from './components/replay-controls';
+export type { ReplayControlsLabels, ReplayControlsProps } from './components/replay-controls';
 export { ReplayTimeline } from './components/replay-timeline';
 export type { ReplayTimelineProps, ReplayTimelineRenderContext } from './components/replay-timeline';
 export { ReplayOnboardingLegend } from './components/replay-onboarding-legend';
