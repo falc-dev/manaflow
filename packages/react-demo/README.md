@@ -20,7 +20,7 @@ Executable browser demo that replays a Riftbound-style match using `@manaflow/re
 1. One `demo-dual-playmat` surface renders two playmat grids (top and bottom) without visual rotation.
 2. A central battlefield band visualizes contested lanes and control state.
 3. `ReplayControls` + `useReplayStore` drive deterministic frame playback.
-4. Replay loading/validation/bootstrap lives in `src/replay-bootstrap.ts` to keep `main.tsx` focused on UI.
+4. Replay loading/bootstrap now uses `useReplayBootstrap` from `@manaflow/react` via `src/hooks/use-demo-replay.ts`.
 
 ## Styling
 
