@@ -17,6 +17,7 @@ Motor base de juego y replay.
 - `loadReplayFromNdjson(ndjson)`
 - `loadReplayFromYaml(yaml)`
 - `loadReplay(payload, format?)` (autodetect)
+- `validateReplayPresetCompatibility(replay, preset)` (comprobacion replay vs preset UI)
 - `JsonLoader`, `JsoncLoader`, `NdjsonLoader`, `YamlLoader`, `ReplayLoader`
 
 ## Ejemplo

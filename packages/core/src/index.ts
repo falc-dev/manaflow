@@ -33,6 +33,13 @@ export type {
   ReplayValidationSuccess
 } from './serialization/validation';
 export { collectReplayProfileIssues, validateReplayProfile } from './serialization/profile-validation';
+export { validateReplayPresetCompatibility } from './serialization/preset-validation';
+export type {
+  ReplayPresetCompatibilityIssue,
+  ReplayPresetCompatibilityResult,
+  ReplayUiPreset,
+  ReplayUiPresetZone
+} from './serialization/preset-validation';
 export { createAction, createInitialState, deepClone, generateUUID } from './utils';
 
 export function loadReplayFromYaml(yaml: string) {

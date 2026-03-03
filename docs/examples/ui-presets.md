@@ -75,3 +75,16 @@ import { ReplayDuelLayout } from '@manaflow/react';
 - Este formato es deliberadamente simple y versionado (`schemaVersion`).
 - No reemplaza el schema de replay (`schemaVersion: 1` en el replay). Lo complementa para UI.
 - Permite tener presets base por juego (Riftbound/Magic) y evolucionarlos sin romper replays.
+
+## Validar compatibilidad replay + preset
+
+Antes de renderizar, puedes comprobar si el preset referencia zonas presentes en el replay:
+
+```ts
+import { validateReplayPresetCompatibility } from '@manaflow/core';
+
+const compatibility = validateReplayPresetCompatibility(replayData, preset);
+if (!compatibility.ok) {
+  console.error(compatibility.issues); // [{ code, path, message }]
+}
+```
