@@ -14,7 +14,8 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "pnpm --filter @manaflow/core exec vitest run --root ../game-logic"
   },
   "dependencies": {
     "@manaflow/types": "workspace:*"
