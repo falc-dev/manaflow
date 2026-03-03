@@ -16,6 +16,7 @@ describe('ReplayLoader', () => {
     },
     events: []
   });
+  const prettyJsonPayload = JSON.stringify(JSON.parse(jsonPayload), null, 2);
 
   const jsoncPayload = `
     {
@@ -64,7 +65,7 @@ describe('ReplayLoader', () => {
       zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
       metadata: {}
     }
-  })}\n`;
+  })}`;
 
   const yamlPayload = `
 schemaVersion: 1
@@ -87,6 +88,11 @@ events: []
 
   it('auto-detects JSON', () => {
     const replay = ReplayLoader.loadReplay(jsonPayload);
+    expect(replay.getCurrentState().id).toBe('game_json');
+  });
+
+  it('auto-detects pretty JSON', () => {
+    const replay = ReplayLoader.loadReplay(prettyJsonPayload);
     expect(replay.getCurrentState().id).toBe('game_json');
   });
 
