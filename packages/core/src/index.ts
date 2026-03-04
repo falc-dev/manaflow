@@ -42,22 +42,27 @@ export type {
 } from './serialization/preset-validation';
 export { createAction, createInitialState, deepClone, generateUUID } from './utils';
 
+/** Loads replay data from YAML into a `ReplayEngine`. */
 export function loadReplayFromYaml(yaml: string) {
   return YamlLoader.loadReplay(yaml);
 }
 
+/** Loads replay data from JSON into a `ReplayEngine`. */
 export function loadReplayFromJson(json: string) {
   return JsonLoader.loadReplay(json);
 }
 
+/** Loads replay data from JSONC into a `ReplayEngine`. */
 export function loadReplayFromJsonc(jsonc: string) {
   return JsoncLoader.loadReplay(jsonc);
 }
 
+/** Loads replay data from NDJSON into a `ReplayEngine`. */
 export function loadReplayFromNdjson(ndjson: string) {
   return NdjsonLoader.loadReplay(ndjson);
 }
 
+/** Loads replay data using explicit or auto-detected serialization format. */
 export function loadReplay(payload: string, format?: ReplaySerializationFormat) {
   return ReplayLoader.loadReplay(payload, format);
 }

@@ -1,7 +1,9 @@
 import { ReplayEngine } from '../replay-engine';
 import { ReplayValidationError, parseReplayJson } from './validation';
 
+/** JSON loader that validates payloads before creating a `ReplayEngine`. */
 export class JsonLoader {
+  /** Parses and validates replay JSON. Throws a normalized human-readable error on failure. */
   static loadReplay(jsonString: string): ReplayEngine {
     try {
       const parsed = parseReplayJson(jsonString, { normalizeRiftboundAliases: true });

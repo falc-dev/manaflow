@@ -11,6 +11,7 @@ export interface ReplayValidationIssue {
 }
 
 export interface ReplayValidationOptions {
+  /** Normalizes known legacy Riftbound zone aliases before profile checks. */
   normalizeRiftboundAliases?: boolean;
 }
 
@@ -26,6 +27,7 @@ export interface ReplayValidationFailure {
 
 export type ReplayValidationResult = ReplayValidationSuccess | ReplayValidationFailure;
 
+/** Thrown by parse helpers when payload validation fails. */
 export class ReplayValidationError extends Error {
   readonly issues: ReplayValidationIssue[];
 
@@ -72,6 +74,7 @@ export function validateReplayData(data: unknown, options: ReplayValidationOptio
   return parseAndValidateReplay(data, options);
 }
 
+/** Validates and returns parsed replay data; throws on failure. */
 export function parseReplayData(data: unknown, options: ReplayValidationOptions = {}): ReplaySchemaType {
   const result = validateReplayData(data, options);
   if (!result.ok) {
@@ -80,6 +83,7 @@ export function parseReplayData(data: unknown, options: ReplayValidationOptions 
   return result.replay;
 }
 
+/** Validates replay payload in strict JSON format. */
 export function validateReplayJson(
   jsonString: string,
   options: ReplayValidationOptions = {}
@@ -98,6 +102,7 @@ export function validateReplayJson(
   }
 }
 
+/** Parses replay JSON payload and throws `ReplayValidationError` if invalid. */
 export function parseReplayJson(jsonString: string, options: ReplayValidationOptions = {}): ReplaySchemaType {
   const result = validateReplayJson(jsonString, options);
   if (!result.ok) {
@@ -213,6 +218,7 @@ function parseJsonc(jsoncString: string): unknown {
   return JSON.parse(normalized);
 }
 
+/** Validates replay payload in JSONC format (comments and trailing commas supported). */
 export function validateReplayJsonc(
   jsoncString: string,
   options: ReplayValidationOptions = {}
@@ -231,6 +237,7 @@ export function validateReplayJsonc(
   }
 }
 
+/** Parses replay JSONC payload and throws `ReplayValidationError` if invalid. */
 export function parseReplayJsonc(jsoncString: string, options: ReplayValidationOptions = {}): ReplaySchemaType {
   const result = validateReplayJsonc(jsoncString, options);
   if (!result.ok) {
@@ -282,6 +289,7 @@ function parseNdjson(ndjsonString: string): unknown {
   };
 }
 
+/** Validates replay payload in NDJSON format (header line + frame lines). */
 export function validateReplayNdjson(
   ndjsonString: string,
   options: ReplayValidationOptions = {}
@@ -300,6 +308,7 @@ export function validateReplayNdjson(
   }
 }
 
+/** Parses replay NDJSON payload and throws `ReplayValidationError` if invalid. */
 export function parseReplayNdjson(ndjsonString: string, options: ReplayValidationOptions = {}): ReplaySchemaType {
   const result = validateReplayNdjson(ndjsonString, options);
   if (!result.ok) {
@@ -308,6 +317,7 @@ export function parseReplayNdjson(ndjsonString: string, options: ReplayValidatio
   return result.replay;
 }
 
+/** Validates replay payload in YAML format. */
 export function validateReplayYaml(
   yamlString: string,
   options: ReplayValidationOptions = {}
@@ -326,6 +336,7 @@ export function validateReplayYaml(
   }
 }
 
+/** Parses replay YAML payload and throws `ReplayValidationError` if invalid. */
 export function parseReplayYaml(yamlString: string, options: ReplayValidationOptions = {}): ReplaySchemaType {
   const result = validateReplayYaml(yamlString, options);
   if (!result.ok) {

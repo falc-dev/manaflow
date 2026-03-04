@@ -6,6 +6,7 @@ import { YamlLoader } from './yaml-loader';
 
 export type ReplaySerializationFormat = 'json' | 'jsonc' | 'yaml' | 'ndjson';
 
+/** Heuristic format detection used when caller does not pass an explicit format. */
 function detectFormat(payload: string): ReplaySerializationFormat {
   const trimmed = payload.trimStart();
 
@@ -44,7 +45,13 @@ function detectFormat(payload: string): ReplaySerializationFormat {
   return 'yaml';
 }
 
+/** Unified loader entry point for replay payloads in supported serialization formats. */
 export class ReplayLoader {
+  /**
+   * Loads a replay payload into `ReplayEngine`.
+   *
+   * If `format` is omitted, it is inferred with `detectFormat`.
+   */
   static loadReplay(payload: string, format?: ReplaySerializationFormat): ReplayEngine {
     const resolvedFormat = format ?? detectFormat(payload);
     switch (resolvedFormat) {
