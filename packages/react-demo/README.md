@@ -1,26 +1,27 @@
 # @manaflow/react-demo
 
-Executable browser demo that replays a Riftbound-style match using `@manaflow/react` headless store + UI components.
+Executable browser demo that includes progressive examples for `@manaflow/react`, from basic usage to advanced custom UI.
 
-## What this demo showcases
+## Progressive examples
 
-- Quickstart-inspired match flow: draw to four, bank runes, deploy units, end-turn battlefield scoring.
-- Two stacked playmats (top/bottom) plus a shared battlefield band for 1v1.
-- Official-skin visual tokens via optional `replay-skin-official` class.
-- Guided vs detailed visual mode toggle for onboarding.
-- Controlled playback with `ReplayControls` + `useReplayStore`.
-- `useReplayStore` for frame-by-frame rule explanations and scoreboard updates.
-- `ReplayTimeline` + `buildReplayMarkers` for direct frame navigation.
-- Custom zone and card rendering (`renderZoneTitle`, `renderCard`) including battlefield control chips.
-- Score race metadata (`targetScore`, lane control state) rendered in a side panel.
-- Replay validation on load with field-level issues surfaced in UI when JSON is invalid.
+1. `01-basic-controls`: `ReplayPlayer` with minimal setup.
+2. `02-custom-render`: headless state (`useReplayStore`) + custom `ReplayViewport` rendering.
+3. `03-timeline-markers`: timeline markers and autoplay controls.
+4. `04-advanced-riftbound`: full Riftbound experience with side panel, guided mode, custom board and score race.
 
-## Layout architecture
+Example selection is available in-app and also by query param:
+
+`/?example=01-basic-controls`
+`/?example=02-custom-render`
+`/?example=03-timeline-markers`
+`/?example=04-advanced-riftbound`
+
+## Advanced layout architecture (example 04)
 
 1. One `demo-dual-playmat` surface renders two playmat grids (top and bottom) without visual rotation.
 2. A central battlefield band visualizes contested lanes and control state.
 3. `ReplayControls` + `useReplayStore` drive deterministic frame playback.
-4. Replay loading/bootstrap now uses `useReplayBootstrap` from `@manaflow/react` via `src/hooks/use-demo-replay.ts`.
+4. Replay loading/bootstrap uses `useReplayBootstrap` from `@manaflow/react` via `src/hooks/use-demo-replay.ts`.
 
 ## Styling
 
