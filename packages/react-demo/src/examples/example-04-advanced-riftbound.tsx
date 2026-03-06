@@ -1,7 +1,16 @@
 import { useEffect, useState } from 'react';
-import { ReplayControls, ReplayOnboardingLegend, ReplayTimeline, ReplayTimelineMarker, ReactReplayStore, useReplayStore } from '@manaflow/react';
+import {
+  ConnectedReplayControls,
+  ConnectedReplayTimeline,
+  ManaflowProvider,
+  ReplayBootstrapBoundary,
+  ReplayOnboardingLegend,
+  ReplayTimelineMarker,
+  useManaflowState,
+  useManaflowStore,
+  useReplayPlaybackController
+} from '@manaflow/react';
 import { useDemoReplay } from '../hooks/use-demo-replay';
-import { useReplayPlayback } from '../hooks/use-replay-playback';
 import {
   PlayerZones,
   canonicalizeZoneId,
@@ -23,9 +32,9 @@ import {
 const BATTLEFIELD_ZONE_IDS = ['battlefield_north', 'battlefield_south'] as const;
 const PLAYMAT_RULER_MARKS = [8, 7, 6, 5, 4, 3, 2, 1, 0] as const;
 
-function DemoExperience({ store, frameMarkers }: { store: ReactReplayStore; frameMarkers: ReplayTimelineMarker[] }) {
-  const state = useReplayStore(store);
-  const { playing, setPlaying, playbackRate, setPlaybackRate } = useReplayPlayback(store);
+function DemoExperience({ frameMarkers }: { frameMarkers: ReplayTimelineMarker[] }) {
+  const store = useManaflowStore();
+  const { state, playing, setPlaying, playbackRate, setPlaybackRate } = useReplayPlaybackController(store);
   const [isFrameTransitioning, setIsFrameTransitioning] = useState(false);
   const [showBoardGuide, setShowBoardGuide] = useState(true);
   const [visualMode, setVisualMode] = useState<'guided' | 'detailed'>('guided');
@@ -189,10 +198,8 @@ function DemoExperience({ store, frameMarkers }: { store: ReactReplayStore; fram
 
         <div className="demo-panel__group">
           <h3 className="demo-panel__group-title">Timeline</h3>
-          <ReplayTimeline
-            state={state}
+          <ConnectedReplayTimeline
             markers={frameMarkers}
-            onSeek={(frame) => store.seek(frame)}
             className="demo-panel__timeline"
             renderMarker={({ marker, isActive }) => {
               const tone = getActionTone(marker.actionType);
@@ -328,17 +335,13 @@ function DemoExperience({ store, frameMarkers }: { store: ReactReplayStore; fram
         </section>
 
         <section className="demo-controls" aria-label="Replay controls">
-          <ReplayControls
+          <ConnectedReplayControls
             className="demo-controls__bar"
-            state={state}
-            isPlaying={playing}
+            playing={playing}
+            onPlayingChange={(nextPlaying) => setPlaying(nextPlaying)}
             playbackRate={playbackRate}
-            playbackRateOptions={[0.5, 1, 2]}
-            onPrevious={() => store.previous()}
-            onNext={() => store.next()}
-            onTogglePlay={() => setPlaying((value) => !value)}
-            onSeek={(frame) => store.seek(frame)}
             onPlaybackRateChange={(rate) => setPlaybackRate(rate)}
+            playbackRateOptions={[0.5, 1, 2]}
           />
           <p className="demo-controls__timeline">
             {`Turn ${state.frame.snapshot.turn} · ${state.frame.snapshot.currentPhase} · ${getPlayerName(
@@ -353,28 +356,21 @@ function DemoExperience({ store, frameMarkers }: { store: ReactReplayStore; fram
 }
 
 export function Example04AdvancedRiftbound() {
-  const { loading, errorMessage, validationIssues, store, frameMarkers } = useDemoReplay('/replay.demo.json');
+  const replay = useDemoReplay('/replay.demo.json');
 
-  if (errorMessage) {
-    return (
-      <section className="error" role="alert">
-        <p>{errorMessage}</p>
-        {validationIssues.length > 0 ? (
-          <ul className="error__issues">
-            {validationIssues.map((issue, index) => (
-              <li key={`${issue.path}-${index}`}>
-                {issue.path}: {issue.message}
-              </li>
-            ))}
-          </ul>
-        ) : null}
-      </section>
-    );
-  }
-
-  if (loading || !store) {
-    return <p className="replay-player replay-player--loading">Loading Riftbound replay...</p>;
-  }
-
-  return <DemoExperience store={store} frameMarkers={frameMarkers} />;
+  return (
+    <ReplayBootstrapBoundary
+      loading={replay.loading}
+      error={replay.error}
+      validationIssues={replay.validationIssues}
+      store={replay.store}
+      loadingFallback={<p className="replay-player replay-player--loading">Loading Riftbound replay...</p>}
+    >
+      {(store) => (
+        <ManaflowProvider store={store}>
+          <DemoExperience frameMarkers={replay.frameMarkers} />
+        </ManaflowProvider>
+      )}
+    </ReplayBootstrapBoundary>
+  );
 }
