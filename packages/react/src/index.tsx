@@ -7,13 +7,25 @@ export type { CreateReactReplayStoreOptions, ReactReplayState, ReactReplayStore 
 export { createUseReplayStore } from './use-replay-store';
 export type { UseSyncExternalStore } from './use-replay-store';
 export { useReplayStore } from './use-replay-store-react';
+export { ManaflowProvider, useManaflowStore, useManaflowState } from './manaflow-context';
+export type { ManaflowProviderProps } from './manaflow-context';
+export { useReplayPlaybackController } from './use-replay-playback-controller';
+export type {
+  ReplayLoopRange,
+  UseReplayPlaybackControllerOptions,
+  UseReplayPlaybackControllerResult
+} from './use-replay-playback-controller';
 
 export { ReplayPlayer } from './components/replay-player';
 export type { ReplayPlayerProps } from './components/replay-player';
 export { ReplayControls } from './components/replay-controls';
 export type { ReplayControlsLabels, ReplayControlsProps } from './components/replay-controls';
+export { ConnectedReplayControls } from './components/connected-replay-controls';
+export type { ConnectedReplayControlsProps } from './components/connected-replay-controls';
 export { ReplayTimeline } from './components/replay-timeline';
 export type { ReplayTimelineProps, ReplayTimelineRenderContext } from './components/replay-timeline';
+export { ConnectedReplayTimeline } from './components/connected-replay-timeline';
+export type { ConnectedReplayTimelineProps } from './components/connected-replay-timeline';
 export { ReplayOnboardingLegend } from './components/replay-onboarding-legend';
 export type {
   ReplayOnboardingLegendItem,
@@ -51,6 +63,10 @@ export type {
   ReplayViewportZoneConfig,
   ReplayViewportZoneTitleRenderContext
 } from './components/replay-viewport';
+export { ConnectedReplayViewport } from './components/connected-replay-viewport';
+export type { ConnectedReplayViewportProps } from './components/connected-replay-viewport';
+export { ReplayBootstrapBoundary } from './components/replay-bootstrap-boundary';
+export type { ReplayBootstrapBoundaryProps } from './components/replay-bootstrap-boundary';
 export { buildReplayMarkers, getReplayActionLabel } from './replay-markers';
 export type { BuildReplayMarkersOptions, ReplayMarkerInput, ReplayTimelineMarker } from './replay-markers';
 export { selectPlayerField, selectPlayerFields } from './player-field';

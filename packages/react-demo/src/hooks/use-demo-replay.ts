@@ -13,6 +13,7 @@ const DEMO_ACTION_LABELS: Record<string, string> = {
 
 export interface UseDemoReplayResult {
   loading: boolean;
+  error: Error | null;
   errorMessage: string;
   validationIssues: ReplayValidationIssue[];
   store: ReturnType<typeof useReplayBootstrap>['store'];
@@ -30,9 +31,12 @@ export function useDemoReplay(replayUrl: string): UseDemoReplayResult {
 
   const { loading, error, validationIssues, store, frameMarkers } = useReplayBootstrap(replayUrl, options);
 
+  const errorMessage = error ? `Failed to load replay demo: ${error.message}` : '';
+
   return {
     loading,
-    errorMessage: error ? `Failed to load replay demo: ${error.message}` : '',
+    error,
+    errorMessage,
     validationIssues,
     store,
     frameMarkers

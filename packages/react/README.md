@@ -43,6 +43,40 @@ export function ReplayPage() {
 }
 ```
 
+## Context-first composition (optional)
+
+```tsx
+import {
+  ConnectedReplayControls,
+  ConnectedReplayTimeline,
+  ConnectedReplayViewport,
+  ManaflowProvider,
+  ReplayBootstrapBoundary,
+  useReplayBootstrap
+} from '@manaflow/react';
+
+export function ReplayPage() {
+  const replay = useReplayBootstrap('/replay.demo.json');
+
+  return (
+    <ReplayBootstrapBoundary
+      loading={replay.loading}
+      error={replay.error}
+      validationIssues={replay.validationIssues}
+      store={replay.store}
+    >
+      {(store) => (
+        <ManaflowProvider store={store}>
+          <ConnectedReplayControls playbackRateOptions={[0.5, 1, 2]} />
+          <ConnectedReplayTimeline markers={replay.frameMarkers} />
+          <ConnectedReplayViewport />
+        </ManaflowProvider>
+      )}
+    </ReplayBootstrapBoundary>
+  );
+}
+```
+
 ## ReplayPlayer props
 
 ```tsx
