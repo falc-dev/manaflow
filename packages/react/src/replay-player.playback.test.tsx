@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ReactReplayState, ReactReplayStore } from './store';
 
 const mockedState: ReactReplayState = {
@@ -62,6 +62,8 @@ vi.mock('./components/replay-timeline', () => ({
 
 import { ReplayPlayer } from './components/replay-player';
 
+const originalDocument = (globalThis as { document?: unknown }).document;
+
 function createStoreMock(overrides: Partial<ReactReplayStore> = {}): ReactReplayStore {
   const stateRef = { ...mockedState };
   return {
@@ -78,6 +80,10 @@ function createStoreMock(overrides: Partial<ReactReplayStore> = {}): ReactReplay
 }
 
 describe('ReplayPlayer playback controls', () => {
+  afterEach(() => {
+    (globalThis as { document?: unknown }).document = originalDocument;
+  });
+
   it('uses playbackRate to compute autoplay interval', () => {
     const setIntervalMock = vi.fn(() => 1);
     const clearIntervalMock = vi.fn();
@@ -159,5 +165,38 @@ describe('ReplayPlayer playback controls', () => {
     expect(store.next).toHaveBeenCalledTimes(1);
     expect(onReachEnd).toHaveBeenCalledTimes(1);
     expect(onPlayingChange).toHaveBeenCalledWith(false);
+  });
+
+  it('wraps autoplay updates in View Transition when supported', () => {
+    const setIntervalMock = vi.fn((callback: () => void) => {
+      callback();
+      return 1;
+    });
+    const clearIntervalMock = vi.fn();
+    (globalThis as unknown as { window: { setInterval: typeof setInterval; clearInterval: typeof clearInterval } }).window =
+      {
+        setInterval: setIntervalMock as unknown as typeof setInterval,
+        clearInterval: clearIntervalMock as unknown as typeof clearInterval
+      };
+
+    const startViewTransition = vi.fn((callback: () => void) => {
+      callback();
+      return {};
+    });
+    (globalThis as unknown as { document: { startViewTransition: (callback: () => void) => unknown } }).document = {
+      startViewTransition
+    };
+
+    const store = createStoreMock({
+      next: vi.fn(() => mockedState.frame)
+    });
+
+    ReplayPlayer({
+      store,
+      playing: true
+    });
+
+    expect(startViewTransition).toHaveBeenCalled();
+    expect(store.next).toHaveBeenCalledTimes(1);
   });
 });

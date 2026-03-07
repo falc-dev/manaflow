@@ -33,7 +33,7 @@ import { ReplayPlayer, useReplayBootstrap } from '@manaflow/react';
 import '@manaflow/react/styles.css';
 
 export function ReplayPage() {
-  const { loading, error, store } = useReplayBootstrap('/replay.demo.json', {
+  const { loading, error, store } = useReplayBootstrap('/demo.replay.json', {
     normalizeRiftboundAliases: true
   });
 
@@ -56,7 +56,7 @@ import {
 } from '@manaflow/react';
 
 export function ReplayPage() {
-  const replay = useReplayBootstrap('/replay.demo.json');
+  const replay = useReplayBootstrap('/demo.replay.json');
 
   return (
     <ReplayBootstrapBoundary
@@ -115,6 +115,7 @@ import type { ReplayPlayerProps } from '@manaflow/react';
 | `timelineFormatter` | `(snapshot: GameSnapshot) => string` | built-in formatter | Timeline text renderer. |
 | `renderCard` | `(context: ReplayViewportCardRenderContext) => ReactNode` | built-in card | Card content renderer override. |
 | `renderZoneTitle` | `(context: ReplayViewportZoneTitleRenderContext) => ReactNode` | zone title | Zone title renderer override. |
+| `viewTransitions` | `boolean` | `true` | Wraps replay frame changes in `document.startViewTransition` when available. |
 
 ## ReplayControls props
 
@@ -168,6 +169,7 @@ import type { ReplayViewportProps } from '@manaflow/react';
 | `renderZoneTitle` | `(context: ReplayViewportZoneTitleRenderContext) => ReactNode` | zone title | Zone title renderer override. |
 | `className` | `string` | `undefined` | Extra class for viewport root element. |
 | `cardClassName` | `string` | `undefined` | Extra class for every card node. |
+| `viewTransitions` | `boolean` | `true` | Assigns stable `view-transition-name` values to cards so zone moves animate. |
 
 ### Related viewport types
 
@@ -428,11 +430,11 @@ const store = createReactReplayStore(replayEngine, {
 ```ts
 import { loadDemoReplay } from '@manaflow/react';
 
-const replay = await loadDemoReplay('/replay.demo.json');
+const replay = await loadDemoReplay('/demo.replay.json');
 // `loadDemoReplay` autodetects json/jsonc/yaml/ndjson payloads.
 
 // Optional: reuse an already fetched payload to avoid a second network request.
-const replayFromPayload = await loadDemoReplay('/replay.demo.json', {
+const replayFromPayload = await loadDemoReplay('/demo.replay.json', {
   payload: replayJsonString
 });
 ```

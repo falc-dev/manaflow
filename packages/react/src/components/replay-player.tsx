@@ -3,6 +3,7 @@ import { GameSnapshot } from '@manaflow/types';
 import { ReactReplayState, ReactReplayStore } from '../store';
 import { ReplayTimelineMarker } from '../replay-markers';
 import { useReplayPlaybackController } from '../use-replay-playback-controller';
+import { runWithOptionalViewTransition } from '../view-transitions';
 import { ReplayControls } from './replay-controls';
 import { ReplayTimeline, ReplayTimelineRenderContext } from './replay-timeline';
 import {
@@ -44,6 +45,7 @@ export interface ReplayPlayerProps {
   timelineFormatter?: (snapshot: GameSnapshot) => string;
   renderCard?: (context: ReplayViewportCardRenderContext) => ReactNode;
   renderZoneTitle?: (context: ReplayViewportZoneTitleRenderContext) => ReactNode;
+  viewTransitions?: boolean;
 }
 
 function joinClassNames(...parts: Array<string | undefined>): string {
@@ -80,7 +82,8 @@ export function ReplayPlayer({
   zones,
   timelineFormatter,
   renderCard,
-  renderZoneTitle
+  renderZoneTitle,
+  viewTransitions = true
 }: ReplayPlayerProps) {
   const { state, playing, playbackRate: safePlaybackRate, togglePlaying, setPlaybackRate } =
     useReplayPlaybackController(store, {
@@ -93,7 +96,8 @@ export function ReplayPlayer({
       onPlaybackRateChange,
       loop,
       loopRange,
-      onReachEnd
+      onReachEnd,
+      viewTransitions
     });
   const previousFrameRef = useRef(state.currentFrame);
 
@@ -127,10 +131,34 @@ export function ReplayPlayer({
         isPlaying={playing}
         playbackRate={safePlaybackRate}
         playbackRateOptions={playbackRateOptions}
-        onPrevious={() => store.previous()}
-        onNext={() => store.next()}
+        onPrevious={() => {
+          if (viewTransitions) {
+            runWithOptionalViewTransition(() => {
+              store.previous();
+            });
+            return;
+          }
+          store.previous();
+        }}
+        onNext={() => {
+          if (viewTransitions) {
+            runWithOptionalViewTransition(() => {
+              store.next();
+            });
+            return;
+          }
+          store.next();
+        }}
         onTogglePlay={togglePlaying}
-        onSeek={(frame) => store.seek(frame)}
+        onSeek={(frame) => {
+          if (viewTransitions) {
+            runWithOptionalViewTransition(() => {
+              store.seek(frame);
+            });
+            return;
+          }
+          store.seek(frame);
+        }}
         onPlaybackRateChange={(rate) => setPlaybackRate(rate)}
       />
       {timelinePosition === 'beforeViewport' ? timelineNode : null}
@@ -143,6 +171,7 @@ export function ReplayPlayer({
         timelineFormatter={timelineFormatter}
         renderCard={renderCard}
         renderZoneTitle={renderZoneTitle}
+        viewTransitions={viewTransitions}
       />
       {timelinePosition === 'afterViewport' ? timelineNode : null}
     </div>

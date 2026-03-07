@@ -1,0 +1,10 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "**/*.replay.json"
+      ],
+      "url": "./schemas/replay.schema.json"
+    }
+  ]
+}

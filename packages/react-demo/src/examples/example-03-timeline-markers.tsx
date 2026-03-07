@@ -47,7 +47,7 @@ function Example03Content({ frameMarkers }: { frameMarkers: ReplayTimelineMarker
 }
 
 export function Example03TimelineMarkers() {
-  const replay = useDemoReplay('/replay.demo.json');
+  const replay = useDemoReplay('/demo.replay.json');
 
   return (
     <ReplayBootstrapBoundary

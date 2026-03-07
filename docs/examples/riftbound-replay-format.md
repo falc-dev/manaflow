@@ -75,6 +75,7 @@ Acciones tipicas:
 
 - `DRAW_TO_FOUR`
 - `BANK_RUNE`
+- `MOVE_ENTITY` (generica, recomendada para traslados entre zonas)
 - `DEPLOY_UNIT`
 - `CAST_SPELL`
 - `END_TURN`
@@ -90,6 +91,8 @@ Payload recomendado para movimientos:
   "to": "base_blue"
 }
 ```
+
+`DEPLOY_UNIT` puede mantenerse como alias semantico de despliegue inicial (por ejemplo, desde `hand`), pero para movimientos internos entre zonas se recomienda `MOVE_ENTITY`.
 
 Para resoluciones con objetivo:
 

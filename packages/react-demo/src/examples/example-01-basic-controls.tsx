@@ -3,7 +3,7 @@ import { useDemoReplay } from '../hooks/use-demo-replay';
 import { RIFTBOUND_TUTORIAL_ZONES } from './riftbound-zones';
 
 export function Example01BasicControls() {
-  const replay = useDemoReplay('/replay.demo.json');
+  const replay = useDemoReplay('/demo.replay.json');
 
   return (
     <ReplayBootstrapBoundary

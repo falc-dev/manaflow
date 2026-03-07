@@ -1,6 +1,7 @@
 import { Card, GameSnapshot, ZoneId } from '@manaflow/types';
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import { ReactReplayState } from '../store';
+import { getReplayCardViewTransitionName } from '../view-transitions';
 
 export interface ReplayViewportProps {
   state: ReactReplayState;
@@ -11,6 +12,7 @@ export interface ReplayViewportProps {
   renderZoneTitle?: (context: ReplayViewportZoneTitleRenderContext) => ReactNode;
   className?: string;
   cardClassName?: string;
+  viewTransitions?: boolean;
 }
 
 export type ReplayViewportLayout = 'stacked' | 'board';
@@ -62,7 +64,8 @@ export function ReplayViewport({
   renderCard,
   renderZoneTitle,
   className,
-  cardClassName
+  cardClassName,
+  viewTransitions = true
 }: ReplayViewportProps) {
   const snapshot = state.frame.snapshot;
   const eventId = state.frame.event?.id;
@@ -99,8 +102,16 @@ export function ReplayViewport({
             <div className="replay-player__zone-rail" data-zone-id={zone.id}>
               {entityIds.map((entityId) => {
                 const card = getCardMetadata(entityId, snapshot);
+                const cardStyle = viewTransitions
+                  ? ({ viewTransitionName: getReplayCardViewTransitionName(entityId) } as CSSProperties)
+                  : undefined;
                 return (
-                  <div key={entityId} className={joinClassNames('replay-player__card', cardClassName)} role="article">
+                  <div
+                    key={entityId}
+                    className={joinClassNames('replay-player__card', cardClassName)}
+                    role="article"
+                    style={cardStyle}
+                  >
                     {renderCard ? (
                       renderCard({
                         entityId,

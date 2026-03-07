@@ -5,6 +5,7 @@ Coleccion de ejemplos practicos para integrar Manaflow en distintos niveles.
 ## Flujo base
 
 - [Guia paso a paso para replay TCG (Riftbound + Magic)](./tcg-replay-step-by-step)
+- [Schema del replay (v1)](./replay-schema)
 - [Crear y navegar un replay con @manaflow/core](./core-replay)
 - [Usar store agnostico con @manaflow/replay-runtime](./runtime-store)
 

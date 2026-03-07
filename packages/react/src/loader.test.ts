@@ -17,7 +17,7 @@ describe('loadDemoReplay', () => {
       })
     );
 
-    const replay = await loadDemoReplay('/replay.demo.json');
+    const replay = await loadDemoReplay('/demo.replay.json');
     expect(replay).toBeDefined();
     expect(loadReplay).toHaveBeenCalledWith('{"schemaVersion":1}');
   });
@@ -27,7 +27,7 @@ describe('loadDemoReplay', () => {
     const fetchMock = vi.fn();
     vi.stubGlobal('fetch', fetchMock);
 
-    const replay = await loadDemoReplay('/replay.demo.json', { payload: '{"schemaVersion":1}' });
+    const replay = await loadDemoReplay('/demo.replay.json', { payload: '{"schemaVersion":1}' });
     expect(replay).toBeDefined();
     expect(loadReplay).toHaveBeenCalledWith('{"schemaVersion":1}');
     expect(fetchMock).not.toHaveBeenCalled();

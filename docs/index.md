@@ -27,6 +27,7 @@ pnpm docs:dev
 - Ver seccion completa: [Ejemplos](/examples/)
 - Quick links:
   - [Guia TCG paso a paso (Riftbound + Magic)](/examples/tcg-replay-step-by-step)
+  - [Schema del replay (v1)](/examples/replay-schema)
   - [Core Replay](/examples/core-replay)
   - [Runtime Store](/examples/runtime-store)
   - [React Player](/examples/react-player)

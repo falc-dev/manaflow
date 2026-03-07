@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { ReplayFrame } from '@manaflow/core';
 import { ReactReplayState, ReactReplayStore } from './store';
 import { useReplayStore } from './use-replay-store-react';
+import { runWithOptionalViewTransition } from './view-transitions';
 
 export interface ReplayLoopRange {
   from: number;
@@ -18,6 +20,7 @@ export interface UseReplayPlaybackControllerOptions {
   loop?: boolean;
   loopRange?: ReplayLoopRange;
   onReachEnd?: (state: ReactReplayState) => void;
+  viewTransitions?: boolean;
 }
 
 export interface UseReplayPlaybackControllerResult {
@@ -60,7 +63,8 @@ export function useReplayPlaybackController(
     onPlaybackRateChange,
     loop = false,
     loopRange,
-    onReachEnd
+    onReachEnd,
+    viewTransitions = true
   }: UseReplayPlaybackControllerOptions = {}
 ): UseReplayPlaybackControllerResult {
   const state = useReplayStore(store);
@@ -116,10 +120,22 @@ export function useReplayPlaybackController(
         latestState.currentFrame > loopBounds.to ||
         latestState.currentFrame === loopBounds.to
       ) {
-        store.seek(loopBounds.from);
+        if (viewTransitions) {
+          runWithOptionalViewTransition(() => {
+            store.seek(loopBounds.from);
+          });
+        } else {
+          store.seek(loopBounds.from);
+        }
       }
     } else if (!latestState.canStepForward && latestState.totalFrames > 1) {
-      store.seek(0);
+      if (viewTransitions) {
+        runWithOptionalViewTransition(() => {
+          store.seek(0);
+        });
+      } else {
+        store.seek(0);
+      }
     }
 
     const timer = window.setInterval(() => {
@@ -127,18 +143,46 @@ export function useReplayPlaybackController(
 
       if (loop) {
         if (nextState.currentFrame >= loopBounds.to) {
-          store.seek(loopBounds.from);
+          if (viewTransitions) {
+            runWithOptionalViewTransition(() => {
+              store.seek(loopBounds.from);
+            });
+          } else {
+            store.seek(loopBounds.from);
+          }
           return;
         }
 
-        const next = store.next();
+        const next = viewTransitions
+          ? (() => {
+              let frame: ReplayFrame | null = null;
+              runWithOptionalViewTransition(() => {
+                frame = store.next();
+              });
+              return frame;
+            })()
+          : store.next();
         if (!next) {
-          store.seek(loopBounds.from);
+          if (viewTransitions) {
+            runWithOptionalViewTransition(() => {
+              store.seek(loopBounds.from);
+            });
+          } else {
+            store.seek(loopBounds.from);
+          }
         }
         return;
       }
 
-      const next = store.next();
+      const next = viewTransitions
+        ? (() => {
+            let frame: ReplayFrame | null = null;
+            runWithOptionalViewTransition(() => {
+              frame = store.next();
+            });
+            return frame;
+          })()
+        : store.next();
       if (!next) {
         onReachEnd?.(store.getState());
         setPlaying(false);
@@ -148,7 +192,7 @@ export function useReplayPlaybackController(
     return () => {
       window.clearInterval(timer);
     };
-  }, [playing, playbackIntervalMs, store, loop, loopBounds.from, loopBounds.to, onReachEnd]);
+  }, [playing, playbackIntervalMs, store, loop, loopBounds.from, loopBounds.to, onReachEnd, viewTransitions]);
 
   return {
     state,

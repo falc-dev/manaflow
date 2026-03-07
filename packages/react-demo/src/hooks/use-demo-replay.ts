@@ -5,6 +5,7 @@ const DEMO_ACTION_LABELS: Record<string, string> = {
   DRAW_TO_FOUR: 'Draw To Four',
   BANK_RUNE: 'Bank Rune',
   DEPLOY_UNIT: 'Deploy Unit',
+  MOVE_ENTITY: 'Move Entity',
   CAST_SPELL: 'Cast Spell',
   END_TURN: 'End Turn',
   SCORE_BATTLEFIELDS: 'Score Battlefields',

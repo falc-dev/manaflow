@@ -356,7 +356,7 @@ function DemoExperience({ frameMarkers }: { frameMarkers: ReplayTimelineMarker[]
 }
 
 export function Example04AdvancedRiftbound() {
-  const replay = useDemoReplay('/replay.demo.json');
+  const replay = useDemoReplay('/demo.replay.json');
 
   return (
     <ReplayBootstrapBoundary

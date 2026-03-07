@@ -1,0 +1,847 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://manaflow.dev/schemas/replay.schema.json",
+  "title": "Manaflow Replay",
+  "description": "Schema v1 for Manaflow replay payloads.",
+  "markdownDescription": "Versioned replay contract for Manaflow (`schemaVersion: 1`). Includes initial snapshot + event frames.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "initialState",
+    "events"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "The schema to verify this document against.",
+      "examples": [
+        "../../../schemas/replay.schema.json"
+      ]
+    },
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1,
+      "description": "Replay schema version.",
+      "markdownDescription": "Stable replay schema version. Must be `1`.",
+      "examples": [
+        1
+      ]
+    },
+    "initialState": {
+      "$ref": "#/$defs/snapshot",
+      "description": "Snapshot before applying any event."
+    },
+    "events": {
+      "type": "array",
+      "description": "Ordered replay frames. Each item stores the triggering event and resulting snapshot.",
+      "items": {
+        "$ref": "#/$defs/replayFrame"
+      }
+    }
+  },
+  "$defs": {
+    "resource": {
+      "type": "object",
+      "description": "Player resource bucket (mana, rune, etc.).",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "amount"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "examples": [
+            "MANA",
+            "RUNE"
+          ]
+        },
+        "amount": {
+          "type": "number",
+          "examples": [
+            2
+          ]
+        },
+        "max": {
+          "type": "number",
+          "examples": [
+            12
+          ]
+        }
+      }
+    },
+    "player": {
+      "type": "object",
+      "description": "Player state embedded in a snapshot.",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "health",
+        "resources",
+        "hand",
+        "deck",
+        "discard",
+        "zones"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "examples": [
+            "blue"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "examples": [
+            "Blue - Jinx"
+          ]
+        },
+        "health": {
+          "type": "number",
+          "examples": [
+            20
+          ]
+        },
+        "resources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/resource"
+          }
+        },
+        "hand": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "deck": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "discard": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "zones": {
+          "type": "object",
+          "description": "Optional per-player zone map (usually empty in v1 snapshots).",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "gameComponent": {
+      "type": "object",
+      "description": "ECS-style component attached to an entity.",
+      "additionalProperties": false,
+      "required": [
+        "componentType",
+        "entityId"
+      ],
+      "properties": {
+        "componentType": {
+          "type": "string",
+          "examples": [
+            "CARD"
+          ]
+        },
+        "entityId": {
+          "type": "string",
+          "examples": [
+            "blue_sniper"
+          ]
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "entity": {
+      "type": "object",
+      "description": "Entity registry entry (card/player/marker/token).",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "components"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "examples": [
+            "blue_sniper"
+          ]
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "card",
+            "player",
+            "marker",
+            "token"
+          ]
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/gameComponent"
+          }
+        },
+        "owner": {
+          "type": "string",
+          "description": "Owner player id when applicable.",
+          "examples": [
+            "blue"
+          ]
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "snapshot": {
+      "type": "object",
+      "description": "Complete game state at a given frame.",
+      "markdownDescription": "A **full snapshot** after applying an event.",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "players",
+        "currentPhase",
+        "currentPlayer",
+        "turn",
+        "entities",
+        "zones",
+        "metadata"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "examples": [
+            "riftbound_demo_match_1v1"
+          ]
+        },
+        "players": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/player"
+          }
+        },
+        "currentPhase": {
+          "type": "string",
+          "description": "Current turn phase label from the rules profile.",
+          "examples": [
+            "MAIN",
+            "END",
+            "DRAW",
+            "GAME_END"
+          ]
+        },
+        "currentPlayer": {
+          "type": "string",
+          "examples": [
+            "blue"
+          ]
+        },
+        "turn": {
+          "type": "number",
+          "examples": [
+            4
+          ]
+        },
+        "entities": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/entity"
+          }
+        },
+        "zones": {
+          "type": "object",
+          "description": "Global zone map. Each key is a zone id and values are ordered entity ids.",
+          "examples": [
+            {
+              "battlefield_south": [
+                "bf_south",
+                "blue_sniper"
+              ],
+              "trash_blue": [
+                "spell_shockblast"
+              ]
+            }
+          ],
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Rules/profile-specific metadata (score, control, winner, etc.).",
+          "additionalProperties": true
+        }
+      }
+    },
+    "actionPayloadDrawToFour": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "cardId",
+        "from",
+        "to",
+        "targetHandSize"
+      ],
+      "properties": {
+        "cardId": {
+          "type": "string"
+        },
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "targetHandSize": {
+          "type": "number"
+        }
+      }
+    },
+    "actionPayloadBankRune": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "cardId",
+        "runeId",
+        "from",
+        "to",
+        "resourceDelta"
+      ],
+      "properties": {
+        "cardId": {
+          "type": "string"
+        },
+        "runeId": {
+          "type": "string"
+        },
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "resourceDelta": {
+          "type": "number"
+        },
+        "producedCardId": {
+          "type": "string",
+          "description": "When rune banking transforms a hand card into a rune entity, this references the produced entity id."
+        }
+      }
+    },
+    "actionPayloadZoneMove": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "cardId",
+        "from",
+        "to"
+      ],
+      "properties": {
+        "cardId": {
+          "type": "string"
+        },
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        }
+      }
+    },
+    "actionPayloadCastSpell": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "cardId",
+        "from",
+        "to"
+      ],
+      "properties": {
+        "cardId": {
+          "type": "string"
+        },
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "targetId": {
+          "type": "string"
+        },
+        "targetFrom": {
+          "type": "string"
+        },
+        "targetTo": {
+          "type": "string"
+        }
+      }
+    },
+    "actionPayloadEndTurn": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "actionPayloadScoreBattlefields": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "controlledBattlefields",
+        "pointsGained",
+        "fromScore",
+        "toScore",
+        "targetScore"
+      ],
+      "properties": {
+        "controlledBattlefields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pointsGained": {
+          "type": "number"
+        },
+        "fromScore": {
+          "type": "number"
+        },
+        "toScore": {
+          "type": "number"
+        },
+        "targetScore": {
+          "type": "number"
+        }
+      }
+    },
+    "actionPayloadWinGame": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "winnerId",
+        "finalScore",
+        "targetScore"
+      ],
+      "properties": {
+        "winnerId": {
+          "type": "string"
+        },
+        "finalScore": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "targetScore": {
+          "type": "number"
+        }
+      }
+    },
+    "actionTypedDrawToFour": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "playerId",
+        "payload",
+        "timestamp"
+      ],
+      "properties": {
+        "type": {
+          "const": "DRAW_TO_FOUR"
+        },
+        "playerId": {
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/actionPayloadDrawToFour"
+        },
+        "timestamp": {
+          "type": "number"
+        }
+      }
+    },
+    "actionTypedBankRune": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "playerId",
+        "payload",
+        "timestamp"
+      ],
+      "properties": {
+        "type": {
+          "const": "BANK_RUNE"
+        },
+        "playerId": {
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/actionPayloadBankRune"
+        },
+        "timestamp": {
+          "type": "number"
+        }
+      }
+    },
+    "actionTypedDeployUnit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "playerId",
+        "payload",
+        "timestamp"
+      ],
+      "properties": {
+        "type": {
+          "const": "DEPLOY_UNIT"
+        },
+        "playerId": {
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/actionPayloadZoneMove"
+        },
+        "timestamp": {
+          "type": "number"
+        }
+      }
+    },
+    "actionTypedMoveEntity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "playerId",
+        "payload",
+        "timestamp"
+      ],
+      "properties": {
+        "type": {
+          "const": "MOVE_ENTITY"
+        },
+        "playerId": {
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/actionPayloadZoneMove"
+        },
+        "timestamp": {
+          "type": "number"
+        }
+      }
+    },
+    "actionTypedRepositionUnit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "playerId",
+        "payload",
+        "timestamp"
+      ],
+      "properties": {
+        "type": {
+          "const": "REPOSITION_UNIT"
+        },
+        "playerId": {
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/actionPayloadZoneMove"
+        },
+        "timestamp": {
+          "type": "number"
+        }
+      }
+    },
+    "actionTypedRetreatUnit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "playerId",
+        "payload",
+        "timestamp"
+      ],
+      "properties": {
+        "type": {
+          "const": "RETREAT_UNIT"
+        },
+        "playerId": {
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/actionPayloadZoneMove"
+        },
+        "timestamp": {
+          "type": "number"
+        }
+      }
+    },
+    "actionTypedCastSpell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "playerId",
+        "payload",
+        "timestamp"
+      ],
+      "properties": {
+        "type": {
+          "const": "CAST_SPELL"
+        },
+        "playerId": {
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/actionPayloadCastSpell"
+        },
+        "timestamp": {
+          "type": "number"
+        }
+      }
+    },
+    "actionTypedEndTurn": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "playerId",
+        "payload",
+        "timestamp"
+      ],
+      "properties": {
+        "type": {
+          "const": "END_TURN"
+        },
+        "playerId": {
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/actionPayloadEndTurn"
+        },
+        "timestamp": {
+          "type": "number"
+        }
+      }
+    },
+    "actionTypedScoreBattlefields": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "playerId",
+        "payload",
+        "timestamp"
+      ],
+      "properties": {
+        "type": {
+          "const": "SCORE_BATTLEFIELDS"
+        },
+        "playerId": {
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/actionPayloadScoreBattlefields"
+        },
+        "timestamp": {
+          "type": "number"
+        }
+      }
+    },
+    "actionTypedWinGame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "playerId",
+        "payload",
+        "timestamp"
+      ],
+      "properties": {
+        "type": {
+          "const": "WIN_GAME"
+        },
+        "playerId": {
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/actionPayloadWinGame"
+        },
+        "timestamp": {
+          "type": "number"
+        }
+      }
+    },
+    "actionFallbackCustom": {
+      "type": "object",
+      "description": "Fallback action shape for custom profiles/actions not listed above.",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "playerId",
+        "payload",
+        "timestamp"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "not": {
+            "enum": [
+              "DRAW_TO_FOUR",
+              "BANK_RUNE",
+              "DEPLOY_UNIT",
+              "MOVE_ENTITY",
+              "REPOSITION_UNIT",
+              "RETREAT_UNIT",
+              "CAST_SPELL",
+              "END_TURN",
+              "SCORE_BATTLEFIELDS",
+              "WIN_GAME"
+            ]
+          }
+        },
+        "playerId": {
+          "type": "string"
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "timestamp": {
+          "type": "number"
+        }
+      }
+    },
+    "action": {
+      "description": "Action that produced the frame snapshot. Known `type` values provide typed payload IntelliSense.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/actionTypedDrawToFour"
+        },
+        {
+          "$ref": "#/$defs/actionTypedBankRune"
+        },
+        {
+          "$ref": "#/$defs/actionTypedDeployUnit"
+        },
+        {
+          "$ref": "#/$defs/actionTypedMoveEntity"
+        },
+        {
+          "$ref": "#/$defs/actionTypedRepositionUnit"
+        },
+        {
+          "$ref": "#/$defs/actionTypedRetreatUnit"
+        },
+        {
+          "$ref": "#/$defs/actionTypedCastSpell"
+        },
+        {
+          "$ref": "#/$defs/actionTypedEndTurn"
+        },
+        {
+          "$ref": "#/$defs/actionTypedScoreBattlefields"
+        },
+        {
+          "$ref": "#/$defs/actionTypedWinGame"
+        },
+        {
+          "$ref": "#/$defs/actionFallbackCustom"
+        }
+      ]
+    },
+    "replayEvent": {
+      "type": "object",
+      "description": "Replay event metadata + action.",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "action",
+        "timestamp",
+        "playerId"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "examples": [
+            "evt_3"
+          ]
+        },
+        "action": {
+          "$ref": "#/$defs/action"
+        },
+        "timestamp": {
+          "type": "number",
+          "description": "Event time in milliseconds.",
+          "examples": [
+            2300
+          ]
+        },
+        "playerId": {
+          "type": "string",
+          "examples": [
+            "blue"
+          ]
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "replayFrame": {
+      "type": "object",
+      "description": "A single frame: event + resulting snapshot.",
+      "additionalProperties": false,
+      "required": [
+        "event",
+        "snapshot"
+      ],
+      "properties": {
+        "event": {
+          "$ref": "#/$defs/replayEvent"
+        },
+        "snapshot": {
+          "$ref": "#/$defs/snapshot"
+        }
+      }
+    }
+  }
+}

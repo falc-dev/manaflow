@@ -191,9 +191,9 @@ export function getEventExplanation(state: ReactReplayState): { title: string; d
     };
   }
 
-  if (actionType === 'DEPLOY_UNIT' && movement) {
+  if ((actionType === 'DEPLOY_UNIT' || actionType === 'MOVE_ENTITY') && movement) {
     return {
-      title: 'Deploy Unit To Battlefield',
+      title: actionType === 'DEPLOY_UNIT' ? 'Deploy Unit To Battlefield' : 'Move Entity Between Zones',
       detail: `${playerName} moves ${getCardName(state, movement.cardId)} from ${movement.from} to ${movement.to}.`
     };
   }
@@ -265,6 +265,7 @@ export function getActionGlyph(actionType: string): string {
   if (actionType === 'DRAW_TO_FOUR') return 'D';
   if (actionType === 'BANK_RUNE') return 'R';
   if (actionType === 'DEPLOY_UNIT') return 'U';
+  if (actionType === 'MOVE_ENTITY') return 'M';
   if (actionType === 'CAST_SPELL') return 'C';
   if (actionType === 'END_TURN') return 'E';
   if (actionType === 'SCORE_BATTLEFIELDS') return 'P';
@@ -276,6 +277,7 @@ export function getActionTone(actionType: string): string {
   if (actionType === 'DRAW_TO_FOUR') return 'draw';
   if (actionType === 'BANK_RUNE') return 'rune';
   if (actionType === 'DEPLOY_UNIT') return 'unit';
+  if (actionType === 'MOVE_ENTITY') return 'unit';
   if (actionType === 'CAST_SPELL') return 'spell';
   if (actionType === 'SCORE_BATTLEFIELDS') return 'score';
   if (actionType === 'WIN_GAME') return 'win';
