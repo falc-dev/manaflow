@@ -12,6 +12,7 @@ Coleccion de ejemplos practicos para integrar Manaflow en distintos niveles.
 ## UI e integraciones
 
 - [Renderizar un player con @manaflow/react](./react-player)
+- [Construir ejemplos progresivos de @manaflow/react-demo](./react-demo-step-by-step)
 - [Formato de replay para Riftbound 1v1](./riftbound-replay-format)
 - [Presets compartibles de zonas y estilos (Riftbound + Magic)](./ui-presets)
 - [Player y controlador con @manaflow/vue](./vue-controller)

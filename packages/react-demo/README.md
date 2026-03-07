@@ -36,6 +36,7 @@ import '@manaflow/react/styles.css';
 ## Replay structure (Riftbound 1v1)
 
 See the format guide: [`docs/examples/riftbound-replay-format.md`](../../docs/examples/riftbound-replay-format.md).
+Step-by-step build guide for all progressive examples: [`docs/examples/react-demo-step-by-step.md`](../../docs/examples/react-demo-step-by-step.md).
 
 Reusable UI presets (zones + theme) are available at [`public/presets`](./public/presets):
 - `riftbound.ui-preset.json` + `riftbound.theme.css`
