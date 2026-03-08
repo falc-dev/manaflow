@@ -1,6 +1,6 @@
 # ADR 0001: Harden Replay Schema v1
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-03-08
 
 ## Context

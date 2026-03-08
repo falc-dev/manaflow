@@ -41,7 +41,7 @@ export function createInitialState(players: { id: string; name: string }[]): Gam
       graveyard: [],
       stack: []
     },
-    metadata: {}
+    metadata: { rulesProfile: 'generic-v1' }
   };
 }
 

@@ -22,7 +22,7 @@ function makeSnapshot(turn: number): GameSnapshot {
     turn,
     entities: {},
     zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-    metadata: {}
+    metadata: { rulesProfile: 'test-v1' }
   };
 }
 
@@ -71,7 +71,7 @@ describe('ReplayEngine', () => {
           "turn": 1,
           "entities": {},
           "zones": { "deck": [], "hand": [], "board": [], "graveyard": [], "stack": [], },
-          "metadata": {}
+          "metadata": {"rulesProfile": "test-v1"}
         },
         "events": []
       }
@@ -87,7 +87,7 @@ describe('ReplayEngine', () => {
         turn: 1,
         entities: {},
         zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-        metadata: {}
+        metadata: { rulesProfile: 'test-v1' }
       }
     })}\n${JSON.stringify({
       event: {
@@ -104,7 +104,7 @@ describe('ReplayEngine', () => {
         turn: 1,
         entities: {},
         zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-        metadata: {}
+        metadata: { rulesProfile: 'test-v1' }
       }
     })}\n`;
 

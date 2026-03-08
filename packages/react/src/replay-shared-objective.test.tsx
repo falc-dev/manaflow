@@ -13,7 +13,7 @@ const mockedState: ReactReplayState = {
       turn: 1,
       entities: {},
       zones: { objective: ['card_1'], board: ['card_2'], stack: [] },
-      metadata: {}
+      metadata: { rulesProfile: 'test-v1' }
     }
   },
   currentFrame: 0,

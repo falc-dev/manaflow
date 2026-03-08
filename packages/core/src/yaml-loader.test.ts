@@ -27,7 +27,7 @@ initialState:
     board: []
     graveyard: []
     stack: []
-  metadata: {}
+  metadata: { rulesProfile: 'test-v1' }
 events: []
 `;
 

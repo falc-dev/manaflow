@@ -24,6 +24,11 @@ Campos obligatorios:
 - `initialState`: estado inicial completo.
 - `events[]`: frames ordenados (evento aplicado + snapshot resultante).
 
+Reglas adicionales en `schemaVersion: 1` (hardening actual):
+
+- `snapshot.metadata.rulesProfile` es obligatorio.
+- Para acciones conocidas (`MOVE_ENTITY`, `CAST_SPELL`, etc.) el payload debe cumplir su contrato tipado.
+
 ## Snapshot (resumen)
 
 Cada `snapshot` mantiene estado completo:
@@ -36,6 +41,10 @@ Cada `snapshot` mantiene estado completo:
 - `entities`
 - `zones`
 - `metadata`
+
+`metadata` debe incluir como minimo:
+
+- `rulesProfile` (string), por ejemplo `riftbound-1v1-v1`.
 
 ## Eventos y acciones
 
@@ -56,11 +65,18 @@ Cada frame contiene:
       "timestamp": 2500
     },
     "timestamp": 2500,
-    "playerId": "blue"
+    "playerId": "blue",
+    "metadata": {
+      "phase": "MAIN",
+      "intent": "pressure-lane",
+      "summary": "Blue repositions sniper to north lane"
+    }
   },
   "snapshot": { "...estado completo tras aplicar la accion..." }
 }
 ```
+
+`event.metadata` admite campos estandar opcionales para UX (`phase`, `intent`, `summary`) y campos extra de dominio.
 
 ## Simplificación recomendada de acciones
 

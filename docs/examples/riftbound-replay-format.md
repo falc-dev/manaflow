@@ -110,7 +110,7 @@ Para resoluciones con objetivo:
 ## Compatibilidad y migración
 
 - No romper `schemaVersion: 1`.
-- Añadir `rulesProfile` y nuevas zonas gradualmente.
+- Mantener `metadata.rulesProfile` en todos los snapshots (obligatorio en validación v1 actual).
 - En UI, soportar aliases por un tiempo (`zoneMap`) para no romper replays viejos.
 
 ## Validación de esquema (actual)

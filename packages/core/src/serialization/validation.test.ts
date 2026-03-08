@@ -187,7 +187,7 @@ describe('Replay validation utilities', () => {
           "turn": 1,
           "entities": {},
           "zones": { "deck": [], "hand": [], "board": [], "graveyard": [], "stack": [], },
-          "metadata": {},
+          "metadata": {"rulesProfile": "test-v1"},
         },
         "events": [],
       }
@@ -210,7 +210,7 @@ describe('Replay validation utilities', () => {
         turn: 1,
         entities: {},
         zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-        metadata: {}
+        metadata: { rulesProfile: 'test-v1' }
       }
     });
     const frame = JSON.stringify({
@@ -228,7 +228,7 @@ describe('Replay validation utilities', () => {
         turn: 1,
         entities: {},
         zones: { deck: [], hand: ['c1'], board: [], graveyard: [], stack: [] },
-        metadata: {}
+        metadata: { rulesProfile: 'test-v1' }
       }
     });
     const payload = `${header}\n${frame}\n`;
@@ -267,7 +267,7 @@ describe('Replay validation utilities', () => {
         turn: 1,
         entities: {},
         zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-        metadata: {}
+        metadata: { rulesProfile: 'test-v1' }
       },
       events: [
         {
@@ -290,7 +290,7 @@ describe('Replay validation utilities', () => {
             turn: 1,
             entities: {},
             zones: { deck: [], hand: ['c1'], board: [], graveyard: [], stack: [] },
-            metadata: {}
+            metadata: { rulesProfile: 'test-v1' }
           }
         }
       ]
@@ -311,7 +311,7 @@ describe('Replay validation utilities', () => {
         turn: 1,
         entities: {},
         zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-        metadata: {}
+        metadata: { rulesProfile: 'test-v1' }
       },
       events: [
         {
@@ -334,7 +334,7 @@ describe('Replay validation utilities', () => {
             turn: 1,
             entities: {},
             zones: { deck: [], hand: ['c1'], board: [], graveyard: [], stack: [] },
-            metadata: {}
+            metadata: { rulesProfile: 'test-v1' }
           }
         }
       ]

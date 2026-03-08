@@ -25,7 +25,7 @@ const mockedState: ReactReplayState = {
       turn: 1,
       entities: {},
       zones: { deck: ['card_1'], hand: ['card_2'], board: [], graveyard: [], stack: [] },
-      metadata: {}
+      metadata: { rulesProfile: 'test-v1' }
     }
   },
   currentFrame: 0,

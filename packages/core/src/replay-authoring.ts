@@ -1,4 +1,12 @@
-import { GameAction, GameSnapshot, ReplayData, ReplayEvent, ReplayFrameInput, createSnapshotId } from '@manaflow/types';
+import {
+  GameAction,
+  GameSnapshot,
+  ReplayData,
+  ReplayEvent,
+  ReplayEventMetadata,
+  ReplayFrameInput,
+  createSnapshotId
+} from '@manaflow/types';
 import { deepClone } from './utils';
 
 export type ReplayReducer = (snapshot: GameSnapshot, action: GameAction) => GameSnapshot;
@@ -7,7 +15,7 @@ export interface ReplayAuthoringEvent {
   action: GameAction;
   id?: string;
   tags?: string[];
-  metadata?: Record<string, unknown>;
+  metadata?: ReplayEventMetadata;
 }
 
 export interface BuildReplayDataFromActionsOptions {

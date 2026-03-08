@@ -12,7 +12,7 @@ describe('ReplayLoader', () => {
       turn: 1,
       entities: {},
       zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-      metadata: {}
+      metadata: { rulesProfile: 'test-v1' }
     },
     events: []
   });
@@ -30,7 +30,7 @@ describe('ReplayLoader', () => {
         "turn": 1,
         "entities": {},
         "zones": { "deck": [], "hand": [], "board": [], "graveyard": [], "stack": [], },
-        "metadata": {}
+        "metadata": {"rulesProfile": "test-v1"}
       },
       "events": []
     }
@@ -46,7 +46,7 @@ describe('ReplayLoader', () => {
       turn: 1,
       entities: {},
       zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-      metadata: {}
+      metadata: { rulesProfile: 'test-v1' }
     }
   })}\n${JSON.stringify({
     event: {
@@ -63,7 +63,7 @@ describe('ReplayLoader', () => {
       turn: 1,
       entities: {},
       zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-      metadata: {}
+      metadata: { rulesProfile: 'test-v1' }
     }
   })}`;
 
@@ -82,7 +82,7 @@ initialState:
     board: []
     graveyard: []
     stack: []
-  metadata: {}
+  metadata: { rulesProfile: 'test-v1' }
 events: []
 `;
 

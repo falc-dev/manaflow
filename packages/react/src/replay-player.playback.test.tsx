@@ -23,7 +23,7 @@ const mockedState: ReactReplayState = {
       turn: 1,
       entities: {},
       zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-      metadata: {}
+      metadata: { rulesProfile: 'test-v1' }
     }
   },
   currentFrame: 0,

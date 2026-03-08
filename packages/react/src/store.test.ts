@@ -23,7 +23,7 @@ function makeSnapshot(turn: number): GameSnapshot {
     turn,
     entities: {},
     zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-    metadata: {}
+    metadata: { rulesProfile: 'test-v1' }
   };
 }
 

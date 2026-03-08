@@ -291,6 +291,18 @@
         "metadata": {
           "type": "object",
           "description": "Rules/profile-specific metadata (score, control, winner, etc.).",
+          "required": [
+            "rulesProfile"
+          ],
+          "properties": {
+            "rulesProfile": {
+              "type": "string",
+              "description": "Rule/profile identifier for this replay snapshot.",
+              "examples": [
+                "riftbound-1v1-v1"
+              ]
+            }
+          },
           "additionalProperties": true
         }
       }
@@ -822,6 +834,18 @@
         },
         "metadata": {
           "type": "object",
+          "description": "Optional structured event metadata for UI plus domain-specific fields.",
+          "properties": {
+            "phase": {
+              "type": "string"
+            },
+            "intent": {
+              "type": "string"
+            },
+            "summary": {
+              "type": "string"
+            }
+          },
           "additionalProperties": true
         }
       }

@@ -13,7 +13,7 @@ function createInitialState() {
     turn: 1,
     entities: {},
     zones: {},
-    metadata: {}
+    metadata: { rulesProfile: 'test-v1' }
   };
 }
 

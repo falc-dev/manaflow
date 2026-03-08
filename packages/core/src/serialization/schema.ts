@@ -44,6 +44,20 @@ const EntitySchema = z.object({
   metadata: z.record(z.unknown()).optional()
 });
 
+const SnapshotMetadataSchema = z
+  .object({
+    rulesProfile: z.string()
+  })
+  .catchall(z.unknown());
+
+const ReplayEventMetadataSchema = z
+  .object({
+    phase: z.string().optional(),
+    intent: z.string().optional(),
+    summary: z.string().optional()
+  })
+  .catchall(z.unknown());
+
 const SnapshotSchema = z.object({
   id: z.string(),
   players: z.array(PlayerSchema),
@@ -52,7 +66,7 @@ const SnapshotSchema = z.object({
   turn: z.number(),
   entities: z.record(EntitySchema),
   zones: z.record(z.array(z.string())),
-  metadata: z.record(z.unknown())
+  metadata: SnapshotMetadataSchema
 });
 
 const ActionSchema = z.object({
@@ -208,7 +222,7 @@ const ReplayEventSchema = z.object({
   timestamp: z.number(),
   playerId: z.string(),
   tags: z.array(z.string()).optional(),
-  metadata: z.record(z.unknown()).optional()
+  metadata: ReplayEventMetadataSchema.optional()
 });
 
 const ReplayEventStrictSchema = z.object({
@@ -217,7 +231,7 @@ const ReplayEventStrictSchema = z.object({
   timestamp: z.number(),
   playerId: z.string(),
   tags: z.array(z.string()).optional(),
-  metadata: z.record(z.unknown()).optional()
+  metadata: ReplayEventMetadataSchema.optional()
 });
 
 const ReplayFrameInputSchema = z.object({

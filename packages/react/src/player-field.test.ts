@@ -40,7 +40,7 @@ function makeSnapshot(): GameSnapshot {
       graveyard: ['card_3', 'card_6'],
       stack: []
     },
-    metadata: {}
+    metadata: { rulesProfile: 'test-v1' }
   };
 }
 

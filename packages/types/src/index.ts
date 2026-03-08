@@ -55,6 +55,16 @@ export interface PlayerState {
   zones: Record<string, string[]>;
 }
 
+export interface SnapshotMetadata extends Record<string, unknown> {
+  rulesProfile: string;
+}
+
+export interface ReplayEventMetadata extends Record<string, unknown> {
+  phase?: string;
+  intent?: string;
+  summary?: string;
+}
+
 export interface GameSnapshot {
   id: string;
   players: PlayerState[];
@@ -63,7 +73,7 @@ export interface GameSnapshot {
   turn: number;
   entities: Record<string, GameEntity>;
   zones: Record<string, string[]>;
-  metadata: Record<string, unknown>;
+  metadata: SnapshotMetadata;
 }
 
 export type GameState = GameSnapshot;
@@ -228,7 +238,7 @@ export interface ReplayEvent {
   timestamp: number;
   playerId: string;
   tags?: string[];
-  metadata?: Record<string, unknown>;
+  metadata?: ReplayEventMetadata;
 }
 
 export interface ReplayFrame {
