@@ -4,14 +4,14 @@ import { buildReplayMarkers, getReplayActionLabel } from './replay-markers';
 describe('buildReplayMarkers', () => {
   it('builds setup + event markers from nested replay payload events', () => {
     const markers = buildReplayMarkers([
-      { event: { action: { type: 'PLAY_CARD' } } },
-      { event: { action: { type: 'DRAW_CARD' } } }
+      { event: { action: { type: 'DEPLOY_UNIT' } } },
+      { event: { action: { type: 'DRAW_TO_FOUR' } } }
     ]);
 
     expect(markers).toEqual([
       { frame: 0, label: 'Setup', actionType: 'SETUP' },
-      { frame: 1, label: 'Hand -> Battle', actionType: 'PLAY_CARD' },
-      { frame: 2, label: 'Deck -> Hand', actionType: 'DRAW_CARD' }
+      { frame: 1, label: 'Deploy Unit', actionType: 'DEPLOY_UNIT' },
+      { frame: 2, label: 'Draw To Four', actionType: 'DRAW_TO_FOUR' }
     ]);
   });
 

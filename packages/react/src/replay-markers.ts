@@ -26,10 +26,16 @@ export interface BuildReplayMarkersOptions {
 
 const DEFAULT_ACTION_LABELS: Record<string, string> = {
   SETUP: 'Setup',
-  PLAY_CARD: 'Hand -> Battle',
-  DRAW_CARD: 'Deck -> Hand',
-  DESTROY_CARD: 'Board -> Graveyard',
-  END_TURN: 'End Turn'
+  DRAW_TO_FOUR: 'Draw To Four',
+  BANK_RUNE: 'Bank Rune',
+  DEPLOY_UNIT: 'Deploy Unit',
+  MOVE_ENTITY: 'Move Entity',
+  REPOSITION_UNIT: 'Reposition Unit',
+  RETREAT_UNIT: 'Retreat Unit',
+  CAST_SPELL: 'Cast Spell',
+  END_TURN: 'End Turn',
+  SCORE_BATTLEFIELDS: 'Score Battlefields',
+  WIN_GAME: 'Win Game'
 };
 
 function toTitleCase(actionType: string): string {
