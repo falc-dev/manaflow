@@ -6,6 +6,8 @@ import { YamlLoader } from './serialization/yaml-loader';
 
 export { GameEngine } from './game-engine';
 export { ReplayEngine } from './replay-engine';
+export { buildReplayDataFromActions } from './replay-authoring';
+export type { BuildReplayDataFromActionsOptions, ReplayAuthoringEvent, ReplayReducer } from './replay-authoring';
 export { YamlLoader } from './serialization/yaml-loader';
 export { JsonLoader } from './serialization/json-loader';
 export { JsoncLoader } from './serialization/jsonc-loader';
