@@ -162,6 +162,31 @@ export const KNOWN_REPLAY_ACTION_TYPES = [
 ] as const;
 
 export type KnownReplayActionType = (typeof KNOWN_REPLAY_ACTION_TYPES)[number];
+export type RulesProfile = 'riftbound-1v1-v1' | (string & {});
+
+export interface ReplayActionPayloadByType {
+  DRAW_TO_FOUR: DrawToFourPayload;
+  BANK_RUNE: BankRunePayload;
+  DEPLOY_UNIT: ZoneMovePayload;
+  MOVE_ENTITY: ZoneMovePayload;
+  REPOSITION_UNIT: ZoneMovePayload;
+  RETREAT_UNIT: ZoneMovePayload;
+  CAST_SPELL: CastSpellPayload;
+  END_TURN: EndTurnPayload;
+  SCORE_BATTLEFIELDS: ScoreBattlefieldsPayload;
+  WIN_GAME: WinGamePayload;
+}
+
+export const ACTION_CATALOG_BY_PROFILE: Readonly<Record<string, readonly KnownReplayActionType[]>> = {
+  'riftbound-1v1-v1': KNOWN_REPLAY_ACTION_TYPES
+};
+
+export function getActionCatalog(profile?: RulesProfile): readonly KnownReplayActionType[] {
+  if (!profile) {
+    return KNOWN_REPLAY_ACTION_TYPES;
+  }
+  return ACTION_CATALOG_BY_PROFILE[profile] ?? KNOWN_REPLAY_ACTION_TYPES;
+}
 
 export type CustomReplayAction = ReplayActionBase<string, Record<string, unknown>> & {
   type: Exclude<string, KnownReplayActionType>;
@@ -169,6 +194,33 @@ export type CustomReplayAction = ReplayActionBase<string, Record<string, unknown
 
 export type ReplayAction = KnownReplayAction | CustomReplayAction;
 export type GameAction = ReplayAction;
+
+interface CreateKnownReplayActionInput<TType extends KnownReplayActionType> {
+  type: TType;
+  playerId: string;
+  payload: ReplayActionPayloadByType[TType];
+  timestamp?: number;
+}
+
+interface CreateCustomReplayActionInput {
+  type: string;
+  playerId: string;
+  payload?: Record<string, unknown>;
+  timestamp?: number;
+}
+
+export function createReplayAction<TType extends KnownReplayActionType>(
+  input: CreateKnownReplayActionInput<TType>
+): ReplayActionBase<TType, ReplayActionPayloadByType[TType]>;
+export function createReplayAction(input: CreateCustomReplayActionInput): ReplayAction;
+export function createReplayAction(input: CreateCustomReplayActionInput): ReplayAction {
+  return {
+    type: input.type,
+    playerId: input.playerId,
+    payload: input.payload ?? {},
+    timestamp: input.timestamp ?? Date.now()
+  } as ReplayAction;
+}
 
 export interface ReplayEvent {
   id: string;
