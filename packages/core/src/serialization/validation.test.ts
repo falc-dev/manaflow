@@ -255,4 +255,95 @@ describe('Replay validation utilities', () => {
       expect(result.issues[0].source).toBe('yaml');
     }
   });
+
+  it('accepts known actions with typed payloads when strictActionPayloads is enabled', () => {
+    const payload = JSON.stringify({
+      schemaVersion: 1,
+      initialState: {
+        id: 'game_strict_ok',
+        players: [],
+        currentPhase: 'DRAW',
+        currentPlayer: 'p1',
+        turn: 1,
+        entities: {},
+        zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
+        metadata: {}
+      },
+      events: [
+        {
+          event: {
+            id: 'evt_1',
+            action: {
+              type: 'MOVE_ENTITY',
+              playerId: 'p1',
+              payload: { cardId: 'c1', from: 'deck', to: 'hand' },
+              timestamp: 1
+            },
+            timestamp: 1,
+            playerId: 'p1'
+          },
+          snapshot: {
+            id: 'game_strict_ok',
+            players: [],
+            currentPhase: 'MAIN',
+            currentPlayer: 'p1',
+            turn: 1,
+            entities: {},
+            zones: { deck: [], hand: ['c1'], board: [], graveyard: [], stack: [] },
+            metadata: {}
+          }
+        }
+      ]
+    });
+
+    const result = validateReplayJson(payload, { strictActionPayloads: true });
+    expect(result.ok).toBe(true);
+  });
+
+  it('rejects malformed known action payloads when strictActionPayloads is enabled', () => {
+    const payload = JSON.stringify({
+      schemaVersion: 1,
+      initialState: {
+        id: 'game_strict_fail',
+        players: [],
+        currentPhase: 'DRAW',
+        currentPlayer: 'p1',
+        turn: 1,
+        entities: {},
+        zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
+        metadata: {}
+      },
+      events: [
+        {
+          event: {
+            id: 'evt_1',
+            action: {
+              type: 'MOVE_ENTITY',
+              playerId: 'p1',
+              payload: { cardId: 'c1', from: 'deck' },
+              timestamp: 1
+            },
+            timestamp: 1,
+            playerId: 'p1'
+          },
+          snapshot: {
+            id: 'game_strict_fail',
+            players: [],
+            currentPhase: 'MAIN',
+            currentPlayer: 'p1',
+            turn: 1,
+            entities: {},
+            zones: { deck: [], hand: ['c1'], board: [], graveyard: [], stack: [] },
+            metadata: {}
+          }
+        }
+      ]
+    });
+
+    const result = validateReplayJson(payload, { strictActionPayloads: true });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.issues.length).toBeGreaterThan(0);
+    }
+  });
 });

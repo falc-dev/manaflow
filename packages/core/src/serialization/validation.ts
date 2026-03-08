@@ -2,7 +2,7 @@ import yaml from 'js-yaml';
 import { ZodError } from 'zod';
 import { normalizeReplayAliases } from './normalization';
 import { collectReplayProfileIssues } from './profile-validation';
-import { ReplaySchema, ReplaySchemaType } from './schema';
+import { ReplaySchema, ReplaySchemaStrict, ReplaySchemaType } from './schema';
 
 export interface ReplayValidationIssue {
   path: string;
@@ -13,6 +13,8 @@ export interface ReplayValidationIssue {
 export interface ReplayValidationOptions {
   /** Normalizes known legacy Riftbound zone aliases before profile checks. */
   normalizeRiftboundAliases?: boolean;
+  /** Enforces typed payload validation for known replay action types. */
+  strictActionPayloads?: boolean;
 }
 
 export interface ReplayValidationSuccess {
@@ -56,7 +58,8 @@ function profileIssuesToValidationIssues(replay: ReplaySchemaType): ReplayValida
 }
 
 function parseAndValidateReplay(data: unknown, options: ReplayValidationOptions = {}): ReplayValidationResult {
-  const parsed = ReplaySchema.safeParse(data);
+  const parser = options.strictActionPayloads ? ReplaySchemaStrict : ReplaySchema;
+  const parsed = parser.safeParse(data);
   if (!parsed.success) {
     return { ok: false, issues: zodIssuesToValidationIssues(parsed.error) };
   }
