@@ -256,7 +256,7 @@ describe('Replay validation utilities', () => {
     }
   });
 
-  it('accepts known actions with typed payloads when strictActionPayloads is enabled', () => {
+  it('accepts known actions with typed payloads in default validation mode', () => {
     const payload = JSON.stringify({
       schemaVersion: 1,
       initialState: {
@@ -296,11 +296,11 @@ describe('Replay validation utilities', () => {
       ]
     });
 
-    const result = validateReplayJson(payload, { strictActionPayloads: true });
+    const result = validateReplayJson(payload);
     expect(result.ok).toBe(true);
   });
 
-  it('rejects malformed known action payloads when strictActionPayloads is enabled', () => {
+  it('rejects malformed known action payloads in default validation mode', () => {
     const payload = JSON.stringify({
       schemaVersion: 1,
       initialState: {
@@ -340,7 +340,7 @@ describe('Replay validation utilities', () => {
       ]
     });
 
-    const result = validateReplayJson(payload, { strictActionPayloads: true });
+    const result = validateReplayJson(payload);
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.issues.length).toBeGreaterThan(0);

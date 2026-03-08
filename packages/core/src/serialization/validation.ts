@@ -13,7 +13,7 @@ export interface ReplayValidationIssue {
 export interface ReplayValidationOptions {
   /** Normalizes known legacy Riftbound zone aliases before profile checks. */
   normalizeRiftboundAliases?: boolean;
-  /** Enforces typed payload validation for known replay action types. */
+  /** Enforces typed payload validation for known replay action types. Defaults to `true`. */
   strictActionPayloads?: boolean;
 }
 
@@ -58,7 +58,8 @@ function profileIssuesToValidationIssues(replay: ReplaySchemaType): ReplayValida
 }
 
 function parseAndValidateReplay(data: unknown, options: ReplayValidationOptions = {}): ReplayValidationResult {
-  const parser = options.strictActionPayloads ? ReplaySchemaStrict : ReplaySchema;
+  const strictActionPayloads = options.strictActionPayloads ?? true;
+  const parser = strictActionPayloads ? ReplaySchemaStrict : ReplaySchema;
   const parsed = parser.safeParse(data);
   if (!parsed.success) {
     return { ok: false, issues: zodIssuesToValidationIssues(parsed.error) };

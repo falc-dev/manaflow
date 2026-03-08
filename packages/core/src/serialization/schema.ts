@@ -1,5 +1,17 @@
-import { KNOWN_REPLAY_ACTION_TYPES } from '@manaflow/types';
 import { z } from 'zod';
+
+const KNOWN_REPLAY_ACTION_TYPES = [
+  'DRAW_TO_FOUR',
+  'BANK_RUNE',
+  'DEPLOY_UNIT',
+  'MOVE_ENTITY',
+  'REPOSITION_UNIT',
+  'RETREAT_UNIT',
+  'CAST_SPELL',
+  'END_TURN',
+  'SCORE_BATTLEFIELDS',
+  'WIN_GAME'
+] as const;
 
 const ResourceSchema = z.object({
   type: z.string(),
