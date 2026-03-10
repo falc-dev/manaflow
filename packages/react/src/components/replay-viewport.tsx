@@ -53,7 +53,8 @@ function getCardMetadata(entityId: string, snapshot: GameSnapshot): Card | undef
 }
 
 function defaultTimelineFormatter(snapshot: GameSnapshot): string {
-  return `Turn ${snapshot.turn} · Phase ${snapshot.currentPhase} · Player ${snapshot.currentPlayer}`;
+  const phase = snapshot.metadata?.currentPhase ?? '';
+  return `Turn ${snapshot.turn} · Phase ${phase} · Player ${snapshot.currentPlayer}`;
 }
 
 export function ReplayViewport({

@@ -27,12 +27,11 @@ function createSnapshot(): GameSnapshot {
         zones: {}
       }
     ],
-    currentPhase: 'MAIN',
     currentPlayer: 'p1',
     turn: 2,
     entities: {},
     zones: {},
-    metadata: {}
+    metadata: { rulesProfile: 'test-v1', currentPhase: 'MAIN' }
   };
 }
 
@@ -50,7 +49,7 @@ describe('tcgReplayReducer', () => {
     const next = tcgReplayReducer(createSnapshot(), createAction('END_TURN'));
     expect(next.currentPlayer).toBe('p2');
     expect(next.turn).toBe(3);
-    expect(next.currentPhase).toBe('DRAW');
+    expect(next.metadata.currentPhase).toBe('DRAW');
   });
 
   it('keeps state unchanged for unknown actions', () => {

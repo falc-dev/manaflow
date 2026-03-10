@@ -8,7 +8,6 @@ function createReplayData(): ReplayData {
     initialState: {
       id: 'game_1',
       players: [],
-      currentPhase: 'DRAW',
       currentPlayer: 'blue',
       turn: 1,
       entities: {},
@@ -20,7 +19,8 @@ function createReplayData(): ReplayData {
         champion_red: []
       },
       metadata: {
-        rulesProfile: 'riftbound-1v1-v1'
+        rulesProfile: 'riftbound-1v1-v1',
+        currentPhase: 'DRAW'
       }
     },
     events: []

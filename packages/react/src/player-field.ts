@@ -102,7 +102,7 @@ export function selectPlayerField(
     playerId: player.id,
     playerName: player.name,
     health: player.health,
-    resources: [...player.resources],
+    resources: player.resources ?? [],
     zones: resolveFieldZones(player, options?.zoneMap)
   };
 }

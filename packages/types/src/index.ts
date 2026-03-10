@@ -48,15 +48,17 @@ export interface PlayerState {
   id: string;
   name: string;
   health: number;
-  resources: ResourceState[];
+  resources?: ResourceState[];
   hand: string[];
   deck: string[];
   discard: string[];
   zones: Record<string, string[]>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface SnapshotMetadata extends Record<string, unknown> {
   rulesProfile: string;
+  currentPhase?: string;
 }
 
 export interface ReplayEventMetadata extends Record<string, unknown> {
@@ -68,7 +70,6 @@ export interface ReplayEventMetadata extends Record<string, unknown> {
 export interface GameSnapshot {
   id: string;
   players: PlayerState[];
-  currentPhase: Phase;
   currentPlayer: string;
   turn: number;
   entities: Record<string, GameEntity>;

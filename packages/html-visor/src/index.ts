@@ -198,8 +198,9 @@ export class HtmlRendererAdapter implements RendererAdapter {
       return;
     }
 
+    const phase = snapshot.metadata?.currentPhase ?? '';
     const defaultText = this.options.timelineFormatter?.(snapshot) ??
-      `Turn ${snapshot.turn} · Phase ${snapshot.currentPhase} · Player ${snapshot.currentPlayer}`;
+      `Turn ${snapshot.turn} · Phase ${phase} · Player ${snapshot.currentPlayer}`;
     this.timeline.textContent = defaultText;
 
     if (this.options.renderTimeline) {
@@ -478,12 +479,11 @@ export class HtmlRendererAdapter implements RendererAdapter {
     return {
       id: 'html_visor_empty_snapshot',
       players: [],
-      currentPhase: 'DRAW',
       currentPlayer: '',
       turn: 0,
       entities: {},
       zones: {},
-      metadata: {}
+      metadata: { rulesProfile: 'generic-v1', currentPhase: 'DRAW' }
     };
   }
 }

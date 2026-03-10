@@ -36,7 +36,6 @@ function createReplayWithLegacyAliases() {
           zones: {}
         }
       ],
-      currentPhase: 'MAIN',
       currentPlayer: 'blue',
       turn: 1,
       entities: {},
@@ -58,6 +57,7 @@ function createReplayWithLegacyAliases() {
       metadata: {
         rulesProfile: 'riftbound-1v1-v1',
         battlefieldCount: 2,
+        currentPhase: 'MAIN',
         control: {
           battlefield_top: 'blue',
           battlefield_bot: 'red'

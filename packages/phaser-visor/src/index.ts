@@ -22,14 +22,16 @@ export class PhaserRendererAdapter implements RendererAdapter {
   render(snapshot: GameSnapshot): void {
     this.clearNodes();
 
+    const phase = snapshot.metadata?.currentPhase ?? '';
+
     if (!this.scene.add?.text) {
       if (this.container) {
-        this.container.textContent = `Phaser adapter mounted. Turn ${snapshot.turn}, phase ${snapshot.currentPhase}`;
+        this.container.textContent = `Phaser adapter mounted. Turn ${snapshot.turn}, phase ${phase}`;
       }
       return;
     }
 
-    this.nodes.push(this.scene.add.text(20, 20, `Turn ${snapshot.turn} · ${snapshot.currentPhase}`, { color: '#ffffff' }));
+    this.nodes.push(this.scene.add.text(20, 20, `Turn ${snapshot.turn} · ${phase}`, { color: '#ffffff' }));
 
     const zones = ['hand', 'board', 'graveyard', 'deck', 'stack'];
     zones.forEach((zoneId, index) => {

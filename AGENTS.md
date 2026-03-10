@@ -22,12 +22,20 @@ Use a dual API strategy:
 
 ## React Best Practices
 
+- Manaflow React is designed for **replay visualization**, not real-time game logic.
 - Prefer controlled state flow and explicit props over hidden internal mutations.
 - Keep components small and composable (`ReplayPlayer`, `ReplayControls`, `ReplayViewport`).
 - Use `useSyncExternalStore` for store subscriptions.
 - Ensure `getSnapshot` is referentially stable when state does not change.
 - Always clean up effects (timers, subscriptions).
 - Keep rendering logic separate from data loading logic.
+
+### Replay-Specific Patterns
+- Step forward/backward through frames
+- Seek to specific timestamp or frame index
+- Autoplay with variable speed (0.5x, 1x, 2x, etc.)
+- State is immutable - snapshots are replaced, not mutated
+- Use selectors for optimized re-renders
 
 ## CSS Conventions (BEM)
 
@@ -78,12 +86,15 @@ Manaflow follows a decoupled architecture separating game logic from visualizati
 ### Package Ecosystem Map
 ```
 manaflow/
-├── packages/core/          # Game engine & state management
-├── packages/phaser-visor/  # Phaser.js visualization
-├── packages/html-visor/    # HTML/CSS visualization
-├── packages/react/         # React wrapper components
-├── packages/vue/           # Vue wrapper components
-└── packages/webpack-plugin/ # Build tool integration
+├── packages/types/            # Core type definitions (Card, GameSnapshot, ReplayAction, etc.)
+├── packages/game-logic/       # Game reducers (tcgReplayReducer)
+├── packages/replay-runtime/  # Replay controller & store (createReplayController, createReplayStore)
+├── packages/phaser-visor/     # Phaser.js visualization
+├── packages/html-visor/       # HTML/CSS visualization
+├── packages/react/            # React wrapper components
+├── packages/react-demo/       # Demo application
+├── packages/vue/              # Vue wrapper components
+└── packages/webpack-plugin/   # Build tool integration
 ```
 
 ### Data Flow Diagram
@@ -97,27 +108,38 @@ manaflow/
 
 ### Game State Management API
 ```typescript
-interface GameState {
-    players: Player[];
-    currentPlayer: number;
-    phase: 'draw' | 'main' | 'combat' | 'end';
+interface GameSnapshot {
+    id: string;
+    players: PlayerState[];
+    currentPlayer: string;
     turn: number;
+    entities: Record<string, GameEntity>;
+    zones: Record<string, string[]>;
+    metadata: SnapshotMetadata;
 }
 
-interface Player {
+interface PlayerState {
     id: string;
     name: string;
     health: number;
-    mana: { current: number; max: number };
-    hand: Card[];
-    deck: Card[];
-    board: Card[];
+    resources?: ResourceState[];
+    hand: string[];
+    deck: string[];
+    discard: string[];
+    zones: Record<string, string[]>;
+    metadata?: Record<string, unknown>;
 }
 
-class GameEngine {
-    constructor(initialState: GameState)
-    getState(): GameState
-    dispatch(action: GameAction): void
+interface ResourceState {
+    type: string;
+    amount: number;
+    max?: number;
+}
+
+interface SnapshotMetadata extends Record<string, unknown> {
+    rulesProfile: string;
+    currentPhase?: string;
+}
 }
 ```
 
@@ -128,15 +150,51 @@ interface Card {
     name: string;
     description: string;
     cost: number;
-    type: 'unit' | 'spell' | 'artifact';
     rarity: 'common' | 'rare' | 'epic' | 'legendary';
-    abilities: string[];
+    imageUrl?: string;
+    metadata?: Record<string, unknown>;
 }
 
+type EntityType = 'card' | 'player' | 'marker' | 'token';
+
+interface CardInstance {
+    id: string;
+    cardId: string;
+    ownerId: string;
+    controllerId: string;
+    tapped?: boolean;
+    counters?: Record<string, number>;
+    metadata?: Record<string, unknown>;
+}
+
+interface GameComponent {
+    componentType: string;
+    entityId: string;
+    metadata?: Record<string, unknown>;
+}
+
+interface GameEntity {
+    id: string;
+    type: EntityType;
+    components: GameComponent[];
+    owner?: string;
+    metadata?: Record<string, unknown>;
+}
+```
+
+### Replay Action Types
+```typescript
 type GameAction =
-    | { type: 'DRAW_CARD'; playerId: string }
-    | { type: 'PLAY_CARD'; playerId: string; cardId: string }
-    | { type: 'END_TURN' };
+    | { type: 'DRAW_TO_FOUR'; playerId: string; payload: { cardId: string; from: string; to: string; targetHandSize: number } }
+    | { type: 'BANK_RUNE'; playerId: string; payload: { cardId: string; runeId: string; from: string; to: string; resourceDelta: number } }
+    | { type: 'DEPLOY_UNIT'; playerId: string; payload: { cardId: string; from: string; to: string } }
+    | { type: 'MOVE_ENTITY'; playerId: string; payload: { cardId: string; from: string; to: string } }
+    | { type: 'REPOSITION_UNIT'; playerId: string; payload: { cardId: string; from: string; to: string } }
+    | { type: 'RETREAT_UNIT'; playerId: string; payload: { cardId: string; from: string; to: string } }
+    | { type: 'CAST_SPELL'; playerId: string; payload: { cardId: string; from: string; to: string; targetId?: string } }
+    | { type: 'END_TURN'; playerId: string; payload: { reason?: string } }
+    | { type: 'SCORE_BATTLEFIELDS'; playerId: string; payload: { controlledBattlefields: string[]; pointsGained: number } }
+    | { type: 'WIN_GAME'; playerId: string; payload: { winnerId: string; finalScore: Record<string, number> } };
 ```
 
 ### Rule Engine Configuration
@@ -148,6 +206,42 @@ type GameAction =
 - Actions dispatched via `gameEngine.dispatch(action)`
 - State changes propagate to visualization layers
 - Custom events can be added through GameEngine extensions
+
+### Replay Data Structure
+```typescript
+interface ReplayEvent {
+    id: string;
+    action: GameAction;
+    timestamp: number;
+    playerId: string;
+    tags?: string[];
+    metadata?: {
+        phase?: string;
+        intent?: string;
+        summary?: string;
+    };
+}
+
+interface ReplayFrame {
+    index: number;
+    event?: ReplayEvent;
+    snapshot: GameSnapshot;
+}
+
+interface ReplayData {
+    schemaVersion: 1;
+    initialState: GameSnapshot;
+    events: ReplayFrame[];
+}
+```
+
+**Rules Profiles:**
+- `riftbound-1v1-v1`: Default profile for 1v1 TCG matches
+- Custom profiles can be defined via `ACTION_CATALOG_BY_PROFILE`
+
+**JSON Schema:**
+- Full schema available at `schemas/replay.schema.json`
+- Schema version: `1`
 
 ## 3. Visualization Layers (Visors)
 
@@ -285,22 +379,57 @@ pnpm -r test
 
 ### Type Definitions Catalog
 ```typescript
-// Core types (from @manaflow/core)
-Card, GameState, Player, GameAction, GameEngine
+// Core types (from @manaflow/types)
+Card, CardInstance, GameEntity, GameComponent
+GameSnapshot, GameState, PlayerState
+GameAction, ReplayAction, KnownReplayActionType
+Phase, EntityType, ZoneId, ResourceState
+ReplayEvent, ReplayFrame, ReplayData
+RulesProfile, SnapshotMetadata
 
-// Visor types  
-PhaserCard, PhaserVisualization, HTMLVisualization
+// Replay Runtime (from @manaflow/replay-runtime)
+ReplayController, ReplayStore
+createReplayController, createReplayStore
 
-// Wrapper types
-ManaflowGameProps, ManaflowCardProps
+// Game Logic (from @manaflow/game-logic)
+Reducer, tcgReplayReducer
+
+// Visor types
+PhaserVisualization, HTMLVisualization, RendererAdapter
+
+// Helper functions
+createReplayAction, getActionCatalog, createCardComponent, createSnapshotId
 ```
 
 ### Extension Points
 - Override `GameEngine.dispatch()` for custom rules
 - Extend visor classes for custom rendering
 - Add new card types through type augmentation
+- Implement custom `RendererAdapter` for alternative rendering backends
 
-## 8. Contributions
+## 8. Documentation Tools
+
+### VitePress
+- Documentation built with VitePress
+- Dev server: `pnpm docs:dev`
+- Build: `pnpm docs:build`
+- Preview: `pnpm docs:preview`
+
+### Documentation Structure
+```
+docs/
+├── guide/         # Getting started guides
+├── examples/      # Code examples
+├── adr/           # Architecture Decision Records
+├── packages/      # Package-specific docs
+└── index.md       # Main documentation entry
+```
+
+### JSON Schema
+- Replay schema at `schemas/replay.schema.json`
+- Version: `1` (stable contract)
+
+## 9. Contributions
 
 ### Architecture Decision Records
 - Decoupled visualization allows multiple rendering backends

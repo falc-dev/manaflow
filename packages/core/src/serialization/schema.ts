@@ -23,11 +23,12 @@ const PlayerSchema = z.object({
   id: z.string(),
   name: z.string(),
   health: z.number(),
-  resources: z.array(ResourceSchema),
+  resources: z.array(ResourceSchema).optional(),
   hand: z.array(z.string()),
   deck: z.array(z.string()),
   discard: z.array(z.string()),
-  zones: z.record(z.array(z.string()))
+  zones: z.record(z.array(z.string())),
+  metadata: z.record(z.unknown()).optional()
 });
 
 const GameComponentSchema = z.object({
@@ -46,7 +47,8 @@ const EntitySchema = z.object({
 
 const SnapshotMetadataSchema = z
   .object({
-    rulesProfile: z.string()
+    rulesProfile: z.string(),
+    currentPhase: z.string().optional()
   })
   .catchall(z.unknown());
 
@@ -61,7 +63,6 @@ const ReplayEventMetadataSchema = z
 const SnapshotSchema = z.object({
   id: z.string(),
   players: z.array(PlayerSchema),
-  currentPhase: z.string(),
   currentPlayer: z.string(),
   turn: z.number(),
   entities: z.record(EntitySchema),

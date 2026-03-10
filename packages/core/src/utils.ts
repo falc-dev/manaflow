@@ -30,7 +30,6 @@ export function createInitialState(players: { id: string; name: string }[]): Gam
       discard: [],
       zones: {}
     })),
-    currentPhase: 'DRAW',
     currentPlayer: firstPlayer,
     turn: 1,
     entities: {},
@@ -41,7 +40,7 @@ export function createInitialState(players: { id: string; name: string }[]): Gam
       graveyard: [],
       stack: []
     },
-    metadata: { rulesProfile: 'generic-v1' }
+    metadata: { rulesProfile: 'generic-v1', currentPhase: 'DRAW' }
   };
 }
 

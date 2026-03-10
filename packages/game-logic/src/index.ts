@@ -10,7 +10,10 @@ export const tcgReplayReducer: Reducer = (snapshot, action) => {
     const nextIndex = (currentIndex + 1) % state.players.length;
     state.currentPlayer = state.players[nextIndex]?.id ?? state.currentPlayer;
     state.turn += 1;
-    state.currentPhase = 'DRAW';
+    state.metadata = {
+      ...state.metadata,
+      currentPhase: 'DRAW'
+    };
   }
 
   return state;
