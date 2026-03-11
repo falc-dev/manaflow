@@ -461,6 +461,101 @@
         "battlefield_north": "red",
         "battlefield_south": "neutral"
       }
+    },
+    "zoneMeta": {
+      "battlefield_north": {
+        "ownerId": "shared",
+        "kind": "objective",
+        "visibility": "public",
+        "label": "Battlefield North"
+      },
+      "battlefield_south": {
+        "ownerId": "shared",
+        "kind": "objective",
+        "visibility": "public",
+        "label": "Battlefield South"
+      },
+      "champion_blue": {
+        "ownerId": "blue",
+        "kind": "board",
+        "visibility": "public",
+        "label": "Champion (Blue)"
+      },
+      "champion_red": {
+        "ownerId": "red",
+        "kind": "board",
+        "visibility": "public",
+        "label": "Champion (Red)"
+      },
+      "base_blue": {
+        "ownerId": "blue",
+        "kind": "board",
+        "visibility": "public",
+        "label": "Base (Blue)"
+      },
+      "base_red": {
+        "ownerId": "red",
+        "kind": "board",
+        "visibility": "public",
+        "label": "Base (Red)"
+      },
+      "runes_blue": {
+        "ownerId": "blue",
+        "kind": "resource",
+        "visibility": "public",
+        "label": "Runes (Blue)"
+      },
+      "runes_red": {
+        "ownerId": "red",
+        "kind": "resource",
+        "visibility": "public",
+        "label": "Runes (Red)"
+      },
+      "rune_deck_blue": {
+        "ownerId": "blue",
+        "kind": "deck",
+        "visibility": "owner",
+        "ordered": true,
+        "label": "Rune Deck (Blue)"
+      },
+      "rune_deck_red": {
+        "ownerId": "red",
+        "kind": "deck",
+        "visibility": "owner",
+        "ordered": true,
+        "label": "Rune Deck (Red)"
+      },
+      "deck_blue": {
+        "ownerId": "blue",
+        "kind": "deck",
+        "visibility": "owner",
+        "ordered": true,
+        "label": "Deck (Blue)"
+      },
+      "deck_red": {
+        "ownerId": "red",
+        "kind": "deck",
+        "visibility": "owner",
+        "ordered": true,
+        "label": "Deck (Red)"
+      },
+      "trash_blue": {
+        "ownerId": "blue",
+        "kind": "discard",
+        "visibility": "public",
+        "label": "Trash (Blue)"
+      },
+      "trash_red": {
+        "ownerId": "red",
+        "kind": "discard",
+        "visibility": "public",
+        "label": "Trash (Red)"
+      },
+      "stack": {
+        "kind": "stack",
+        "visibility": "public",
+        "label": "Stack"
+      }
     }
   },
   "events": [
@@ -937,6 +1032,101 @@
           "control": {
             "battlefield_north": "red",
             "battlefield_south": "neutral"
+          }
+        },
+        "zoneMeta": {
+          "battlefield_north": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield North"
+          },
+          "battlefield_south": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield South"
+          },
+          "champion_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Blue)"
+          },
+          "champion_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Red)"
+          },
+          "base_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Blue)"
+          },
+          "base_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Red)"
+          },
+          "runes_blue": {
+            "ownerId": "blue",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Blue)"
+          },
+          "runes_red": {
+            "ownerId": "red",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Red)"
+          },
+          "rune_deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Blue)"
+          },
+          "rune_deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Red)"
+          },
+          "deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Blue)"
+          },
+          "deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Red)"
+          },
+          "trash_blue": {
+            "ownerId": "blue",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Blue)"
+          },
+          "trash_red": {
+            "ownerId": "red",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Red)"
+          },
+          "stack": {
+            "kind": "stack",
+            "visibility": "public",
+            "label": "Stack"
           }
         }
       }
@@ -1417,6 +1607,101 @@
             "battlefield_north": "red",
             "battlefield_south": "neutral"
           }
+        },
+        "zoneMeta": {
+          "battlefield_north": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield North"
+          },
+          "battlefield_south": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield South"
+          },
+          "champion_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Blue)"
+          },
+          "champion_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Red)"
+          },
+          "base_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Blue)"
+          },
+          "base_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Red)"
+          },
+          "runes_blue": {
+            "ownerId": "blue",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Blue)"
+          },
+          "runes_red": {
+            "ownerId": "red",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Red)"
+          },
+          "rune_deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Blue)"
+          },
+          "rune_deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Red)"
+          },
+          "deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Blue)"
+          },
+          "deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Red)"
+          },
+          "trash_blue": {
+            "ownerId": "blue",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Blue)"
+          },
+          "trash_red": {
+            "ownerId": "red",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Red)"
+          },
+          "stack": {
+            "kind": "stack",
+            "visibility": "public",
+            "label": "Stack"
+          }
         }
       }
     },
@@ -1892,6 +2177,101 @@
           "control": {
             "battlefield_north": "red",
             "battlefield_south": "neutral"
+          }
+        },
+        "zoneMeta": {
+          "battlefield_north": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield North"
+          },
+          "battlefield_south": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield South"
+          },
+          "champion_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Blue)"
+          },
+          "champion_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Red)"
+          },
+          "base_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Blue)"
+          },
+          "base_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Red)"
+          },
+          "runes_blue": {
+            "ownerId": "blue",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Blue)"
+          },
+          "runes_red": {
+            "ownerId": "red",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Red)"
+          },
+          "rune_deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Blue)"
+          },
+          "rune_deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Red)"
+          },
+          "deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Blue)"
+          },
+          "deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Red)"
+          },
+          "trash_blue": {
+            "ownerId": "blue",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Blue)"
+          },
+          "trash_red": {
+            "ownerId": "red",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Red)"
+          },
+          "stack": {
+            "kind": "stack",
+            "visibility": "public",
+            "label": "Stack"
           }
         }
       }
@@ -2369,6 +2749,101 @@
             "battlefield_north": "red",
             "battlefield_south": "neutral"
           }
+        },
+        "zoneMeta": {
+          "battlefield_north": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield North"
+          },
+          "battlefield_south": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield South"
+          },
+          "champion_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Blue)"
+          },
+          "champion_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Red)"
+          },
+          "base_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Blue)"
+          },
+          "base_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Red)"
+          },
+          "runes_blue": {
+            "ownerId": "blue",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Blue)"
+          },
+          "runes_red": {
+            "ownerId": "red",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Red)"
+          },
+          "rune_deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Blue)"
+          },
+          "rune_deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Red)"
+          },
+          "deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Blue)"
+          },
+          "deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Red)"
+          },
+          "trash_blue": {
+            "ownerId": "blue",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Blue)"
+          },
+          "trash_red": {
+            "ownerId": "red",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Red)"
+          },
+          "stack": {
+            "kind": "stack",
+            "visibility": "public",
+            "label": "Stack"
+          }
         }
       }
     },
@@ -2844,6 +3319,101 @@
           "control": {
             "battlefield_north": "red",
             "battlefield_south": "neutral"
+          }
+        },
+        "zoneMeta": {
+          "battlefield_north": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield North"
+          },
+          "battlefield_south": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield South"
+          },
+          "champion_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Blue)"
+          },
+          "champion_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Red)"
+          },
+          "base_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Blue)"
+          },
+          "base_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Red)"
+          },
+          "runes_blue": {
+            "ownerId": "blue",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Blue)"
+          },
+          "runes_red": {
+            "ownerId": "red",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Red)"
+          },
+          "rune_deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Blue)"
+          },
+          "rune_deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Red)"
+          },
+          "deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Blue)"
+          },
+          "deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Red)"
+          },
+          "trash_blue": {
+            "ownerId": "blue",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Blue)"
+          },
+          "trash_red": {
+            "ownerId": "red",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Red)"
+          },
+          "stack": {
+            "kind": "stack",
+            "visibility": "public",
+            "label": "Stack"
           }
         }
       }
@@ -3330,6 +3900,101 @@
             "battlefield_north": "neutral",
             "battlefield_south": "neutral"
           }
+        },
+        "zoneMeta": {
+          "battlefield_north": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield North"
+          },
+          "battlefield_south": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield South"
+          },
+          "champion_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Blue)"
+          },
+          "champion_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Red)"
+          },
+          "base_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Blue)"
+          },
+          "base_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Red)"
+          },
+          "runes_blue": {
+            "ownerId": "blue",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Blue)"
+          },
+          "runes_red": {
+            "ownerId": "red",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Red)"
+          },
+          "rune_deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Blue)"
+          },
+          "rune_deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Red)"
+          },
+          "deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Blue)"
+          },
+          "deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Red)"
+          },
+          "trash_blue": {
+            "ownerId": "blue",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Blue)"
+          },
+          "trash_red": {
+            "ownerId": "red",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Red)"
+          },
+          "stack": {
+            "kind": "stack",
+            "visibility": "public",
+            "label": "Stack"
+          }
         }
       }
     },
@@ -3809,6 +4474,101 @@
           "control": {
             "battlefield_north": "neutral",
             "battlefield_south": "neutral"
+          }
+        },
+        "zoneMeta": {
+          "battlefield_north": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield North"
+          },
+          "battlefield_south": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield South"
+          },
+          "champion_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Blue)"
+          },
+          "champion_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Red)"
+          },
+          "base_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Blue)"
+          },
+          "base_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Red)"
+          },
+          "runes_blue": {
+            "ownerId": "blue",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Blue)"
+          },
+          "runes_red": {
+            "ownerId": "red",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Red)"
+          },
+          "rune_deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Blue)"
+          },
+          "rune_deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Red)"
+          },
+          "deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Blue)"
+          },
+          "deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Red)"
+          },
+          "trash_blue": {
+            "ownerId": "blue",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Blue)"
+          },
+          "trash_red": {
+            "ownerId": "red",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Red)"
+          },
+          "stack": {
+            "kind": "stack",
+            "visibility": "public",
+            "label": "Stack"
           }
         }
       }
@@ -4297,6 +5057,101 @@
             "battlefield_north": "blue",
             "battlefield_south": "blue"
           }
+        },
+        "zoneMeta": {
+          "battlefield_north": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield North"
+          },
+          "battlefield_south": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield South"
+          },
+          "champion_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Blue)"
+          },
+          "champion_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Red)"
+          },
+          "base_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Blue)"
+          },
+          "base_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Red)"
+          },
+          "runes_blue": {
+            "ownerId": "blue",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Blue)"
+          },
+          "runes_red": {
+            "ownerId": "red",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Red)"
+          },
+          "rune_deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Blue)"
+          },
+          "rune_deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Red)"
+          },
+          "deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Blue)"
+          },
+          "deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Red)"
+          },
+          "trash_blue": {
+            "ownerId": "blue",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Blue)"
+          },
+          "trash_red": {
+            "ownerId": "red",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Red)"
+          },
+          "stack": {
+            "kind": "stack",
+            "visibility": "public",
+            "label": "Stack"
+          }
         }
       }
     },
@@ -4783,6 +5638,101 @@
             "battlefield_south": "blue"
           },
           "winner": "blue"
+        },
+        "zoneMeta": {
+          "battlefield_north": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield North"
+          },
+          "battlefield_south": {
+            "ownerId": "shared",
+            "kind": "objective",
+            "visibility": "public",
+            "label": "Battlefield South"
+          },
+          "champion_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Blue)"
+          },
+          "champion_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Champion (Red)"
+          },
+          "base_blue": {
+            "ownerId": "blue",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Blue)"
+          },
+          "base_red": {
+            "ownerId": "red",
+            "kind": "board",
+            "visibility": "public",
+            "label": "Base (Red)"
+          },
+          "runes_blue": {
+            "ownerId": "blue",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Blue)"
+          },
+          "runes_red": {
+            "ownerId": "red",
+            "kind": "resource",
+            "visibility": "public",
+            "label": "Runes (Red)"
+          },
+          "rune_deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Blue)"
+          },
+          "rune_deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Rune Deck (Red)"
+          },
+          "deck_blue": {
+            "ownerId": "blue",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Blue)"
+          },
+          "deck_red": {
+            "ownerId": "red",
+            "kind": "deck",
+            "visibility": "owner",
+            "ordered": true,
+            "label": "Deck (Red)"
+          },
+          "trash_blue": {
+            "ownerId": "blue",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Blue)"
+          },
+          "trash_red": {
+            "ownerId": "red",
+            "kind": "discard",
+            "visibility": "public",
+            "label": "Trash (Red)"
+          },
+          "stack": {
+            "kind": "stack",
+            "visibility": "public",
+            "label": "Stack"
+          }
         }
       }
     }

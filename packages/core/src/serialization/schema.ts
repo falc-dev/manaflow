@@ -28,6 +28,7 @@ const PlayerSchema = z.object({
   deck: z.array(z.string()),
   discard: z.array(z.string()),
   zones: z.record(z.array(z.string())),
+  counters: z.record(z.number()).optional(),
   metadata: z.record(z.unknown()).optional()
 });
 
@@ -37,11 +38,25 @@ const GameComponentSchema = z.object({
   metadata: z.record(z.unknown()).optional()
 });
 
+const EntityStateSchema = z
+  .object({
+    tapped: z.boolean().optional(),
+    exhausted: z.boolean().optional(),
+    damage: z.number().optional(),
+    counters: z.record(z.number()).optional(),
+    attachedTo: z.string().optional(),
+    attachments: z.array(z.string()).optional(),
+    faceDown: z.boolean().optional(),
+    status: z.array(z.string()).optional()
+  })
+  .catchall(z.unknown());
+
 const EntitySchema = z.object({
   id: z.string(),
   type: z.enum(['card', 'player', 'marker', 'token']),
   components: z.array(GameComponentSchema),
   owner: z.string().optional(),
+  state: EntityStateSchema.optional(),
   metadata: z.record(z.unknown()).optional()
 });
 
@@ -56,17 +71,47 @@ const ReplayEventMetadataSchema = z
   .object({
     phase: z.string().optional(),
     intent: z.string().optional(),
-    summary: z.string().optional()
+    summary: z.string().optional(),
+    focusZones: z.array(z.string()).optional(),
+    actionWindow: z.string().optional(),
+    priorityPlayerId: z.string().optional()
+  })
+  .catchall(z.unknown());
+
+const ZoneMetaSchema = z
+  .object({
+    ownerId: z.string().optional(),
+    kind: z
+      .enum([
+        'deck',
+        'hand',
+        'board',
+        'discard',
+        'resource',
+        'objective',
+        'stack',
+        'attachment',
+        'limbo',
+        'custom'
+      ])
+      .optional(),
+    visibility: z.enum(['public', 'owner', 'hidden']).optional(),
+    ordered: z.boolean().optional(),
+    capacity: z.number().optional(),
+    label: z.string().optional(),
+    tags: z.array(z.string()).optional()
   })
   .catchall(z.unknown());
 
 const SnapshotSchema = z.object({
   id: z.string(),
   players: z.array(PlayerSchema),
+  currentPhase: z.string(),
   currentPlayer: z.string(),
   turn: z.number(),
   entities: z.record(EntitySchema),
   zones: z.record(z.array(z.string())),
+  zoneMeta: z.record(ZoneMetaSchema).optional(),
   metadata: SnapshotMetadataSchema
 });
 

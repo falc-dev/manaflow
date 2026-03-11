@@ -25,7 +25,11 @@ export function createReplayController(
     if (!renderer) {
       return;
     }
-    renderer.render(frame.snapshot);
+    if (renderer.renderFrame) {
+      renderer.renderFrame(frame);
+    } else {
+      renderer.render(frame.snapshot);
+    }
     renderer.highlight(frame.event?.id);
   };
 

@@ -4,6 +4,29 @@ export type Phase = 'DRAW' | 'MAIN' | 'COMBAT' | 'END' | (string & {});
 
 export type EntityType = 'card' | 'player' | 'marker' | 'token';
 
+export type ZoneVisibility = 'public' | 'owner' | 'hidden';
+export type ZoneKind =
+  | 'deck'
+  | 'hand'
+  | 'board'
+  | 'discard'
+  | 'resource'
+  | 'objective'
+  | 'stack'
+  | 'attachment'
+  | 'limbo'
+  | 'custom';
+
+export interface ZoneMeta {
+  ownerId?: string | 'shared';
+  kind?: ZoneKind;
+  visibility?: ZoneVisibility;
+  ordered?: boolean;
+  capacity?: number;
+  label?: string;
+  tags?: string[];
+}
+
 export interface ResourceState {
   type: string;
   amount: number;
@@ -41,7 +64,19 @@ export interface GameEntity {
   type: EntityType;
   components: GameComponent[];
   owner?: string;
+  state?: EntityState;
   metadata?: Record<string, unknown>;
+}
+
+export interface EntityState {
+  tapped?: boolean;
+  exhausted?: boolean;
+  damage?: number;
+  counters?: Record<string, number>;
+  attachedTo?: string;
+  attachments?: string[];
+  faceDown?: boolean;
+  status?: string[];
 }
 
 export interface PlayerState {
@@ -53,6 +88,7 @@ export interface PlayerState {
   deck: string[];
   discard: string[];
   zones: Record<string, string[]>;
+  counters?: Record<string, number>;
   metadata?: Record<string, unknown>;
 }
 
@@ -65,15 +101,20 @@ export interface ReplayEventMetadata extends Record<string, unknown> {
   phase?: string;
   intent?: string;
   summary?: string;
+  focusZones?: ZoneId[];
+  actionWindow?: string;
+  priorityPlayerId?: string;
 }
 
 export interface GameSnapshot {
   id: string;
   players: PlayerState[];
+  currentPhase: Phase;
   currentPlayer: string;
   turn: number;
   entities: Record<string, GameEntity>;
   zones: Record<string, string[]>;
+  zoneMeta?: Record<string, ZoneMeta>;
   metadata: SnapshotMetadata;
 }
 
@@ -262,6 +303,7 @@ export interface ReplayFrameInput {
 export interface RendererAdapter {
   mount(container: HTMLElement): void;
   render(snapshot: GameSnapshot): void;
+  renderFrame?(frame: ReplayFrame): void;
   highlight(eventId?: string): void;
   destroy(): void;
 }

@@ -137,6 +137,13 @@
               "type": "string"
             }
           }
+        },
+        "counters": {
+          "type": "object",
+          "description": "Custom counters for goals like prizes, points, or gig dice.",
+          "additionalProperties": {
+            "type": "number"
+          }
         }
       }
     },
@@ -205,9 +212,67 @@
             "blue"
           ]
         },
+        "state": {
+          "$ref": "#/$defs/entityState"
+        },
         "metadata": {
           "type": "object",
           "additionalProperties": true
+        }
+      }
+    },
+    "entityState": {
+      "type": "object",
+      "description": "Shared entity state (taps, counters, attachments).",
+      "additionalProperties": true,
+      "properties": {
+        "tapped": { "type": "boolean" },
+        "exhausted": { "type": "boolean" },
+        "damage": { "type": "number" },
+        "counters": {
+          "type": "object",
+          "additionalProperties": { "type": "number" }
+        },
+        "attachedTo": { "type": "string" },
+        "attachments": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "faceDown": { "type": "boolean" },
+        "status": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "zoneMeta": {
+      "type": "object",
+      "description": "Zone-level metadata for ownership, visibility, and layout hints.",
+      "additionalProperties": true,
+      "properties": {
+        "ownerId": { "type": "string" },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "deck",
+            "hand",
+            "board",
+            "discard",
+            "resource",
+            "objective",
+            "stack",
+            "attachment",
+            "limbo",
+            "custom"
+          ]
+        },
+        "visibility": { "type": "string", "enum": ["public", "owner", "hidden"] },
+        "ordered": { "type": "boolean" },
+        "capacity": { "type": "number" },
+        "label": { "type": "string" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
         }
       }
     },
@@ -286,6 +351,13 @@
             "items": {
               "type": "string"
             }
+          }
+        },
+        "zoneMeta": {
+          "type": "object",
+          "description": "Optional zone metadata for visibility, ownership, and labels.",
+          "additionalProperties": {
+            "$ref": "#/$defs/zoneMeta"
           }
         },
         "metadata": {
@@ -843,6 +915,18 @@
               "type": "string"
             },
             "summary": {
+              "type": "string"
+            },
+            "focusZones": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "actionWindow": {
+              "type": "string"
+            },
+            "priorityPlayerId": {
               "type": "string"
             }
           },

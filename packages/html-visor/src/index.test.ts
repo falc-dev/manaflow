@@ -99,6 +99,12 @@ class MockElement {
   querySelector(selector: string): MockElement | null {
     return findInTree(this, selector);
   }
+
+  querySelectorAll(selector: string): MockElement[] {
+    const results: MockElement[] = [];
+    collectInTree(this, selector, results);
+    return results;
+  }
 }
 
 function findInTree(node: MockElement, selector: string): MockElement | null {
@@ -112,6 +118,15 @@ function findInTree(node: MockElement, selector: string): MockElement | null {
     }
   }
   return null;
+}
+
+function collectInTree(node: MockElement, selector: string, results: MockElement[]): void {
+  for (const child of node.children) {
+    if (matches(child, selector)) {
+      results.push(child);
+    }
+    collectInTree(child, selector, results);
+  }
 }
 
 function matches(node: MockElement, selector: string): boolean {

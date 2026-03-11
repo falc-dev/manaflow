@@ -85,7 +85,7 @@ export function mountReplayDemo(
 
     const timeline = document.createElement('div');
     timeline.className = `replay-player__timeline${highlighted ? ' replay-player__timeline--highlighted' : ''}`;
-    const phase = snapshot.metadata?.currentPhase ?? '';
+    const phase = snapshot.currentPhase ?? snapshot.metadata?.currentPhase ?? '';
     timeline.textContent = `Turn ${snapshot.turn} · Phase ${phase} · Player ${snapshot.currentPlayer}`;
     viewport.appendChild(timeline);
 

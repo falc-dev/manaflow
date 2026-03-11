@@ -40,11 +40,18 @@ Cada `snapshot` mantiene estado completo:
 - `turn`
 - `entities`
 - `zones`
+- `zoneMeta` (opcional)
 - `metadata`
 
 `metadata` debe incluir como minimo:
 
 - `rulesProfile` (string), por ejemplo `riftbound-1v1-v1`.
+
+Campos opcionales nuevos recomendados:
+
+- `zoneMeta`: metadata por zona (`ownerId`, `visibility`, `kind`, `label`, `capacity`).
+- `entity.state`: estado estandar (tapped/exhausted/faceDown, damage, counters, attachments).
+- `player.counters`: contadores por jugador (prize, gig dice, puntos).
 
 ## Eventos y acciones
 
@@ -77,6 +84,12 @@ Cada frame contiene:
 ```
 
 `event.metadata` admite campos estandar opcionales para UX (`phase`, `intent`, `summary`) y campos extra de dominio.
+
+Campos UX extra recomendados:
+
+- `focusZones`: array de zonas relevantes al evento (para resaltar).
+- `actionWindow`: etiqueta de ventana de acciones (ej. `MAIN`, `COMBAT`, `REACTION`).
+- `priorityPlayerId`: jugador con prioridad/turno en esa ventana.
 
 ## Simplificación recomendada de acciones
 

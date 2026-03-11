@@ -17,11 +17,12 @@ function makeSnapshot(turn: number): GameSnapshot {
         zones: {}
       }
     ],
+    currentPhase: 'DRAW',
     currentPlayer: 'p1',
     turn,
     entities: {},
     zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-    metadata: { rulesProfile: 'test-v1', currentPhase: 'DRAW' }
+    metadata: { rulesProfile: 'test-v1' }
   };
 }
 
@@ -81,11 +82,12 @@ describe('ReplayEngine', () => {
       initialState: {
         id: 'game_ndjson',
         players: [],
+        currentPhase: 'DRAW',
         currentPlayer: 'p1',
         turn: 1,
         entities: {},
         zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-        metadata: { rulesProfile: 'test-v1', currentPhase: 'DRAW' }
+        metadata: { rulesProfile: 'test-v1' }
       }
     })}\n${JSON.stringify({
       event: {
@@ -97,11 +99,12 @@ describe('ReplayEngine', () => {
       snapshot: {
         id: 'game_ndjson',
         players: [],
+        currentPhase: 'MAIN',
         currentPlayer: 'p1',
         turn: 1,
         entities: {},
         zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-        metadata: { rulesProfile: 'test-v1', currentPhase: 'MAIN' }
+        metadata: { rulesProfile: 'test-v1' }
       }
     })}\n`;
 

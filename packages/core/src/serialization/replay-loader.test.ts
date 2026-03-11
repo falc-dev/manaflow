@@ -7,11 +7,12 @@ describe('ReplayLoader', () => {
     initialState: {
       id: 'game_json',
       players: [],
+      currentPhase: 'DRAW',
       currentPlayer: 'p1',
       turn: 1,
       entities: {},
       zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-      metadata: { rulesProfile: 'test-v1', currentPhase: 'DRAW' }
+      metadata: { rulesProfile: 'test-v1' }
     },
     events: []
   });
@@ -24,11 +25,12 @@ describe('ReplayLoader', () => {
       "initialState": {
         "id": "game_jsonc",
         "players": [],
+        "currentPhase": "DRAW",
         "currentPlayer": "p1",
         "turn": 1,
         "entities": {},
         "zones": { "deck": [], "hand": [], "board": [], "graveyard": [], "stack": [], },
-        "metadata": {"rulesProfile": "test-v1", "currentPhase": "DRAW"}
+        "metadata": {"rulesProfile": "test-v1"}
       },
       "events": []
     }
@@ -39,11 +41,12 @@ describe('ReplayLoader', () => {
     initialState: {
       id: 'game_ndjson',
       players: [],
+      currentPhase: 'DRAW',
       currentPlayer: 'p1',
       turn: 1,
       entities: {},
       zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-      metadata: { rulesProfile: 'test-v1', currentPhase: 'DRAW' }
+      metadata: { rulesProfile: 'test-v1' }
     }
   })}\n${JSON.stringify({
     event: {
@@ -55,11 +58,12 @@ describe('ReplayLoader', () => {
     snapshot: {
       id: 'game_ndjson',
       players: [],
+      currentPhase: 'MAIN',
       currentPlayer: 'p1',
       turn: 1,
       entities: {},
       zones: { deck: [], hand: [], board: [], graveyard: [], stack: [] },
-      metadata: { rulesProfile: 'test-v1', currentPhase: 'MAIN' }
+      metadata: { rulesProfile: 'test-v1' }
     }
   })}`;
 
@@ -68,6 +72,7 @@ schemaVersion: 1
 initialState:
   id: game_yaml
   players: []
+  currentPhase: DRAW
   currentPlayer: p1
   turn: 1
   entities: {}
@@ -77,7 +82,7 @@ initialState:
     board: []
     graveyard: []
     stack: []
-  metadata: { rulesProfile: 'test-v1', currentPhase: 'DRAW' }
+  metadata: { rulesProfile: 'test-v1' }
 events: []
 `;
 

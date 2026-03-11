@@ -98,10 +98,49 @@ function collectRiftboundSnapshotIssues(
   }
 }
 
+function collectZoneMetaIssues(
+  snapshot: ReplaySchemaType['initialState'],
+  label: string,
+  issues: ReplayProfileIssue[]
+): void {
+  if (!snapshot.zoneMeta) {
+    return;
+  }
+
+  const playerIds = new Set(snapshot.players.map((player) => player.id));
+  for (const [zoneId, meta] of Object.entries(snapshot.zoneMeta)) {
+    pushIssue(
+      issues,
+      `${label}.zoneMeta.${zoneId}`,
+      zoneId in snapshot.zones,
+      `${label}: zoneMeta references unknown zone "${zoneId}".`
+    );
+
+    const ownerId = meta?.ownerId;
+    if (!ownerId || ownerId === 'shared') {
+      continue;
+    }
+
+    pushIssue(
+      issues,
+      `${label}.zoneMeta.${zoneId}.ownerId`,
+      playerIds.has(ownerId),
+      `${label}: zoneMeta.${zoneId}.ownerId must match a player id or "shared".`
+    );
+  }
+}
+
 export function collectReplayProfileIssues(replay: ReplaySchemaType): ReplayProfileIssue[] {
   const issues: ReplayProfileIssue[] = [];
   const metadata = asRecord(replay.initialState.metadata);
   const rulesProfile = metadata?.rulesProfile;
+  collectZoneMetaIssues(replay.initialState, 'initialState', issues);
+  for (let index = 0; index < replay.events.length; index += 1) {
+    const frame = replay.events[index];
+    const label = `events[${index}].snapshot`;
+    collectZoneMetaIssues(frame.snapshot, label, issues);
+  }
+
   if (rulesProfile !== RIFTBOUND_PROFILE) {
     return issues;
   }

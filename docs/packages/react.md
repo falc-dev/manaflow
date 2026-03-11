@@ -73,7 +73,7 @@ const store = createReactReplayStore(replay);
 
 Tipos utiles:
 - `ReplayViewportZoneConfig`: `{ id: ZoneId; title: string }`
-- `ReplayViewportCardRenderContext`: `{ entityId; snapshot; card }`
+- `ReplayViewportCardRenderContext`: `{ entityId; snapshot; card; state }`
 - `ReplayViewportZoneTitleRenderContext`: `{ zone; snapshot; entityIds }`
 
 ## Ejemplos mini interactivos

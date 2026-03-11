@@ -174,7 +174,7 @@ import type { ReplayViewportProps } from '@manaflow/react';
 ### Related viewport types
 
 - `ReplayViewportZoneConfig`: `{ id: ZoneId; title: string }`
-- `ReplayViewportCardRenderContext`: `{ entityId; zoneId; snapshot; card }`
+- `ReplayViewportCardRenderContext`: `{ entityId; zoneId; snapshot; card; state }`
 - `ReplayViewportZoneTitleRenderContext`: `{ zone; snapshot; entityIds }`
 
 ## Mini interactive examples
