@@ -1,8 +1,28 @@
 # Manaflow
 
-Manaflow is a replay-first TCG engine and viewer monorepo.
+Manaflow es una librería para visualizar repeticiones de juegos de cartas (TCGs). En 30 segundos puedes tener un reproductor funcional.
 
-## Packages
+## Quick start
+
+```bash
+npm install @manaflow/react @manaflow/core
+```
+
+```tsx
+import { ReplayPlayer, createReactReplayStore } from '@manaflow/react';
+import '@manaflow/react/styles.css';
+import replayData from './mi-replay.json';
+
+const store = createReactReplayStore(replayData);
+
+<ReplayPlayer store={store} />
+```
+
+**[Ver demo interactiva](https://manaflow.dev/demo)** · **[Guía de inicio](docs/guide/getting-started.md)** · **[Ejemplos](docs/examples/index.md)**
+
+---
+
+## Paquetes
 
 - `@manaflow/types`: Canonical domain model (`Card`, `CardInstance`, `GameSnapshot`, `ReplayEvent`, `RendererAdapter`).
 - `@manaflow/core`: Game/replay runtime (`GameEngine`, `ReplayEngine`, YAML/JSON loaders).
@@ -30,7 +50,15 @@ Manaflow is a replay-first TCG engine and viewer monorepo.
 }
 ```
 
-## Commands
+## Arquitectura
+
+```
+[Replay JSON] → ReplayEngine → ReplayStore → [React/Vue] → Visor → UI
+                      ↓                                    ↓
+               [GameSnapshot]                    [ReplayPlayer/Viewport]
+```
+
+## Comandos
 
 ```bash
 pnpm build
