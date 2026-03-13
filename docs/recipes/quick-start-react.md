@@ -10,6 +10,26 @@ npm install @manaflow/react @manaflow/core
 
 ## 2. Prepara tu replay
 
+### Opción A: Genera datos de prueba automáticamente
+
+```ts
+import { createDemoReplay, ReplayEngine } from '@manaflow/core';
+import { createReactReplayStore } from '@manaflow/react';
+
+const replayData = createDemoReplay({ players: 2, cardsPerHand: 3, turns: 3 });
+const store = createReactReplayStore(replayData);
+```
+
+### Opción B: Usa el demo incluido
+
+```ts
+import { loadDemoReplay } from '@manaflow/react';
+
+const replay = await loadDemoReplay('/demo.replay.json');
+```
+
+### Opción C: Carga tu propio archivo
+
 Crea un archivo `replay.json` con el formato de Manaflow:
 
 ```json
@@ -23,21 +43,15 @@ Crea un archivo `replay.json` con el formato de Manaflow:
     ],
     "currentPlayer": "p1",
     "turn": 1,
+    "currentPhase": "MAIN",
     "entities": {
       "c1": { "id": "c1", "type": "card", "components": [{ "componentType": "CARD", "entityId": "c1", "metadata": { "name": "Dragon", "cost": 5 } }] }
     },
-    "zones": { "hand_p1": ["c1"], "hand_p2": ["c3"], "deck_p1": ["c2"], "deck_p2": ["c4"] }
+    "zones": { "hand_p1": ["c1"], "hand_p2": ["c3"], "deck_p1": ["c2"], "deck_p2": ["c4"] },
+    "metadata": { "rulesProfile": "riftbound-1v1-v1" }
   },
   "events": []
 }
-```
-
-O usa el demo incluido:
-
-```ts
-import { loadDemoReplay } from '@manaflow/react';
-
-const replay = await loadDemoReplay('/demo.replay.json');
 ```
 
 ## 3. Renderiza el reproductor
