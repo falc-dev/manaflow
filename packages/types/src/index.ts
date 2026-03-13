@@ -120,6 +120,34 @@ export interface GameSnapshot {
 
 export type GameState = GameSnapshot;
 
+export interface GameMatch {
+  id: string;
+  formatId?: string;
+  replay: ReplayData;
+  metadata: {
+    startedAt: number;
+    endedAt?: number;
+    duration?: number;
+    source?: string;
+    title?: string;
+    players?: string[];
+  };
+}
+
+export function createGameMatch(
+  replay: ReplayData,
+  options: Partial<GameMatch['metadata']> = {}
+): GameMatch {
+  return {
+    id: `match_${Date.now()}`,
+    replay,
+    metadata: {
+      startedAt: Date.now(),
+      ...options
+    }
+  };
+}
+
 export interface ReplayActionBase<TType extends string, TPayload extends Record<string, unknown>> {
   type: TType;
   playerId: string;
@@ -390,3 +418,5 @@ export function createCardComponent(
 export function createSnapshotId(prefix = 'snapshot'): string {
   return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 }
+
+export type { GameMatch };
