@@ -43,6 +43,31 @@ export type {
   ReplayUiPreset,
   ReplayUiPresetZone
 } from './serialization/preset-validation';
+export { loadReplayWithFormat } from './format-loader';
+export type { LoadReplayWithFormatOptions, LoadReplayWithFormatResult } from './format-loader';
+export {
+  collectReplayFormatIssues,
+  resolveReplayFormat,
+  validateReplayFormat
+} from './format';
+export {
+  FormatValidationError,
+  parseGameFormat,
+  validateGameFormat
+} from './serialization/format-validation';
+export type {
+  FormatValidationError,
+  FormatValidationFailure,
+  FormatValidationIssue,
+  FormatValidationResult,
+  FormatValidationSuccess
+} from './serialization/format-validation';
+export type {
+  ReplayFormatIssue,
+  ReplayFormatValidationFailure,
+  ReplayFormatValidationResult,
+  ReplayFormatValidationSuccess
+} from './format';
 export { createAction, createInitialState, deepClone, generateUUID } from './utils';
 
 /** Loads replay data from YAML into a `ReplayEngine`. */
@@ -80,6 +105,13 @@ export type {
   ReplayEvent,
   ReplayFrame,
   ReplayFrameInput,
+  ReplayFormatOverrides,
+  ReplayFormatRef,
+  GameFormat,
+  GameFormatPhase,
+  GameFormatPlayers,
+  GameFormatZone,
+  GameFormatZoneGroup,
   RendererAdapter,
   PlayerState,
   ZoneId,

@@ -4,6 +4,8 @@ import {
   ReplayEvent,
   ReplayFrame,
   ReplayFrameInput,
+  ReplayFormatOverrides,
+  ReplayFormatRef,
   createSnapshotId
 } from '@manaflow/types';
 import { deepClone } from './utils';
@@ -32,13 +34,21 @@ export interface SeekQuery {
 export class ReplayEngine {
   private readonly frames: ReplayFrame[];
   private currentIndex: number;
+  private readonly formatRef?: ReplayFormatRef;
+  private readonly formatOverrides?: ReplayFormatOverrides;
 
   /**
    * Builds a replay timeline from an initial snapshot plus optional frame entries.
    */
-  constructor(initialState: GameSnapshot, entries: ReplayFrameInput[] = []) {
+  constructor(
+    initialState: GameSnapshot,
+    entries: ReplayFrameInput[] = [],
+    options: { formatRef?: ReplayFormatRef; formatOverrides?: ReplayFormatOverrides } = {}
+  ) {
     this.frames = [{ index: 0, snapshot: deepClone(initialState) }];
     this.currentIndex = 0;
+    this.formatRef = options.formatRef;
+    this.formatOverrides = options.formatOverrides;
 
     for (const entry of entries) {
       this.appendSnapshot(entry.snapshot, entry.event);
@@ -131,6 +141,16 @@ export class ReplayEngine {
     return deepClone(this.frames[this.currentIndex]);
   }
 
+  /** Returns the format reference (if provided on load). */
+  getFormatRef(): ReplayFormatRef | undefined {
+    return this.formatRef ? deepClone(this.formatRef) : undefined;
+  }
+
+  /** Returns the format overrides (if provided on load). */
+  getFormatOverrides(): ReplayFormatOverrides | undefined {
+    return this.formatOverrides ? deepClone(this.formatOverrides) : undefined;
+  }
+
   /** Convenience accessor for `getCurrentFrame().snapshot`. */
   getCurrentState(): GameSnapshot {
     return this.getCurrentFrame().snapshot;
@@ -148,11 +168,21 @@ export class ReplayEngine {
       .slice(1)
       .map((frame) => ({ event: deepClone(frame.event!), snapshot: deepClone(frame.snapshot) }));
 
-    return {
+    const payload: ReplayData = {
       schemaVersion: 1,
       initialState,
       events
     };
+
+    if (this.formatRef) {
+      payload.formatRef = deepClone(this.formatRef);
+    }
+
+    if (this.formatOverrides) {
+      payload.formatOverrides = deepClone(this.formatOverrides);
+    }
+
+    return payload;
   }
 
   /** Creates a replay engine from YAML payload. */

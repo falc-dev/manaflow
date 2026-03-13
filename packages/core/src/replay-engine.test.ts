@@ -111,4 +111,31 @@ describe('ReplayEngine', () => {
     expect(ReplayEngine.fromJsonc(jsoncPayload).getCurrentState().id).toBe('game_jsonc');
     expect(ReplayEngine.fromSerialized(ndjsonPayload).getTotalFrames()).toBe(2);
   });
+
+  it('preserves formatRef and formatOverrides in serialization', () => {
+    const payload = {
+      schemaVersion: 1,
+      formatRef: { formatId: 'riftbound-1v1-v1' },
+      formatOverrides: {
+        zones: {
+          battlefield_mid: {
+            id: 'battlefield_mid',
+            ownerId: 'shared',
+            kind: 'board',
+            visibility: 'public'
+          }
+        }
+      },
+      initialState: makeSnapshot(1),
+      events: []
+    };
+
+    const engine = ReplayEngine.fromJson(JSON.stringify(payload));
+    const serialized = engine.toReplayData();
+
+    expect(engine.getFormatRef()).toEqual(payload.formatRef);
+    expect(engine.getFormatOverrides()).toEqual(payload.formatOverrides);
+    expect(serialized.formatRef).toEqual(payload.formatRef);
+    expect(serialized.formatOverrides).toEqual(payload.formatOverrides);
+  });
 });

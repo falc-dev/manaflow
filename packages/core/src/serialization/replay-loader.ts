@@ -7,7 +7,7 @@ import { YamlLoader } from './yaml-loader';
 export type ReplaySerializationFormat = 'json' | 'jsonc' | 'yaml' | 'ndjson';
 
 /** Heuristic format detection used when caller does not pass an explicit format. */
-function detectFormat(payload: string): ReplaySerializationFormat {
+export function detectReplaySerializationFormat(payload: string): ReplaySerializationFormat {
   const trimmed = payload.trimStart();
 
   const nonEmptyLines = payload
@@ -53,7 +53,7 @@ export class ReplayLoader {
    * If `format` is omitted, it is inferred with `detectFormat`.
    */
   static loadReplay(payload: string, format?: ReplaySerializationFormat): ReplayEngine {
-    const resolvedFormat = format ?? detectFormat(payload);
+    const resolvedFormat = format ?? detectReplaySerializationFormat(payload);
     switch (resolvedFormat) {
       case 'json':
         return JsonLoader.loadReplay(payload);

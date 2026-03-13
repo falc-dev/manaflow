@@ -7,7 +7,10 @@ export class JsonLoader {
   static loadReplay(jsonString: string): ReplayEngine {
     try {
       const parsed = parseReplayJson(jsonString, { normalizeRiftboundAliases: true });
-      return new ReplayEngine(parsed.initialState, parsed.events);
+      return new ReplayEngine(parsed.initialState, parsed.events, {
+        formatRef: parsed.formatRef,
+        formatOverrides: parsed.formatOverrides
+      });
     } catch (error) {
       const message =
         error instanceof ReplayValidationError

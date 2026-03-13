@@ -7,7 +7,10 @@ export class JsoncLoader {
   static loadReplay(jsoncString: string): ReplayEngine {
     try {
       const parsed = parseReplayJsonc(jsoncString, { normalizeRiftboundAliases: true });
-      return new ReplayEngine(parsed.initialState, parsed.events);
+      return new ReplayEngine(parsed.initialState, parsed.events, {
+        formatRef: parsed.formatRef,
+        formatOverrides: parsed.formatOverrides
+      });
     } catch (error) {
       const message =
         error instanceof ReplayValidationError

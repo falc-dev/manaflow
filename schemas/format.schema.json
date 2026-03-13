@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://manaflow.dev/schemas/format.schema.json",
+  "title": "Manaflow Game Format",
+  "description": "Schema v1 for Manaflow game format payloads.",
+  "markdownDescription": "Versioned format contract for Manaflow (`schemaVersion: 1`). Defines zones, phases, and player slots outside the replay.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "formatId",
+    "rulesProfile",
+    "players",
+    "phases",
+    "zones"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "The schema to verify this document against.",
+      "examples": [
+        "../../../schemas/format.schema.json"
+      ]
+    },
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1,
+      "description": "Format schema version.",
+      "markdownDescription": "Stable format schema version. Must be `1`.",
+      "examples": [
+        1
+      ]
+    },
+    "formatId": {
+      "type": "string",
+      "description": "Stable identifier for the rules/format bundle.",
+      "examples": [
+        "riftbound-1v1-v1"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-friendly format name.",
+      "examples": [
+        "Riftbound 1v1"
+      ]
+    },
+    "rulesProfile": {
+      "type": "string",
+      "description": "Rules profile id consumed by the replay runtime.",
+      "examples": [
+        "riftbound-1v1-v1"
+      ]
+    },
+    "players": {
+      "$ref": "#/$defs/players"
+    },
+    "phases": {
+      "type": "array",
+      "description": "Ordered list of turn phases used by snapshots (currentPhase).",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/phase"
+      }
+    },
+    "zones": {
+      "type": "object",
+      "description": "Zone definitions keyed by zone id.",
+      "additionalProperties": {
+        "$ref": "#/$defs/zoneDefinition"
+      }
+    },
+    "zoneOrder": {
+      "type": "array",
+      "description": "Optional ordering hint for presenting zones.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "zoneGroups": {
+      "type": "array",
+      "description": "Optional zone collections for semantic grouping.",
+      "items": {
+        "$ref": "#/$defs/zoneGroup"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Extra format-level metadata.",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "players": {
+      "type": "object",
+      "description": "Player slot metadata and ordering.",
+      "additionalProperties": false,
+      "required": [
+        "ids"
+      ],
+      "properties": {
+        "ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "count": {
+          "type": "number",
+          "description": "Expected player count (should match ids.length)."
+        },
+        "seatOrder": {
+          "type": "array",
+          "description": "Optional seat order for turn rotation or layout.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "labels": {
+          "type": "object",
+          "description": "Optional human labels per player id.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "phase": {
+      "type": "object",
+      "description": "Phase definition consumed by snapshots (currentPhase).",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "examples": [
+            "DRAW",
+            "MAIN",
+            "COMBAT",
+            "END"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "zoneDefinition": {
+      "type": "object",
+      "description": "Zone definition shared across all snapshots.",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Player id or 'shared'."
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "deck",
+            "hand",
+            "board",
+            "discard",
+            "resource",
+            "objective",
+            "stack",
+            "attachment",
+            "limbo",
+            "custom"
+          ]
+        },
+        "visibility": {
+          "type": "string",
+          "enum": [
+            "public",
+            "owner",
+            "hidden"
+          ]
+        },
+        "ordered": {
+          "type": "boolean"
+        },
+        "capacity": {
+          "type": "number"
+        },
+        "label": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "zoneGroup": {
+      "type": "object",
+      "description": "Semantic grouping for multiple zones.",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "zoneIds"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "zoneIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    }
+  }
+}

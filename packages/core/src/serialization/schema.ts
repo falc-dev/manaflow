@@ -103,6 +103,72 @@ const ZoneMetaSchema = z
   })
   .catchall(z.unknown());
 
+const FormatPlayersSchema = z.object({
+  ids: z.array(z.string()),
+  count: z.number().optional(),
+  seatOrder: z.array(z.string()).optional(),
+  labels: z.record(z.string()).optional(),
+  metadata: z.record(z.unknown()).optional()
+});
+
+const FormatPhaseSchema = z.object({
+  id: z.string(),
+  label: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  metadata: z.record(z.unknown()).optional()
+});
+
+const FormatZoneSchema = z.object({
+  id: z.string(),
+  ownerId: z.string().optional(),
+  kind: z
+    .enum([
+      'deck',
+      'hand',
+      'board',
+      'discard',
+      'resource',
+      'objective',
+      'stack',
+      'attachment',
+      'limbo',
+      'custom'
+    ])
+    .optional(),
+  visibility: z.enum(['public', 'owner', 'hidden']).optional(),
+  ordered: z.boolean().optional(),
+  capacity: z.number().optional(),
+  label: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  metadata: z.record(z.unknown()).optional()
+});
+
+const FormatZoneGroupSchema = z.object({
+  id: z.string(),
+  label: z.string().optional(),
+  zoneIds: z.array(z.string()),
+  tags: z.array(z.string()).optional(),
+  metadata: z.record(z.unknown()).optional()
+});
+
+const FormatRefSchema = z.object({
+  formatId: z.string(),
+  schemaVersion: z.literal(1).optional(),
+  source: z.string().optional(),
+  checksum: z.string().optional()
+});
+
+const FormatOverridesSchema = z.object({
+  name: z.string().optional(),
+  rulesProfile: z.string().optional(),
+  players: FormatPlayersSchema.optional(),
+  phases: z.array(FormatPhaseSchema).optional(),
+  zones: z.record(FormatZoneSchema).optional(),
+  zoneOrder: z.array(z.string()).optional(),
+  zoneGroups: z.array(FormatZoneGroupSchema).optional(),
+  metadata: z.record(z.unknown()).optional()
+});
+
 const SnapshotSchema = z.object({
   id: z.string(),
   players: z.array(PlayerSchema),
@@ -292,12 +358,16 @@ const ReplayFrameInputStrictSchema = z.object({
 
 export const ReplaySchema = z.object({
   schemaVersion: z.literal(1),
+  formatRef: FormatRefSchema.optional(),
+  formatOverrides: FormatOverridesSchema.optional(),
   initialState: SnapshotSchema,
   events: z.array(ReplayFrameInputSchema)
 });
 
 export const ReplaySchemaStrict = z.object({
   schemaVersion: z.literal(1),
+  formatRef: FormatRefSchema.optional(),
+  formatOverrides: FormatOverridesSchema.optional(),
   initialState: SnapshotSchema,
   events: z.array(ReplayFrameInputStrictSchema)
 });

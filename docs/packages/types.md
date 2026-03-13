@@ -10,6 +10,8 @@ Define el modelo de dominio (snapshots, eventos, entidades, zonas y renderer ada
 
 - Tipos de dominio: `Card`, `CardInstance`, `GameEntity`, `GameSnapshot`, `PlayerState`
 - Replay: `ReplayEvent`, `ReplayFrame`, `ReplayData`, `ReplayFrameInput`
+- Replay formato hibrido: `ReplayFormatRef`, `ReplayFormatOverrides`
+- Formato: `GameFormat`, `GameFormatPlayers`, `GameFormatPhase`, `GameFormatZone`, `GameFormatZoneGroup`
 - Contrato de renderer: `RendererAdapter`
 - Helpers: `createCardComponent`, `createSnapshotId`
 

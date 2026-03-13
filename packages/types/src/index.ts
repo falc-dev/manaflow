@@ -291,6 +291,8 @@ export interface ReplayFrame {
 
 export interface ReplayData {
   schemaVersion: 1;
+  formatRef?: ReplayFormatRef;
+  formatOverrides?: ReplayFormatOverrides;
   initialState: GameSnapshot;
   events: ReplayFrameInput[];
 }
@@ -298,6 +300,72 @@ export interface ReplayData {
 export interface ReplayFrameInput {
   event: ReplayEvent;
   snapshot: GameSnapshot;
+}
+
+export interface ReplayFormatRef {
+  formatId: string;
+  schemaVersion?: 1;
+  source?: string;
+  checksum?: string;
+}
+
+export interface ReplayFormatOverrides {
+  name?: string;
+  rulesProfile?: string;
+  players?: GameFormatPlayers;
+  phases?: GameFormatPhase[];
+  zones?: Record<string, GameFormatZone>;
+  zoneOrder?: string[];
+  zoneGroups?: GameFormatZoneGroup[];
+  metadata?: Record<string, unknown>;
+}
+
+export interface GameFormatPlayers {
+  ids: string[];
+  count?: number;
+  seatOrder?: string[];
+  labels?: Record<string, string>;
+  metadata?: Record<string, unknown>;
+}
+
+export interface GameFormatPhase {
+  id: string;
+  label?: string;
+  tags?: string[];
+  metadata?: Record<string, unknown>;
+}
+
+export interface GameFormatZone {
+  id: string;
+  ownerId?: string;
+  kind?: 'deck' | 'hand' | 'board' | 'discard' | 'resource' | 'objective' | 'stack' | 'attachment' | 'limbo' | 'custom';
+  visibility?: 'public' | 'owner' | 'hidden';
+  ordered?: boolean;
+  capacity?: number;
+  label?: string;
+  tags?: string[];
+  metadata?: Record<string, unknown>;
+}
+
+export interface GameFormatZoneGroup {
+  id: string;
+  label?: string;
+  zoneIds: string[];
+  tags?: string[];
+  metadata?: Record<string, unknown>;
+}
+
+export interface GameFormat {
+  schemaVersion: 1;
+  formatId: string;
+  name?: string;
+  rulesProfile: string;
+  players: GameFormatPlayers;
+  phases: GameFormatPhase[];
+  zones: Record<string, GameFormatZone>;
+  zoneOrder?: string[];
+  zoneGroups?: GameFormatZoneGroup[];
+  metadata?: Record<string, unknown>;
 }
 
 export interface RendererAdapter {

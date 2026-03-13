@@ -134,11 +134,22 @@ export function collectReplayProfileIssues(replay: ReplaySchemaType): ReplayProf
   const issues: ReplayProfileIssue[] = [];
   const metadata = asRecord(replay.initialState.metadata);
   const rulesProfile = metadata?.rulesProfile;
+  const formatOverrides = asRecord(replay.formatOverrides);
+  const overrideRulesProfile = formatOverrides?.rulesProfile;
   collectZoneMetaIssues(replay.initialState, 'initialState', issues);
   for (let index = 0; index < replay.events.length; index += 1) {
     const frame = replay.events[index];
     const label = `events[${index}].snapshot`;
     collectZoneMetaIssues(frame.snapshot, label, issues);
+  }
+
+  if (overrideRulesProfile) {
+    pushIssue(
+      issues,
+      'formatOverrides.rulesProfile',
+      overrideRulesProfile === rulesProfile,
+      `formatOverrides.rulesProfile must match snapshot metadata.rulesProfile ("${rulesProfile}").`
+    );
   }
 
   if (rulesProfile !== RIFTBOUND_PROFILE) {

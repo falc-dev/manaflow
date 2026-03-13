@@ -8,6 +8,18 @@ Guia practica del contrato JSON de replay de Manaflow y convenciones recomendada
 {
   "$schema": "../../schemas/replay.schema.json",
   "schemaVersion": 1,
+  "formatRef": { "formatId": "riftbound-1v1-v1" },
+  "formatOverrides": {
+    "zones": {
+      "battlefield_mid": {
+        "id": "battlefield_mid",
+        "ownerId": "shared",
+        "kind": "board",
+        "visibility": "public",
+        "label": "Battlefield Mid"
+      }
+    }
+  },
   "initialState": { "...snapshot..." },
   "events": [
     {
@@ -24,10 +36,48 @@ Campos obligatorios:
 - `initialState`: estado inicial completo.
 - `events[]`: frames ordenados (evento aplicado + snapshot resultante).
 
+Campos opcionales nuevos:
+
+- `formatRef`: referencia a un formato compartido (por `formatId`).
+- `formatOverrides`: overrides parciales aplicados sobre el formato base.
+
 Reglas adicionales en `schemaVersion: 1` (hardening actual):
 
 - `snapshot.metadata.rulesProfile` es obligatorio.
 - Para acciones conocidas (`MOVE_ENTITY`, `CAST_SPELL`, etc.) el payload debe cumplir su contrato tipado.
+
+## Formato separado (zonas/fases)
+
+El formato de juego (zonas, fases, slots de jugadores) puede vivir en un archivo separado con su propio schema. Ver: [Schema del formato (v1)](./format-schema).
+
+Modo hibrido:
+
+- `formatRef` apunta al formato base.
+- `formatOverrides` permite agregar o ajustar zonas, fases o jugadores para este replay.
+- El replay sigue siendo autocontenido (mantiene `zones` y `zoneMeta`), pero el formato sirve como fuente canonica para la UI/validacion.
+
+### Ejemplo hibrido (replay)
+
+```json
+{
+  "$schema": "../../schemas/replay.schema.json",
+  "schemaVersion": 1,
+  "formatRef": { "formatId": "riftbound-1v1-v1", "schemaVersion": 1 },
+  "formatOverrides": {
+    "zones": {
+      "battlefield_mid": {
+        "id": "battlefield_mid",
+        "ownerId": "shared",
+        "kind": "board",
+        "visibility": "public",
+        "label": "Battlefield Mid"
+      }
+    }
+  },
+  "initialState": { "...snapshot..." },
+  "events": []
+}
+```
 
 ## Snapshot (resumen)
 

@@ -28,6 +28,14 @@
         1
       ]
     },
+    "formatRef": {
+      "$ref": "#/$defs/formatRef",
+      "description": "Optional reference to a shared game format definition."
+    },
+    "formatOverrides": {
+      "$ref": "#/$defs/formatOverrides",
+      "description": "Optional partial overrides applied on top of the referenced format."
+    },
     "initialState": {
       "$ref": "#/$defs/snapshot",
       "description": "Snapshot before applying any event."
@@ -41,6 +49,181 @@
     }
   },
   "$defs": {
+    "formatRef": {
+      "type": "object",
+      "description": "Reference to an external game format bundle.",
+      "additionalProperties": false,
+      "required": [
+        "formatId"
+      ],
+      "properties": {
+        "formatId": {
+          "type": "string",
+          "examples": [
+            "riftbound-1v1-v1"
+          ]
+        },
+        "schemaVersion": {
+          "type": "integer",
+          "const": 1,
+          "description": "Format schema version when referenced."
+        },
+        "source": {
+          "type": "string",
+          "description": "Optional source path or URL for the format payload."
+        },
+        "checksum": {
+          "type": "string",
+          "description": "Optional checksum of the referenced format payload."
+        }
+      }
+    },
+    "formatOverrides": {
+      "type": "object",
+      "description": "Partial overrides merged on top of the referenced format.",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "rulesProfile": { "type": "string" },
+        "players": { "$ref": "#/$defs/formatPlayers" },
+        "phases": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/formatPhase" }
+        },
+        "zones": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/formatZone" }
+        },
+        "zoneOrder": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "zoneGroups": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/formatZoneGroup" }
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "formatPlayers": {
+      "type": "object",
+      "description": "Player slot metadata and ordering.",
+      "additionalProperties": false,
+      "required": [
+        "ids"
+      ],
+      "properties": {
+        "ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "count": {
+          "type": "number",
+          "description": "Expected player count (should match ids.length)."
+        },
+        "seatOrder": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "formatPhase": {
+      "type": "object",
+      "description": "Phase definition consumed by snapshots (currentPhase).",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "formatZone": {
+      "type": "object",
+      "description": "Zone definition shared across all snapshots.",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "deck",
+            "hand",
+            "board",
+            "discard",
+            "resource",
+            "objective",
+            "stack",
+            "attachment",
+            "limbo",
+            "custom"
+          ]
+        },
+        "visibility": { "type": "string", "enum": ["public", "owner", "hidden"] },
+        "ordered": { "type": "boolean" },
+        "capacity": { "type": "number" },
+        "label": { "type": "string" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "formatZoneGroup": {
+      "type": "object",
+      "description": "Semantic grouping for multiple zones.",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "zoneIds"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "zoneIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
     "resource": {
       "type": "object",
       "description": "Player resource bucket (mana, rune, etc.).",
