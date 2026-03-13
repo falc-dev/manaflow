@@ -190,6 +190,8 @@ export interface EndTurnPayload extends Record<string, unknown> {
   reason?: string;
 }
 
+export interface SnapshotPayload extends Record<string, unknown> {}
+
 export interface ScoreBattlefieldsPayload extends Record<string, unknown> {
   controlledBattlefields: string[];
   pointsGained: number;
@@ -212,6 +214,7 @@ export interface RepositionUnitAction extends ReplayActionBase<'REPOSITION_UNIT'
 export interface RetreatUnitAction extends ReplayActionBase<'RETREAT_UNIT', ZoneMovePayload> {}
 export interface CastSpellAction extends ReplayActionBase<'CAST_SPELL', CastSpellPayload> {}
 export interface EndTurnAction extends ReplayActionBase<'END_TURN', EndTurnPayload> {}
+export interface SnapshotAction extends ReplayActionBase<'SNAPSHOT', SnapshotPayload> {}
 export interface ScoreBattlefieldsAction
   extends ReplayActionBase<'SCORE_BATTLEFIELDS', ScoreBattlefieldsPayload> {}
 export interface WinGameAction extends ReplayActionBase<'WIN_GAME', WinGamePayload> {}
@@ -225,10 +228,12 @@ export type KnownReplayAction =
   | RetreatUnitAction
   | CastSpellAction
   | EndTurnAction
+  | SnapshotAction
   | ScoreBattlefieldsAction
   | WinGameAction;
 
 export const KNOWN_REPLAY_ACTION_TYPES = [
+  'SNAPSHOT',
   'DRAW_TO_FOUR',
   'BANK_RUNE',
   'DEPLOY_UNIT',
@@ -245,6 +250,7 @@ export type KnownReplayActionType = (typeof KNOWN_REPLAY_ACTION_TYPES)[number];
 export type RulesProfile = 'riftbound-1v1-v1' | (string & {});
 
 export interface ReplayActionPayloadByType {
+  SNAPSHOT: SnapshotPayload;
   DRAW_TO_FOUR: DrawToFourPayload;
   BANK_RUNE: BankRunePayload;
   DEPLOY_UNIT: ZoneMovePayload;
@@ -258,7 +264,7 @@ export interface ReplayActionPayloadByType {
 }
 
 export const ACTION_CATALOG_BY_PROFILE: Readonly<Record<string, readonly KnownReplayActionType[]>> = {
-  'riftbound-1v1-v1': KNOWN_REPLAY_ACTION_TYPES
+  'riftbound-1v1-v1': ['SNAPSHOT', ...KNOWN_REPLAY_ACTION_TYPES]
 };
 
 export function getActionCatalog(profile?: RulesProfile): readonly KnownReplayActionType[] {
