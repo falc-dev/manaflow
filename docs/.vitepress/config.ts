@@ -18,6 +18,17 @@ export default {
         items: [
           { text: "Introduccion", link: "/" },
           { text: "Primeros pasos", link: "/guide/getting-started" },
+          { text: "Arquitectura", link: "/guide/architecture" },
+        ],
+      },
+      {
+        text: "Recipes",
+        items: [
+          { text: "Indice", link: "/recipes/" },
+          { text: "Quick Start React", link: "/recipes/quick-start-react" },
+          { text: "Personalizar cartas", link: "/recipes/custom-card-render" },
+          { text: "Personalizar zonas", link: "/recipes/custom-zones" },
+          { text: "Agregar nuevo juego", link: "/recipes/add-new-game" },
         ],
       },
       {
