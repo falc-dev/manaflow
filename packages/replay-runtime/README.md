@@ -1,5 +1,7 @@
 # @manaflow/replay-runtime
 
+> **Navegación**: [Inicio](https://manaflow.dev) · [Guía](docs/guide/getting-started.md) · [Arquitectura](docs/guide/architecture.md)
+
 Framework-agnostic replay controller/store runtime for Manaflow.
 
 This package centralizes deterministic replay navigation and subscription logic so UI frameworks can share the same behavior.

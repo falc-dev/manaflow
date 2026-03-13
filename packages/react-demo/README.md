@@ -1,5 +1,7 @@
 # @manaflow/react-demo
 
+> **Navegación**: [Inicio](https://manaflow.dev) · [Guía](docs/guide/getting-started.md) · [React](packages/react/README.md)
+
 Executable browser demo that includes progressive examples for `@manaflow/react`, from basic usage to advanced custom UI.
 
 ## Progressive examples

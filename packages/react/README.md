@@ -1,5 +1,7 @@
 # @manaflow/react
 
+> **Navegación**: [Inicio](https://manaflow.dev) · [Guía](docs/guide/getting-started.md) · [Recipes](docs/recipes/quick-start-react.md)
+
 React-oriented replay helpers for Manaflow.
 
 ## Peer dependencies

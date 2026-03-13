@@ -1,5 +1,7 @@
 # @manaflow/html-visor
 
+> **Navegación**: [Inicio](https://manaflow.dev) · [Guía](docs/guide/getting-started.md) · [Recipes](docs/recipes/custom-card-render.md)
+
 Lightweight HTML renderer adapter for Manaflow replays.
 
 This package is headless-friendly and framework-agnostic:
