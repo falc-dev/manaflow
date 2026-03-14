@@ -17,16 +17,17 @@ export { ReplayLoader } from './serialization/replay-loader';
 export type { ReplaySerializationFormat } from './serialization/replay-loader';
 export {
   ReplayValidationError,
+  validateReplayData,
+  validateReplayJson,
+  validateReplayJsonc,
+  validateReplayNdjson,
+  validateReplayYaml,
   parseReplayData,
   parseReplayJson,
   parseReplayJsonc,
   parseReplayNdjson,
   parseReplayYaml,
-  validateReplayData,
-  validateReplayJson,
-  validateReplayJsonc,
-  validateReplayNdjson,
-  validateReplayYaml
+  formatValidationIssues
 } from './serialization/validation';
 export type {
   ReplayValidationFailure,

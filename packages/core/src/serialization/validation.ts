@@ -8,7 +8,11 @@ export interface ReplayValidationIssue {
   path: string;
   message: string;
   source: 'schema' | 'profile' | 'json' | 'jsonc' | 'ndjson' | 'yaml';
+  code?: string;
+  suggestion?: string;
 }
+
+export interface ReplayValidationOptions {
 
 export interface ReplayValidationOptions {
   /** Normalizes known legacy Riftbound zone aliases before profile checks. */
@@ -34,19 +38,66 @@ export class ReplayValidationError extends Error {
   readonly issues: ReplayValidationIssue[];
 
   constructor(issues: ReplayValidationIssue[]) {
-    const summary = issues.map((issue) => `${issue.path}: ${issue.message}`).join('; ');
+    const summary = issues
+      .map((issue) => {
+        let line = `${issue.path}: ${issue.message}`;
+        if (issue.suggestion) {
+          line += ` (hint: ${issue.suggestion})`;
+        }
+        return line;
+      })
+      .join('; ');
     super(summary);
     this.name = 'ReplayValidationError';
     this.issues = issues;
   }
 }
 
+/** Formats validation issues as a user-friendly string with suggestions. */
+export function formatValidationIssues(issues: ReplayValidationIssue[]): string {
+  return issues
+    .map((issue) => {
+      let line = `❌ ${issue.path}: ${issue.message}`;
+      if (issue.suggestion) {
+        line += `\n   💡 ${issue.suggestion}`;
+      }
+      return line;
+    })
+    .join('\n');
+}
+
 function zodIssuesToValidationIssues(error: ZodError): ReplayValidationIssue[] {
-  return error.issues.map((issue) => ({
-    path: issue.path.length > 0 ? issue.path.join('.') : 'root',
-    message: issue.message,
-    source: 'schema'
-  }));
+  return error.issues.map((issue) => {
+    let suggestion: string | undefined;
+    
+    if (issue.code === 'invalid_type') {
+      const expected = issue.expected;
+      const received = issue.received;
+      if (expected === 'number' && received === 'string') {
+        suggestion = `Expected a number, got "${issue.path.join('.')}". Did you forget quotes?`;
+      } else if (expected === 'string' && received === 'number') {
+        suggestion = `Expected a string, got a number. Add quotes around the value.`;
+      } else if (expected === 'array' && received === 'object') {
+        suggestion = `Expected an array [...], got an object {}. Check if you used curly braces instead of brackets.`;
+      }
+    }
+    
+    if (issue.code === 'unrecognized_keys') {
+      suggestion = `Unknown key "${issue.keys[0]}". Did you mean one of: ${issue.allowed[0] || 'valid keys'}?`;
+    }
+    
+    if (issue.code === 'missing_keys') {
+      suggestion = `Required field missing. Add: ${issue.keys.join(', ')}`;
+    }
+
+    return {
+      path: issue.path.length > 0 ? issue.path.join('.') : 'root',
+      message: issue.message,
+      source: 'schema',
+      code: issue.code,
+      suggestion
+    };
+  });
 }
 
 function profileIssuesToValidationIssues(replay: ReplaySchemaType): ReplayValidationIssue[] {
