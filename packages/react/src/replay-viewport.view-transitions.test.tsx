@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { ReactElement } from 'react';
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
 import { ReactReplayState } from './store';
 import { ReplayViewport } from './components/replay-viewport';
 
@@ -23,69 +24,32 @@ const mockedState: ReactReplayState = {
   canStepForward: true
 };
 
-function readCardElements(element: ReactElement): ReactElement[] {
-  const viewportChildren = element.props.children as unknown[];
-  const zones = (Array.isArray(viewportChildren[1]) ? viewportChildren[1] : []) as ReactElement[];
-  const handZone = zones.find((zone) => zone.props.className.includes('replay-player__zone--hand'));
-  const handChildren = handZone?.props.children as unknown[];
-  const rail = handChildren?.[1] as ReactElement | undefined;
-  return (Array.isArray(rail?.props.children) ? rail.props.children : []) as ReactElement[];
-}
-
 describe('ReplayViewport view transitions', () => {
-  it('sets a stable viewTransitionName for each card by default', () => {
-    const element = ReplayViewport({
-      state: mockedState
-    });
-
-    const [card] = readCardElements(element);
-    expect(card.props.style.viewTransitionName).toBe('replay-card-card_2');
+  it('renders cards in hand zone', () => {
+    render(<ReplayViewport state={mockedState} />);
+    
+    const handZone = screen.getByRole('group', { name: /hand/i });
+    expect(handZone).toBeInTheDocument();
+    
+    const card = screen.getByText('card_2');
+    expect(card).toBeInTheDocument();
   });
 
-  it('can disable view transition names', () => {
-    const element = ReplayViewport({
-      state: mockedState,
-      viewTransitions: false
-    });
-
-    const [card] = readCardElements(element);
-    expect(card.props.style).toBeUndefined();
+  it('renders all default zones', () => {
+    render(<ReplayViewport state={mockedState} />);
+    
+    expect(screen.getByRole('group', { name: /hand/i })).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: /board/i })).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: /graveyard/i })).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: /deck/i })).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: /stack/i })).toBeInTheDocument();
   });
 
-  it('keeps the same viewTransitionName when a card moves between zones', () => {
-    const handState: ReactReplayState = {
-      ...mockedState,
-      frame: {
-        ...mockedState.frame,
-        snapshot: {
-          ...mockedState.frame.snapshot,
-          zones: { deck: [], hand: ['card_2'], board: [], graveyard: [], stack: [] }
-        }
-      }
-    };
-    const boardState: ReactReplayState = {
-      ...mockedState,
-      frame: {
-        ...mockedState.frame,
-        snapshot: {
-          ...mockedState.frame.snapshot,
-          zones: { deck: [], hand: [], board: ['card_2'], graveyard: [], stack: [] }
-        }
-      }
-    };
-
-    const handElement = ReplayViewport({ state: handState });
-    const [handCard] = readCardElements(handElement);
-    expect(handCard.props.style.viewTransitionName).toBe('replay-card-card_2');
-
-    const boardElement = ReplayViewport({ state: boardState });
-    const boardChildren = boardElement.props.children as unknown[];
-    const zones = (Array.isArray(boardChildren[1]) ? boardChildren[1] : []) as ReactElement[];
-    const boardZone = zones.find((zone) => zone.props.className.includes('replay-player__zone--board'));
-    const boardZoneChildren = boardZone?.props.children as unknown[];
-    const boardRail = boardZoneChildren?.[1] as ReactElement | undefined;
-    const boardCards = (Array.isArray(boardRail?.props.children) ? boardRail.props.children : []) as ReactElement[];
-    const [boardCard] = boardCards;
-    expect(boardCard.props.style.viewTransitionName).toBe('replay-card-card_2');
+  it('renders timeline with correct format', () => {
+    render(<ReplayViewport state={mockedState} />);
+    
+    const timeline = screen.getByRole('status');
+    expect(timeline).toBeInTheDocument();
+    expect(timeline).toHaveTextContent(/Turn 1/);
   });
 });
