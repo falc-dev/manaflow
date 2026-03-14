@@ -1,5 +1,5 @@
 import { ReplayValidationIssue } from '@manaflow/core';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   CreateReplayStoreFromUrlOptions,
   createReplayStoreFromUrl,
@@ -17,15 +17,6 @@ export interface UseReplayBootstrapResult {
   validationIssues: ReplayValidationIssue[];
 }
 
-function toOptionsKey(options: CreateReplayStoreFromUrlOptions): string {
-  return JSON.stringify({
-    normalizeRiftboundAliases: options.normalizeRiftboundAliases ?? false,
-    includeSetup: options.includeSetup ?? true,
-    setupLabel: options.setupLabel ?? '',
-    actionLabels: options.actionLabels ?? {}
-  });
-}
-
 export function useReplayBootstrap(
   replayUrl: string,
   options: CreateReplayStoreFromUrlOptions = {}
@@ -35,8 +26,6 @@ export function useReplayBootstrap(
   const [frameMarkers, setFrameMarkers] = useState<ReplayTimelineMarker[]>([]);
   const [error, setError] = useState<Error | null>(null);
   const [validationIssues, setValidationIssues] = useState<ReplayValidationIssue[]>([]);
-  const optionsKey = useMemo(() => toOptionsKey(options), [options]);
-  const stableOptions = useMemo(() => options, [optionsKey]);
 
   useEffect(() => {
     let disposed = false;
@@ -48,7 +37,7 @@ export function useReplayBootstrap(
       setValidationIssues([]);
 
       try {
-        const result: ReplayStoreBootstrapResult = await createReplayStoreFromUrl(replayUrl, stableOptions);
+        const result: ReplayStoreBootstrapResult = await createReplayStoreFromUrl(replayUrl, options);
         activeStore = result.store;
 
         if (disposed) {
@@ -81,7 +70,7 @@ export function useReplayBootstrap(
       disposed = true;
       activeStore?.destroy();
     };
-  }, [replayUrl, stableOptions]);
+  }, [replayUrl, options]);
 
   return {
     loading,

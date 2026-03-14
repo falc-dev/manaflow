@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, memo, useMemo } from 'react';
 import { ReactReplayState } from '../store';
 import { ReplayTimelineMarker } from '../replay-markers';
 import { joinClassNames } from '../utils';
@@ -18,6 +18,55 @@ export interface ReplayTimelineRenderContext {
   isActive: boolean;
   state: ReactReplayState;
 }
+
+interface TimelineItemProps {
+  marker: ReplayTimelineMarker;
+  isActive: boolean;
+  framePrefix: string;
+  onSeek: (frame: number) => void;
+  renderMarker?: (context: ReplayTimelineRenderContext) => ReactNode;
+  state: ReactReplayState;
+}
+
+const TimelineItem = memo<TimelineItemProps>(function TimelineItem({
+  marker,
+  isActive,
+  framePrefix,
+  onSeek,
+  renderMarker,
+  state
+}) {
+  const handleClick = () => {
+    onSeek(marker.frame);
+  };
+
+  const context = useMemo(
+    () => ({ marker, isActive, state }),
+    [marker, isActive, state]
+  );
+
+  return (
+    <button
+      type="button"
+      className={joinClassNames('replay-timeline__item', isActive ? 'replay-timeline__item--active' : undefined)}
+      onClick={handleClick}
+      aria-current={isActive ? 'step' : undefined}
+      role="listitem"
+    >
+      {renderMarker ? (
+        renderMarker(context)
+      ) : (
+        <>
+          <span className="replay-timeline__frame">
+            {framePrefix}
+            {marker.frame + 1}
+          </span>
+          <span className="replay-timeline__label">{marker.label}</span>
+        </>
+      )}
+    </button>
+  );
+});
 
 function getDefaultMarkers(totalFrames: number): ReplayTimelineMarker[] {
   return Array.from({ length: totalFrames }, (_, frame) => ({
@@ -55,39 +104,24 @@ export function ReplayTimeline({
   framePrefix = 'F',
   renderMarker
 }: ReplayTimelineProps) {
-  const resolvedMarkers = getResolvedMarkers(markers, state.totalFrames);
+  const resolvedMarkers = useMemo(
+    () => getResolvedMarkers(markers, state.totalFrames),
+    [markers, state.totalFrames]
+  );
 
   return (
     <div className={joinClassNames('replay-timeline', className)} role="list" aria-label={ariaLabel}>
-      {resolvedMarkers.map((marker) => {
-        const isActive = marker.frame === state.currentFrame;
-        return (
-          <button
-            key={`${marker.frame}-${marker.actionType}`}
-            type="button"
-            className={joinClassNames('replay-timeline__item', isActive ? 'replay-timeline__item--active' : undefined)}
-            onClick={() => onSeek(marker.frame)}
-            aria-current={isActive ? 'step' : undefined}
-            role="listitem"
-          >
-            {renderMarker ? (
-              renderMarker({
-                marker,
-                isActive,
-                state
-              })
-            ) : (
-              <>
-                <span className="replay-timeline__frame">
-                  {framePrefix}
-                  {marker.frame + 1}
-                </span>
-                <span className="replay-timeline__label">{marker.label}</span>
-              </>
-            )}
-          </button>
-        );
-      })}
+      {resolvedMarkers.map((marker) => (
+        <TimelineItem
+          key={`${marker.frame}-${marker.actionType}`}
+          marker={marker}
+          isActive={marker.frame === state.currentFrame}
+          framePrefix={framePrefix}
+          onSeek={onSeek}
+          renderMarker={renderMarker}
+          state={state}
+        />
+      ))}
     </div>
   );
 }
