@@ -324,11 +324,41 @@ import { ReplayPlayer } from '@manaflow/react';
 ## Shared utilities
 
 ```ts
-import { joinClassNames, getCardMetadata } from '@manaflow/react';
+import { joinClassNames, getCardMetadata, ZoneRenderer } from '@manaflow/react';
 ```
 
 - `joinClassNames`: Joins class name parts, filtering out undefined values
 - `getCardMetadata`: Extracts card metadata from a game entity
+- `ZoneRenderer`: Reusable component for rendering zones with cards
+
+### ZoneRenderer usage
+
+```tsx
+import { ZoneRenderer, type ZoneRendererProps } from '@manaflow/react';
+
+interface MyZone {
+  id: string;
+  title: string;
+}
+
+function MyComponent({ snapshot }) {
+  const zones: MyZone[] = [
+    { id: 'hand', title: 'Hand' },
+    { id: 'board', title: 'Board' }
+  ];
+
+  return (
+    <ZoneRenderer
+      zones={zones}
+      snapshot={snapshot}
+      getEntityIds={(zone) => snapshot.zones[zone.id] ?? []}
+      renderCard={({ entityId, card }) => (
+        <div>{card?.name ?? entityId}</div>
+      )}
+    />
+  );
+}
+```
 
 ## Replay marker helpers
 
