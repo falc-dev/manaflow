@@ -458,6 +458,61 @@ import { useReplayStore } from '@manaflow/react';
 const currentFrame = useReplayStore(store, (state) => state.currentFrame);
 ```
 
+## Replay config hook
+
+```ts
+import { useReplayConfig } from '@manaflow/react';
+
+function CustomPlayer({ store }) {
+  const {
+    state,
+    playing,
+    playbackRate,
+    togglePlaying,
+    setPlaying,
+    setPlaybackRate,
+    stepForward,
+    stepBackward,
+    seek
+  } = useReplayConfig(store, {
+    autoplayIntervalMs: 700,
+    defaultPlaying: false,
+    defaultPlaybackRate: 1,
+    loop: false,
+    viewTransitions: true
+  });
+
+  return (
+    <div>
+      <button onClick={stepBackward} disabled={!state.canStepBack}>Prev</button>
+      <button onClick={togglePlaying}>{playing ? 'Pause' : 'Play'}</button>
+      <button onClick={stepForward} disabled={!state.canStepForward}>Next</button>
+      <span>Frame {state.currentFrame + 1}/{state.totalFrames}</span>
+    </div>
+  );
+}
+```
+
+Use `createReplayConfig()` to create a reusable config factory:
+
+```ts
+const usePlayerControls = createReplayConfig({
+  autoplayIntervalMs: 500,
+  loop: true
+});
+
+// Then use in multiple components
+function ControlsA({ store }) {
+  const { togglePlaying, seek } = usePlayerControls(store);
+  // ...
+}
+
+function ControlsB({ store }) {
+  const { togglePlaying, seek } = usePlayerControls(store);
+  // ...
+}
+```
+
 ## Hook bridge (`useSyncExternalStore`)
 
 ```ts

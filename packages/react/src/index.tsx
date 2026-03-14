@@ -16,6 +16,9 @@ export type {
   UseReplayPlaybackControllerResult
 } from './use-replay-playback-controller';
 
+export { useReplayConfig, createReplayConfig } from './use-replay-config';
+export type { UseReplayConfigOptions, UseReplayConfigResult } from './use-replay-config';
+
 export { ReplayPlayer } from './components/replay-player';
 export type { ReplayPlayerProps } from './components/replay-player';
 export { ReplayControls } from './components/replay-controls';
