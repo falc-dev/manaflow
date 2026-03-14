@@ -11,20 +11,37 @@ export interface ReplayStoreState {
   totalFrames: number;
   canStepBack: boolean;
   canStepForward: boolean;
+  isAtStart: boolean;
+  isAtEnd: boolean;
+  isPlaying: boolean;
+  playbackRate: number;
 }
 
 export interface ReplayStore extends ReplayController {
+  setPlaybackState(playing: boolean, rate?: number): void;
   getState(): ReplayStoreState;
   subscribe(listener: (state: ReplayStoreState) => void): () => void;
 }
 
-function createState(frame: ReplayFrame, totalFrames: number): ReplayStoreState {
+function createState(
+  frame: ReplayFrame,
+  totalFrames: number,
+  isPlaying: boolean,
+  playbackRate: number
+): ReplayStoreState {
+  const currentFrame = frame.index;
+  const canStepBack = currentFrame > 0;
+  const canStepForward = currentFrame < totalFrames - 1;
   return {
     frame,
-    currentFrame: frame.index,
+    currentFrame,
     totalFrames,
-    canStepBack: frame.index > 0,
-    canStepForward: frame.index < totalFrames - 1
+    canStepBack,
+    canStepForward,
+    isAtStart: currentFrame === 0,
+    isAtEnd: currentFrame === totalFrames - 1,
+    isPlaying,
+    playbackRate
   };
 }
 
@@ -34,9 +51,11 @@ export function createReplayStore(
 ): ReplayStore {
   const controller = createReplayController(replay, options);
   const listeners = new Set<(state: ReplayStoreState) => void>();
+  let isPlaying = false;
+  let playbackRate = 1;
 
   const notify = () => {
-    const state = createState(controller.getFrame(), replay.getTotalFrames());
+    const state = createState(controller.getFrame(), replay.getTotalFrames(), isPlaying, playbackRate);
     for (const listener of listeners) {
       listener(state);
     }
@@ -44,6 +63,13 @@ export function createReplayStore(
 
   return {
     ...controller,
+    setPlaybackState(playing: boolean, rate?: number) {
+      isPlaying = playing;
+      if (rate !== undefined) {
+        playbackRate = rate;
+      }
+      notify();
+    },
     seek(frame: number) {
       const next = controller.seek(frame);
       if (next) {
@@ -66,7 +92,7 @@ export function createReplayStore(
       return previous;
     },
     getState() {
-      return createState(controller.getFrame(), replay.getTotalFrames());
+      return createState(controller.getFrame(), replay.getTotalFrames(), isPlaying, playbackRate);
     },
     subscribe(listener: (state: ReplayStoreState) => void) {
       listeners.add(listener);
