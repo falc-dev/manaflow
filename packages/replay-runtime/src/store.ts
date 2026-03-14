@@ -21,6 +21,12 @@ export interface ReplayStore extends ReplayController {
   setPlaybackState(playing: boolean, rate?: number): void;
   getState(): ReplayStoreState;
   subscribe(listener: (state: ReplayStoreState) => void): () => void;
+  select<T>(selector: (state: ReplayStoreState) => T): ReplaySelector<T>;
+}
+
+export interface ReplaySelector<T> {
+  getValue(): T;
+  subscribe(callback: (value: T) => void): () => void;
 }
 
 function createState(
@@ -99,6 +105,22 @@ export function createReplayStore(
       listener(this.getState());
       return () => {
         listeners.delete(listener);
+      };
+    },
+    select<T>(selector: (state: ReplayStoreState) => T) {
+      let currentValue: T = selector(this.getState());
+      
+      return {
+        getValue: () => currentValue,
+        subscribe: (callback: (value: T) => void) => {
+          return this.subscribe((state) => {
+            const newValue = selector(state);
+            if (newValue !== currentValue) {
+              currentValue = newValue;
+              callback(newValue);
+            }
+          });
+        }
       };
     },
     destroy() {
