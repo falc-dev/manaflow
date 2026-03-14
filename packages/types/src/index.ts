@@ -308,6 +308,34 @@ export function createReplayAction(input: CreateCustomReplayActionInput): Replay
   } as ReplayAction;
 }
 
+export function createAction<TType extends KnownReplayActionType>(
+  type: TType,
+  playerId: string,
+  payload: ReplayActionPayloadByType[TType]
+): ReplayActionBase<TType, ReplayActionPayloadByType[TType]> {
+  return {
+    type,
+    playerId,
+    payload,
+    timestamp: Date.now()
+  };
+}
+
+export function createEvent(
+  action: GameAction,
+  playerId: string,
+  options?: { id?: string; tags?: string[]; metadata?: ReplayEventMetadata }
+): ReplayEvent {
+  return {
+    id: options?.id ?? createSnapshotId('event'),
+    action,
+    timestamp: action.timestamp,
+    playerId,
+    tags: options?.tags,
+    metadata: options?.metadata
+  };
+}
+
 export interface ReplayEvent {
   id: string;
   action: GameAction;
