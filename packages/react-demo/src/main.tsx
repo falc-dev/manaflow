@@ -6,6 +6,7 @@ import { Example01BasicControls } from './examples/example-01-basic-controls';
 import { Example02CustomRender } from './examples/example-02-custom-render';
 import { Example03TimelineMarkers } from './examples/example-03-timeline-markers';
 import { Example04AdvancedRiftbound } from './examples/example-04-advanced-riftbound';
+import { Example05Playground } from './examples/example-05-playground';
 
 type ExampleDefinition = {
   id: string;
@@ -19,7 +20,7 @@ const EXAMPLES: ExampleDefinition[] = [
   {
     id: '01-basic-controls',
     level: 'Level 1',
-    title: 'ReplayPlayer minimo',
+    title: 'ReplayPlayer mínimo',
     description: 'Carga el replay y monta el componente de alto nivel con pocos props.',
     Component: Example01BasicControls
   },
@@ -34,7 +35,7 @@ const EXAMPLES: ExampleDefinition[] = [
     id: '03-timeline-markers',
     level: 'Level 3',
     title: 'Timeline y autoplay',
-    description: 'Agrega marcadores semanticos, seek por frame y velocidad de reproduccion.',
+    description: 'Agrega marcadores semánticos, seek por frame y velocidad de reproducción.',
     Component: Example03TimelineMarkers
   },
   {
@@ -43,6 +44,13 @@ const EXAMPLES: ExampleDefinition[] = [
     title: 'Demo avanzada completa',
     description: 'Panel explicativo, mapa dual, score race y onboarding visual.',
     Component: Example04AdvancedRiftbound
+  },
+  {
+    id: '05-playground',
+    level: 'Playground',
+    title: 'Editor JSON interactivo',
+    description: 'Edita el JSON y ve la preview en tiempo real. Valida el esquema automáticamente.',
+    Component: Example05Playground
   }
 ];
 
