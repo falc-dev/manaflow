@@ -52,7 +52,6 @@ export {
   validateReplayFormat
 } from './format';
 export {
-  FormatValidationError,
   parseGameFormat,
   validateGameFormat
 } from './serialization/format-validation';

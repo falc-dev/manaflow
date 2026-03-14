@@ -55,7 +55,7 @@ export function createAction(type: string, playerId: string, payload: Record<str
   };
 }
 
-export type CompressionFormat = 'gzip' | 'brotli' | 'none';
+export type CompressionFormat = 'gzip' | 'br' | 'deflate' | 'none';
 
 /**
  * Decompresses payload if it appears to be compressed (gzip/brotli).
@@ -79,13 +79,13 @@ export async function maybeDecompress(data: ArrayBuffer | Uint8Array | string): 
     throw new Error('Unknown compression format');
   }
 
-  const format = isGzip ? 'gzip' : 'br';
+  const format: CompressionFormat = isGzip ? 'gzip' : 'br';
 
   if (typeof CompressionStream === 'undefined') {
     throw new Error('CompressionStream not available in this environment');
   }
 
-  const ds = new DecompressionStream(format);
+  const ds = new DecompressionStream(format as any);
   const writer = ds.writable.getWriter();
   writer.write(bytes);
   writer.close();
@@ -111,7 +111,7 @@ export async function compressPayload(payload: string, format: CompressionFormat
     throw new Error('CompressionStream not available in this environment');
   }
 
-  const cs = new CompressionStream(format);
+  const cs = new CompressionStream(format as any);
   const writer = cs.writable.getWriter();
   writer.write(data);
   writer.close();

@@ -81,11 +81,7 @@ function zodIssuesToValidationIssues(error: ZodError): ReplayValidationIssue[] {
     }
     
     if (issue.code === 'unrecognized_keys') {
-      suggestion = `Unknown key "${issue.keys[0]}". Did you mean one of: ${issue.allowed[0] || 'valid keys'}?`;
-    }
-    
-    if (issue.code === 'missing_keys') {
-      suggestion = `Required field missing. Add: ${issue.keys.join(', ')}`;
+      suggestion = `Unknown key "${issue.keys[0]}". Remove or fix the key name.`;
     }
 
     return {

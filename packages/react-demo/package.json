@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@manaflow/core": "workspace:*",
     "@manaflow/react": "workspace:*"
   },
   "devDependencies": {

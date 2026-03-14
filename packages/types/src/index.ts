@@ -452,5 +452,3 @@ export function createCardComponent(
 export function createSnapshotId(prefix = 'snapshot'): string {
   return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 }
-
-export type { GameMatch };

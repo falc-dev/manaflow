@@ -235,8 +235,8 @@ export class HtmlRendererAdapter implements RendererAdapter {
     const viewerId =
       typeof snapshot.metadata?.viewerId === 'string' ? snapshot.metadata.viewerId : snapshot.currentPlayer;
     const isOwnerHidden =
-      visibility === 'owner' && zoneMeta?.ownerId && zoneMeta.ownerId !== 'shared' && zoneMeta.ownerId !== viewerId;
-    const hidden = visibility === 'hidden' || isOwnerHidden;
+      visibility === 'owner' && !!zoneMeta?.ownerId && zoneMeta.ownerId !== 'shared' && zoneMeta.ownerId !== viewerId;
+    const hidden = visibility === 'hidden' || !!isOwnerHidden;
     const capacity = zoneMeta?.capacity;
     const visibleIds = hidden || !capacity ? entityIds : entityIds.slice(0, Math.max(0, capacity));
     const overflowCount = hidden || !capacity ? 0 : Math.max(0, entityIds.length - Math.max(0, capacity));

@@ -9,6 +9,7 @@ function createReplayData(): ReplayData {
       id: 'game_1',
       players: [],
       currentPlayer: 'blue',
+      currentPhase: 'DRAW',
       turn: 1,
       entities: {},
       zones: {
@@ -19,8 +20,7 @@ function createReplayData(): ReplayData {
         champion_red: []
       },
       metadata: {
-        rulesProfile: 'riftbound-1v1-v1',
-        currentPhase: 'DRAW'
+        rulesProfile: 'riftbound-1v1-v1'
       }
     },
     events: []
