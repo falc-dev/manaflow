@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { ReactReplayState } from '../store';
 import { ReplayTimelineMarker } from '../replay-markers';
+import { joinClassNames } from '../utils';
 
 export interface ReplayTimelineProps {
   state: ReactReplayState;
@@ -16,10 +17,6 @@ export interface ReplayTimelineRenderContext {
   marker: ReplayTimelineMarker;
   isActive: boolean;
   state: ReactReplayState;
-}
-
-function joinClassNames(...parts: Array<string | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 function getDefaultMarkers(totalFrames: number): ReplayTimelineMarker[] {

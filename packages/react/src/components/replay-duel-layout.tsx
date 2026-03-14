@@ -5,6 +5,7 @@ import {
   selectPlayerFields
 } from '../player-field';
 import { ReactReplayState } from '../store';
+import { joinClassNames } from '../utils';
 import {
   ReplayPlayerField,
   ReplayPlayerFieldCardRenderContext,
@@ -44,10 +45,6 @@ export interface ReplayDuelLayoutProps {
   renderTableCard?: (context: ReplayTableCardRenderContext) => ReactNode;
   renderSharedObjectiveTitle?: (context: ReplaySharedObjectiveTitleRenderContext) => ReactNode;
   renderSharedObjectiveCard?: (context: ReplaySharedObjectiveCardRenderContext) => ReactNode;
-}
-
-function joinClassNames(...parts: Array<string | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 function orderFields(fields: ReplayPlayerFieldData[], currentPlayerId: string): ReplayPlayerFieldData[] {

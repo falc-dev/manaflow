@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { joinClassNames } from '../utils';
 
 export interface ReplayOnboardingLegendItem {
   id: string;
@@ -21,10 +22,6 @@ export interface ReplayOnboardingLegendProps {
   onDismiss?: () => void;
   ariaLabel?: string;
   renderItem?: (context: ReplayOnboardingLegendRenderItemContext) => ReactNode;
-}
-
-function joinClassNames(...parts: Array<string | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 function normalizeToken(value: string): string {

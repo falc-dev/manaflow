@@ -2,6 +2,7 @@ import { Card, EntityState, GameSnapshot, ZoneId } from '@manaflow/types';
 import { CSSProperties, ReactNode } from 'react';
 import { ReactReplayState } from '../store';
 import { getReplayCardViewTransitionName } from '../view-transitions';
+import { joinClassNames, getCardMetadata } from '../utils';
 
 export interface ReplayViewportProps {
   state: ReactReplayState;
@@ -36,10 +37,6 @@ export interface ReplayViewportZoneTitleRenderContext {
   entityIds: string[];
 }
 
-function joinClassNames(...parts: Array<string | undefined>): string {
-  return parts.filter(Boolean).join(' ');
-}
-
 const DEFAULT_ZONES: ReplayViewportZoneConfig[] = [
   { id: 'hand', title: 'Hand' },
   { id: 'board', title: 'Board' },
@@ -47,11 +44,6 @@ const DEFAULT_ZONES: ReplayViewportZoneConfig[] = [
   { id: 'deck', title: 'Deck' },
   { id: 'stack', title: 'Stack' }
 ];
-
-function getCardMetadata(entityId: string, snapshot: GameSnapshot): Card | undefined {
-  const entity = snapshot.entities[entityId];
-  return entity?.components.find((component) => component.componentType === 'CARD')?.metadata as Card | undefined;
-}
 
 function defaultTimelineFormatter(snapshot: GameSnapshot): string {
   const phase = snapshot.currentPhase ?? snapshot.metadata?.currentPhase ?? '';

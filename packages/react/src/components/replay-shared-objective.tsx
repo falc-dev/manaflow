@@ -1,6 +1,7 @@
 import { Card, GameSnapshot, ZoneId } from '@manaflow/types';
 import { ReactNode } from 'react';
 import { ReactReplayState } from '../store';
+import { joinClassNames, getCardMetadata } from '../utils';
 
 export interface ReplaySharedObjectiveProps {
   state: ReactReplayState;
@@ -27,15 +28,6 @@ export interface ReplaySharedObjectiveCardRenderContext {
 }
 
 const DEFAULT_ZONE_IDS: ZoneId[] = ['objective', 'board'];
-
-function joinClassNames(...parts: Array<string | undefined>): string {
-  return parts.filter(Boolean).join(' ');
-}
-
-function getCardMetadata(entityId: string, snapshot: GameSnapshot): Card | undefined {
-  const entity = snapshot.entities[entityId];
-  return entity?.components.find((component) => component.componentType === 'CARD')?.metadata as Card | undefined;
-}
 
 function resolveSharedZone(snapshot: GameSnapshot, zoneIds: ZoneId[]): { zoneId: ZoneId; entityIds: string[] } {
   let fallbackZoneId: ZoneId = zoneIds[0] ?? 'board';

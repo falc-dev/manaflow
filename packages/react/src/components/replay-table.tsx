@@ -1,6 +1,7 @@
 import { Card, GameSnapshot, ZoneId } from '@manaflow/types';
 import { ReactNode } from 'react';
 import { ReactReplayState } from '../store';
+import { joinClassNames, getCardMetadata } from '../utils';
 
 export interface ReplayTableProps {
   state: ReactReplayState;
@@ -38,15 +39,6 @@ const DEFAULT_ZONES: ReplayTableZoneConfig[] = [
   { id: 'board', title: 'Table' },
   { id: 'stack', title: 'Stack' }
 ];
-
-function joinClassNames(...parts: Array<string | undefined>): string {
-  return parts.filter(Boolean).join(' ');
-}
-
-function getCardMetadata(entityId: string, snapshot: GameSnapshot): Card | undefined {
-  const entity = snapshot.entities[entityId];
-  return entity?.components.find((component) => component.componentType === 'CARD')?.metadata as Card | undefined;
-}
 
 function normalizeAliases(aliases: string | string[] | undefined, fallback: string): string[] {
   if (!aliases) {

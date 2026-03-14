@@ -2,6 +2,7 @@ import { Card, GameSnapshot } from '@manaflow/types';
 import { ReactNode } from 'react';
 import { ReplayPlayerField as ReplayPlayerFieldData, ReplayPlayerFieldZoneMap, selectPlayerField } from '../player-field';
 import { ReactReplayState } from '../store';
+import { joinClassNames, getCardMetadata } from '../utils';
 
 export interface ReplayPlayerFieldProps {
   state: ReactReplayState;
@@ -39,15 +40,6 @@ const DEFAULT_ZONES: ReplayPlayerFieldZoneConfig[] = [
   { id: 'deck', title: 'Deck' },
   { id: 'trash', title: 'Trash' }
 ];
-
-function joinClassNames(...parts: Array<string | undefined>): string {
-  return parts.filter(Boolean).join(' ');
-}
-
-function getCardMetadata(entityId: string, snapshot: GameSnapshot): Card | undefined {
-  const entity = snapshot.entities[entityId];
-  return entity?.components.find((component) => component.componentType === 'CARD')?.metadata as Card | undefined;
-}
 
 export function ReplayPlayerField({
   state,

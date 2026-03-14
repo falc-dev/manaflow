@@ -1,4 +1,5 @@
 import { ReactReplayState } from '../store';
+import { joinClassNames } from '../utils';
 
 export interface ReplayControlsLabels {
   previous?: string;
@@ -20,10 +21,6 @@ export interface ReplayControlsProps {
   onPlaybackRateChange?(rate: number): void;
   className?: string;
   labels?: ReplayControlsLabels;
-}
-
-function joinClassNames(...parts: Array<string | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function ReplayControls({

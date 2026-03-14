@@ -4,6 +4,7 @@ import { ReactReplayState, ReactReplayStore } from '../store';
 import { ReplayTimelineMarker } from '../replay-markers';
 import { useReplayPlaybackController } from '../use-replay-playback-controller';
 import { runWithOptionalViewTransition } from '../view-transitions';
+import { joinClassNames } from '../utils';
 import { ReplayControls } from './replay-controls';
 import { ReplayTimeline, ReplayTimelineRenderContext } from './replay-timeline';
 import {
@@ -46,10 +47,6 @@ export interface ReplayPlayerProps {
   renderCard?: (context: ReplayViewportCardRenderContext) => ReactNode;
   renderZoneTitle?: (context: ReplayViewportZoneTitleRenderContext) => ReactNode;
   viewTransitions?: boolean;
-}
-
-function joinClassNames(...parts: Array<string | undefined>): string {
-  return parts.filter(Boolean).join(' ');
 }
 
 export function ReplayPlayer({

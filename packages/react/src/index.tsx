@@ -89,3 +89,5 @@ export type { UseReplayBootstrapResult } from './use-replay-bootstrap';
 
 export { mountReplayDemo } from './demo';
 export type { ReplayDemoHandle, ReplayDemoOptions } from './demo';
+
+export { joinClassNames, getCardMetadata } from './utils';
