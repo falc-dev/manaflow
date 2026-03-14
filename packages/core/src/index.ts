@@ -68,7 +68,8 @@ export type {
   ReplayFormatValidationResult,
   ReplayFormatValidationSuccess
 } from './format';
-export { createAction, createInitialState, deepClone, generateUUID } from './utils';
+export { createAction, createInitialState, deepClone, generateUUID, maybeDecompress, compressPayload } from './utils';
+export type { CompressionFormat } from './utils';
 
 /** Loads replay data from YAML into a `ReplayEngine`. */
 export function loadReplayFromYaml(yaml: string) {
