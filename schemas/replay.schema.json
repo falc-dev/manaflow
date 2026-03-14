@@ -261,12 +261,7 @@
       "required": [
         "id",
         "name",
-        "health",
-        "resources",
-        "hand",
-        "deck",
-        "discard",
-        "zones"
+        "health"
       ],
       "properties": {
         "id": {
@@ -297,23 +292,26 @@
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "description": "Deprecated: use zones instead for canonical data"
         },
         "deck": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "description": "Deprecated: use zones instead for canonical data"
         },
         "discard": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "description": "Deprecated: use zones instead for canonical data"
         },
         "zones": {
           "type": "object",
-          "description": "Optional per-player zone map (usually empty in v1 snapshots).",
+          "description": "Canonical player zone map. Preferred over legacy hand/deck/discard fields.",
           "additionalProperties": {
             "type": "array",
             "items": {
