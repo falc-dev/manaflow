@@ -94,3 +94,5 @@ export { mountReplayDemo } from './demo';
 export type { ReplayDemoHandle, ReplayDemoOptions } from './demo';
 
 export { joinClassNames, getCardMetadata } from './utils';
+export { ZoneRenderer, SimpleZoneRenderer } from './utils/zone-renderer';
+export type { ZoneRendererProps, SimpleZoneRendererProps, BaseZoneConfig, BaseCardRenderContext } from './utils/zone-renderer';
