@@ -105,6 +105,34 @@ export class ReplayEngine {
   }
 
   /**
+   * Peeks at a specific frame without mutating the cursor.
+   * Returns `null` if the frame index is out of bounds.
+   */
+  peek(frame: number): ReplayFrame | null {
+    if (frame < 0 || frame >= this.frames.length) {
+      return null;
+    }
+    return deepClone(this.frames[frame]);
+  }
+
+  /**
+   * Peeks at the latest frame at or before the given timestamp.
+   * Does not mutate the cursor.
+   */
+  peekTimestamp(timestamp: number): ReplayFrame | null {
+    let selected = 0;
+    for (let index = 1; index < this.frames.length; index += 1) {
+      const ts = this.frames[index].event?.timestamp ?? -Infinity;
+      if (ts <= timestamp) {
+        selected = index;
+      } else {
+        break;
+      }
+    }
+    return deepClone(this.frames[selected]);
+  }
+
+  /**
    * Seeks by frame index or timestamp.
    *
    * - `frame`: exact frame position.
