@@ -14,8 +14,18 @@ function createBaseFormat(): GameFormat {
     },
     phases: [{ id: 'DRAW' }, { id: 'MAIN' }],
     zones: {
+      battlefield_north: { id: 'battlefield_north', ownerId: 'shared', kind: 'board', visibility: 'public' },
+      battlefield_south: { id: 'battlefield_south', ownerId: 'shared', kind: 'board', visibility: 'public' },
+      champion_blue: { id: 'champion_blue', ownerId: 'blue', kind: 'board', visibility: 'owner' },
+      champion_red: { id: 'champion_red', ownerId: 'red', kind: 'board', visibility: 'owner' },
       deck_blue: { id: 'deck_blue', ownerId: 'blue', kind: 'deck', visibility: 'owner', ordered: true },
       deck_red: { id: 'deck_red', ownerId: 'red', kind: 'deck', visibility: 'owner', ordered: true },
+      runes_blue: { id: 'runes_blue', ownerId: 'blue', kind: 'resource', visibility: 'owner' },
+      runes_red: { id: 'runes_red', ownerId: 'red', kind: 'resource', visibility: 'owner' },
+      rune_deck_blue: { id: 'rune_deck_blue', ownerId: 'blue', kind: 'deck', visibility: 'owner', ordered: true },
+      rune_deck_red: { id: 'rune_deck_red', ownerId: 'red', kind: 'deck', visibility: 'owner', ordered: true },
+      trash_blue: { id: 'trash_blue', ownerId: 'blue', kind: 'discard', visibility: 'owner' },
+      trash_red: { id: 'trash_red', ownerId: 'red', kind: 'discard', visibility: 'owner' },
       stack: { id: 'stack', ownerId: 'shared', kind: 'stack', visibility: 'public' }
     }
   };
@@ -42,13 +52,27 @@ function createReplay(): ReplayData {
       turn: 1,
       entities: {},
       zones: {
+        battlefield_north: [],
+        battlefield_south: [],
+        champion_blue: [],
+        champion_red: [],
         deck_blue: [],
         deck_red: [],
+        runes_blue: [],
+        runes_red: [],
+        rune_deck_blue: [],
+        rune_deck_red: [],
+        trash_blue: [],
+        trash_red: [],
         stack: []
       },
       metadata: {
         rulesProfile: 'riftbound-1v1-v1',
-        currentPhase: 'DRAW'
+        battlefieldCount: 2,
+        control: {
+          battlefield_north: 'blue',
+          battlefield_south: 'red'
+        }
       }
     },
     events: []

@@ -37,6 +37,7 @@ function createReplayWithLegacyAliases() {
         }
       ],
       currentPlayer: 'blue',
+      currentPhase: 'MAIN',
       turn: 1,
       entities: {},
       zones: {
