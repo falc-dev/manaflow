@@ -4,6 +4,14 @@ Recetas prácticas para casos de uso comunes en Manaflow.
 
 ## Primeros pasos
 
+**Nuevo en Manaflow?** Empieza con los tutoriales:
+
+- [Tutoriales](/tutorials/) - Learning path completo
+- [Crear un replay](/tutorials/01-create-replay.md)
+- [React básico](/tutorials/02-react-basic.md)
+
+## Recetas
+
 - [Reproductor básico en React](recipes/quick-start-react.md) - 30 segundos para tener algo funcional
 
 ## Personalización
@@ -14,8 +22,10 @@ Recetas prácticas para casos de uso comunes en Manaflow.
 ## Casos avanzados
 
 - [Agregar un nuevo juego](recipes/add-new-game.md) - Usar Manaflow para cualquier TCG
+- [Multiplayer](/tutorials/04-multiplayer.md) - Formatos 2v2, 3v3, NvN
 
 ## Relacionado
 
 - [Ejemplos completos](examples/index.md)
 - [Documentación de API](packages/index.md)
+- [Troubleshooting](../guide/troubleshooting.md) - Errores comunes

@@ -444,6 +444,75 @@ docs/
 - Replay schema at `schemas/replay.schema.json`
 - Version: `1` (stable contract)
 
+## Documentation Guidelines
+
+### Folder Structure
+
+```
+docs/
+├── guide/         # Conceptual guides (architecture, getting started, troubleshooting)
+├── tutorials/     # Step-by-step tutorials for newcomers (progressive complexity)
+├── reference/    # Technical references (schemas, APIs, catalogs)
+├── examples/     # Complete working code examples
+├── recipes/      # Practical solutions to common problems
+└── packages/    # Per-package documentation
+```
+
+### Writing Guidelines
+
+**guide/** - Conceptual explanations
+- Why and how things work
+- Architecture decisions
+- Troubleshooting
+
+**tutorials/** - Progressive learning path
+- Start with minimal example
+- Build complexity step by step
+- Each tutorial should be completable in 10-15 minutes
+- Include copy-pasteable code
+
+**reference/** - Technical documentation
+- Schemas (JSON/YAML)
+- API signatures
+- Type definitions
+- Keep minimal explanation, maximize precision
+
+**examples/** - Working code
+- Complete, runnable examples
+- Show real-world integration patterns
+
+**recipes/** - Problem-solution format
+- Specific problems users face
+- Clear solutions with code
+
+### Naming Conventions
+
+- Use kebab-case: `multiplayer-zones.md`
+- Use descriptive titles: `01-create-replay.md` (tutorials)
+- Include context in titles: `replay-schema.md` not `schema.md`
+
+### Tutorial Path
+
+Tutorials must follow this progression:
+1. `01-create-replay.md` - Create minimal JSON replay (1v1)
+2. `02-react-basic.md` - Integrate replay in React
+3. `03-custom-ui.md` - Customize cards and zones
+4. `04-multiplayer.md` - Handle 2v2, 3v3, NvN formats
+
+### Content Rules
+
+- Each tutorial: max 100 lines + code blocks
+- Include prerequisites at top
+- Always show complete code snippet user can copy
+- End with "Next step" linking to next tutorial
+- Reference `reference/` for detailed structure
+
+### Links
+
+- Tutorial to tutorial: `[Tutorial name](01-filename.md)`
+- Tutorial to reference: `[Reference name](../reference/filename.md)`
+- Any to guide: `[Guide name](../guide/troubleshooting.md)`
+
 ## 9. Contributions
 
 ### Architecture Decision Records

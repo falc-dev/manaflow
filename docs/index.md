@@ -22,13 +22,32 @@ pnpm install
 pnpm docs:dev
 ```
 
+## Tutoriales
+
+Aprende Manaflow paso a paso:
+
+- [Tutoriales](/tutorials/) - Learning path completo
+- [Crear un replay mínimo](/tutorials/01-create-replay.md)
+- [React básico](/tutorials/02-react-basic.md)
+- [Multiplayer](/tutorials/04-multiplayer.md)
+
+## Guías
+
+- [Getting Started](guide/getting-started.md)
+- [Architecture](guide/architecture.md)
+- [Troubleshooting](guide/troubleshooting.md)
+
+## Referencia
+
+- [Reference](/reference/) - Esquemas y APIs
+- [Replay Schema](/reference/replay-schema.md)
+- [Format Schema](/reference/format-schema.md)
+
 ## Ejemplos
 
 - Ver seccion completa: [Ejemplos](/examples/)
 - Quick links:
   - [Guia TCG paso a paso (Riftbound + Magic)](/examples/tcg-replay-step-by-step)
-  - [Schema del replay (v1)](/examples/replay-schema)
-  - [Schema del formato (v1)](/examples/format-schema)
   - [Core Replay](/examples/core-replay)
   - [Runtime Store](/examples/runtime-store)
   - [React Player](/examples/react-player)
