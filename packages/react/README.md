@@ -321,6 +321,15 @@ import { ReplayPlayer } from '@manaflow/react';
 />;
 ```
 
+## Shared utilities
+
+```ts
+import { joinClassNames, getCardMetadata } from '@manaflow/react';
+```
+
+- `joinClassNames`: Joins class name parts, filtering out undefined values
+- `getCardMetadata`: Extracts card metadata from a game entity
+
 ## Replay marker helpers
 
 ```ts
