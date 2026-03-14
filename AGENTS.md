@@ -1,5 +1,20 @@
 # Manaflow Agent Instructions
 
+## Project Overview
+
+Manaflow is a TypeScript library for visualizing TCG (Trading Card Game) plays and matches. It provides an agnostic and customizable library to render step-by-step plays defined by config files.
+
+### Package Ecosystem
+- `@manaflow/types`: Core type definitions (Card, GameSnapshot, ReplayAction, etc.)
+- `@manaflow/core`: Game state management, serialization, validation
+- `@manaflow/game-logic`: Game reducers (tcgReplayReducer)
+- `@manaflow/replay-runtime`: Replay controller & store (createReplayController, createReplayStore)
+- `@manaflow/phaser-visor`: Phaser.js visualization
+- `@manaflow/html-visor`: HTML/CSS visualization
+- `@manaflow/react`: React wrapper components
+- `@manaflow/vue`: Vue wrapper components
+- `@manaflow/react-demo`: Demo application
+
 ## Product Direction for React Packages
 
 Use a dual API strategy:
@@ -445,3 +460,33 @@ docs/
 - Use Percy or similar for screenshot comparisons
 - Test across different viewport sizes
 - Validate card rendering at different zoom levels
+
+## 10. Common Build Issues and Solutions
+
+### TypeScript Errors
+
+**Duplicate exports**: Don't use both `export interface Foo` and `export type { Foo }` for the same type - this causes TS2484. Use only the interface export.
+
+**Zod error codes**: Error codes like `missing_keys`, `unrecognized_keys` may vary by Zod version. Check the actual Zod types in `node_modules/zod` rather than assuming specific codes exist.
+
+**CompressionStream types**: The TypeScript lib definitions for `CompressionStream`/`DecompressionStream` may not match browser reality. Use `as any` cast if needed: `new CompressionStream(format as any)`.
+
+**Boolean type inference**: When combining conditions with `&&`, TypeScript may infer `string | boolean` instead of `boolean`. Use `!!` to coerce: `const hidden = visibility === 'hidden' || !!isOwnerHidden`.
+
+### pnpm Workspace Quirks
+
+**Missing symlinks**: If a workspace package fails to resolve, ensure the dependent package explicitly lists it in its own `dependencies`, not just as a transitive dependency. Add missing `workspace:*` dependencies explicitly.
+
+**Stale build artifacts**: If `dist` folder exists but is empty/incomplete, delete it and rebuild: `rm -rf dist && pnpm build`.
+
+**TypeScript caching**: If changes don't appear to take effect, remove `tsconfig.tsbuildinfo`: `rm packages/*/tsconfig.tsbuildinfo`.
+
+### Build Commands
+
+```bash
+# Full clean build
+rm -rf packages/*/dist packages/*/tsconfig.tsbuildinfo && pnpm -r build
+
+# Check which package is failing
+pnpm -r build 2>&1 | grep -E "(error|failed|ERR_)"
+```
