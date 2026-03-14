@@ -4,10 +4,51 @@
 
 React-oriented replay helpers for Manaflow.
 
+## Installation
+
+```bash
+npm install @manaflow/react
+# or
+pnpm add @manaflow/react
+```
+
 ## Peer dependencies
 
 - `react >= 18`
 - `react-dom >= 18`
+
+## What is Manaflow?
+
+Manaflow is a library for visualizing TCG (Trading Card Game) replays. It renders game state snapshots frame-by-frame, allowing users to navigate through a game's history with play/pause controls, timeline, and step forward/backward buttons.
+
+## Basic Concepts
+
+- **Replay**: A recorded game session consisting of frames (snapshots)
+- **Frame**: A complete game state at a specific point in time
+- **Store**: Manages replay state and navigation (next, previous, seek)
+- **Viewport**: Renders the visual representation of cards and zones
+
+## What does replay data look like?
+
+A replay consists of an initial state and a series of events:
+
+```ts
+interface ReplayData {
+  schemaVersion: 1;
+  initialState: GameSnapshot;
+  events: ReplayFrame[];
+}
+
+interface GameSnapshot {
+  id: string;
+  players: PlayerState[];
+  currentPlayer: string;
+  turn: number;
+  entities: Record<string, GameEntity>;
+  zones: Record<string, string[]>;
+  metadata: { rulesProfile: string };
+}
+```
 
 ## Styles
 
@@ -437,18 +478,54 @@ function DuelTable({ store }) {
 
 ## Store API
 
-```ts
-import { createReactReplayStore } from '@manaflow/react';
+The store manages replay state and provides navigation methods:
 
-const store = createReactReplayStore(replayEngine);
+```ts
+import { createReactReplayStore, type ReactReplayStore } from '@manaflow/react';
+
+// Create a store from replay data
+const store = createReactReplayStore(replayData);
+
+// Subscribe to state changes
 const unsubscribe = store.subscribe((state) => {
   console.log(state.currentFrame, state.totalFrames);
 });
 
-store.next();
-store.seek(0);
+// Navigation methods
+store.next();       // Go to next frame
+store.previous();   // Go to previous frame
+store.seek(5);      // Jump to frame 5
+store.seek(0);      // Jump to start
+store.seek(store.getState().totalFrames - 1); // Jump to end
+
+// Cleanup
 unsubscribe();
 store.destroy();
+```
+
+### ReactReplayStore interface
+
+```ts
+interface ReactReplayStore {
+  subscribe(listener: (state: ReactReplayState) => void): () => void;
+  getState(): ReactReplayState;
+  next(): void;
+  previous(): void;
+  seek(frame: number): void;
+  destroy(): void;
+}
+```
+
+### ReactReplayState interface
+
+```ts
+interface ReactReplayState {
+  frame: ReplayFrame;
+  currentFrame: number;
+  totalFrames: number;
+  canStepBack: boolean;
+  canStepForward: boolean;
+}
 ```
 
 ## Optional external renderer integration
@@ -482,11 +559,20 @@ const replayFromPayload = await loadDemoReplay('/demo.replay.json', {
 
 ## Hook (recommended)
 
+The `useReplayStore` hook subscribes to store changes and returns the current state:
+
 ```ts
 import { useReplayStore } from '@manaflow/react';
 
+// Get the entire state
+const state = useReplayStore(store);
+
+// Get a specific value with a selector
 const currentFrame = useReplayStore(store, (state) => state.currentFrame);
+const isPlaying = useReplayStore(store, (state) => state.canStepForward);
 ```
+
+The selector function is memoized for performance - it only causes re-renders when the selected value changes.
 
 ## Replay config hook
 
@@ -557,3 +643,53 @@ const currentFrame = useReplayStore(store, (state) => state.currentFrame);
 
 `mountReplayDemo(...)` is deprecated and kept only for backwards compatibility.
 Use `ReplayPlayer` + `createReactReplayStore` / `useReplayStore` for new code.
+
+## Troubleshooting
+
+### Cards not rendering
+
+Make sure your `GameSnapshot` entities have a `CARD` component:
+
+```ts
+const snapshot = {
+  // ...
+  entities: {
+    'card_1': {
+      id: 'card_1',
+      type: 'card',
+      components: [
+        { componentType: 'CARD', metadata: { name: 'Fireball', cost: 3 } }
+      ]
+    }
+  }
+};
+```
+
+### View transitions not working
+
+View transitions require browser support. They work automatically in Chrome/Edge. For other browsers, the replay will still function but without smooth animations.
+
+### Types not found
+
+Ensure you have TypeScript configured:
+
+```json
+{
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "esModuleInterop": true
+  }
+}
+```
+
+### CSS not loading
+
+Make sure the CSS import is at the top of your entry file:
+
+```ts
+// main.tsx or App.tsx
+import '@manaflow/react/styles.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
+// ...
+```
