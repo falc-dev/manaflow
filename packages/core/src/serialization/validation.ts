@@ -13,8 +13,6 @@ export interface ReplayValidationIssue {
 }
 
 export interface ReplayValidationOptions {
-
-export interface ReplayValidationOptions {
   /** Normalizes known legacy Riftbound zone aliases before profile checks. */
   normalizeRiftboundAliases?: boolean;
   /** Enforces typed payload validation for known replay action types. Defaults to `true`. */
