@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@manaflow/core": "workspace:*",
-    "@manaflow/react": "workspace:*"
+    "@manaflow/react": "workspace:*",
+    "@manaflow/types": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "18.2.48",

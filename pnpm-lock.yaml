@@ -106,6 +106,9 @@ importers:
       '@manaflow/react':
         specifier: workspace:*
         version: link:../react
+      '@manaflow/types':
+        specifier: workspace:*
+        version: link:../types
     devDependencies:
       '@types/react':
         specifier: 18.2.48
