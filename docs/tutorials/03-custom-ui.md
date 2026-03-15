@@ -34,19 +34,9 @@ Usa `renderCard` para sobrescribir cómo se muestra cada carta:
 
 ### Visual: Carta por defecto vs personalizada
 
-```
-POR DEFECTO:                    PERSONALIZADA:
-┌───────────────────┐           ┌───────────────────┐
-│  ⚡ 5             │           │ ╔═══════════════╗ │
-│                   │           │ ║  ⚡ 5          ║ │
-│   Dragon          │           │ ║               ║ │
-│   Rojo            │           │ ║  Dragon       ║ │
-│                   │           │ ║  Rojo         ║ │
-│ [legendary]      │           │ ║               ║ │
-│                   │           │ ║ [legendary]   ║ │
-└───────────────────┘           │ ╚═══════════════╝ │
-                               └───────────────────┘
-```
+::: info
+<DiagramCardComparison />
+:::
 
 ### Contexto disponible
 

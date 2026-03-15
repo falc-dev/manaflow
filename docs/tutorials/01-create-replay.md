@@ -40,29 +40,9 @@ Crea un archivo llamado `mi-replay.json`:
 
 ### Visual: Estructura del replay
 
-```
-┌─────────────────────────────────────────┐
-│  replay.json                            │
-├─────────────────────────────────────────┤
-│  schemaVersion: 1                      │
-│  ┌─────────────────────────────────┐    │
-│  │ initialState                    │    │
-│  │   - id                          │    │
-│  │   - players                     │    │
-│  │   - currentPhase                │    │
-│  │   - currentPlayer               │    │
-│  │   - turn                        │    │
-│  │   - entities                    │    │
-│  │   - zones                       │    │
-│  │   - metadata                    │    │
-│  └─────────────────────────────────┘    │
-│  ┌─────────────────────────────────┐    │
-│  │ events[]                        │    │
-│  │   [0] event + snapshot          │    │
-│  │   [1] event + snapshot          │    │
-│  └─────────────────────────────────┘    │
-└─────────────────────────────────────────┘
-```
+::: info
+<DiagramReplayStructure />
+:::
 
 Esta es la **plantilla mínima**. Todos los campos son obligatorios.
 
@@ -220,20 +200,9 @@ Un evento tiene la acción y el resultado:
 
 ### Visual: Flujo de un evento
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  BEFORE (initialState)          AFTER (snapshot)           │
-│  ┌─────────────────┐          ┌─────────────────┐        │
-│  │ hand_p1: [c1]   │  MOVE    │ hand_p1: []      │        │
-│  │ board_p1: []    │ ──────►  │ board_p1: [c1]   │        │
-│  └─────────────────┘          └─────────────────┘        │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │ event: { type: "MOVE_ENTITY", playerId: "p1" }    │   │
-│  │         { cardId: "c1", from: "hand", to: "board"}│   │
-│  └─────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
-```
+::: info
+<DiagramEventFlow />
+:::
 
 Importante: El `snapshot` debe reflejar el estado **después** de aplicar la acción.
 
