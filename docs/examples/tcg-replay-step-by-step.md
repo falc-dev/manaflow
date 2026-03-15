@@ -49,7 +49,7 @@ Plantilla minima:
 
 ### Riftbound (demo-like)
 
-Usa zonas canonicas del perfil:
+Usa zonas canónicas del perfil:
 
 - `battlefield_north`, `battlefield_south`
 - `champion_blue`, `champion_red`
@@ -73,9 +73,52 @@ Y metadata de partida:
 }
 ```
 
+> **Nota:** El perfil `riftbound-1v1-v1` se registra automáticamente. Si quieres un formato completo con validación, consulta [Formato de replay Riftbound](./riftbound-replay-format).
+
 ### Magic: The Gathering (sugerido)
 
-Zona map sugerido:
+Para Magic, puedes crear un perfil propio y usarlo en el formato:
+
+**1. Crea un perfil en código:**
+
+```typescript
+import { registerProfile } from '@manaflow/core';
+
+registerProfile({
+  id: 'mtg-1v1-v1',
+  name: 'Magic: The Gathering 1v1',
+  requiredZones: [
+    { id: 'library' },
+    { id: 'hand' },
+    { id: 'battlefield' },
+    { id: 'graveyard' },
+    { id: 'exile' },
+    { id: 'stack' }
+  ],
+  requiredPlayers: { ids: ['p1', 'p2'], count: 2 },
+  actionCatalog: ['SNAPSHOT', 'MOVE_ENTITY', 'END_TURN', 'WIN_GAME']
+});
+```
+
+**2. O usa perfil embebido en formato:**
+
+```json
+{
+  "formatId": "mtg-1v1-v1",
+  "rulesProfile": {
+    "id": "mtg-1v1-v1",
+    "requiredZones": [
+      { "id": "library" },
+      { "id": "hand" },
+      { "id": "battlefield" },
+      { "id": "graveyard" }
+    ],
+    "requiredPlayers": { "ids": ["p1", "p2"], "count": 2 }
+  }
+}
+```
+
+**Zona map sugerido:**
 
 - `library_p1`, `library_p2`
 - `hand_p1`, `hand_p2`
@@ -85,7 +128,7 @@ Zona map sugerido:
 - `stack`
 - `command` (si Commander)
 
-Metadata sugerido:
+**Metadata sugerido:**
 
 ```json
 {

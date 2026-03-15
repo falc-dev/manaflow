@@ -4,7 +4,7 @@ En este tutorial aprenderás a integrar un replay en React. Duración: 15 minuto
 
 ## Prerequisites
 
-- Completado: [Tutorial 01: Create Replay](../01-create-replay.md)
+- Completado: [Tutorial 01: Create Replay](01-create-replay.md)
 - Conocimiento básico de React
 
 ## Lo que vas a construir

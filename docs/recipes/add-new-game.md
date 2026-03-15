@@ -94,5 +94,5 @@ export function MiJuegoViewer() {
 
 ## Recursos
 
-- [Formato de replay completo](examples/replay-schema.md)
-- [Ejemplo Riftbound](examples/riftbound-replay-format.md)
+- [Formato de replay completo](../reference/replay-schema.md)
+- [Ejemplo Riftbound](../examples/riftbound-replay-format.md)

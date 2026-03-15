@@ -6,7 +6,6 @@ Esta seccion resume los paquetes del monorepo, su objetivo y API principal.
 
 - [@manaflow/types](./types)
 - [@manaflow/core](./core)
-- [@manaflow/game-logic](./game-logic)
 - [@manaflow/replay-runtime](./replay-runtime)
 
 ## Renderers

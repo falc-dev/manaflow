@@ -7,6 +7,7 @@ import { parseReplayJson, parseReplayJsonc, parseReplayNdjson, parseReplayYaml }
 import { FormatValidationError, parseGameFormat } from './serialization/format-validation';
 import { resolveReplayFormat, validateReplayFormat, type ReplayFormatValidationResult } from './format';
 import type { ReplaySchemaType } from './serialization/schema';
+import { registerProfile, convertFormatProfileToDefinition } from './profiles';
 
 export interface LoadReplayWithFormatOptions {
   format?: ReplaySerializationFormat;
@@ -57,6 +58,16 @@ export function loadReplayWithFormat(
           ? error.message
           : String(error);
     throw new Error(`Invalid format payload: ${message}`);
+  }
+
+  const rulesProfileValue = validatedFormat.rulesProfile;
+  if (typeof rulesProfileValue === 'object') {
+    const profileDef = convertFormatProfileToDefinition(rulesProfileValue);
+    registerProfile(profileDef);
+    validatedFormat = {
+      ...validatedFormat,
+      rulesProfile: rulesProfileValue.id
+    };
   }
 
   const resolvedFormat = options.format ?? detectReplaySerializationFormat(payload);

@@ -38,21 +38,28 @@ Crea un archivo `replay.json` con el formato de Manaflow:
   "initialState": {
     "id": "mi-partida",
     "players": [
-      { "id": "p1", "name": "Jugador 1", "health": 20, "hand": ["c1"], "deck": ["c2"], "discard": [] },
-      { "id": "p2", "name": "Jugador 2", "health": 20, "hand": ["c3"], "deck": ["c4"], "discard": [] }
+      { "id": "blue", "name": "Blue", "health": 20, "zones": {} },
+      { "id": "red", "name": "Red", "health": 20, "zones": {} }
     ],
-    "currentPlayer": "p1",
+    "currentPlayer": "blue",
     "turn": 1,
     "currentPhase": "MAIN",
     "entities": {
-      "c1": { "id": "c1", "type": "card", "components": [{ "componentType": "CARD", "entityId": "c1", "metadata": { "name": "Dragon", "cost": 5 } }] }
+      "c1": { "id": "c1", "type": "card", "components": [{ "componentType": "CARD", "entityId": "c1", "metadata": { "name": "Dragon", "cost": 5, "rarity": "legendary" } }] }
     },
-    "zones": { "hand_p1": ["c1"], "hand_p2": ["c3"], "deck_p1": ["c2"], "deck_p2": ["c4"] },
+    "zones": {
+      "hand_blue": ["c1"],
+      "hand_red": ["c2"],
+      "deck_blue": ["c3"],
+      "deck_red": ["c4"]
+    },
     "metadata": { "rulesProfile": "riftbound-1v1-v1" }
   },
   "events": []
 }
 ```
+
+> **Nota:** El perfil `riftbound-1v1-v1` se registra automáticamente al importar `@manaflow/core`. Para usar tu propio TCG, consulta [Añadir un nuevo TCG](../guide/add-new-tcg.md).
 
 ## 3. Renderiza el reproductor
 

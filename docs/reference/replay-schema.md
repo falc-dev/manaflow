@@ -41,6 +41,20 @@ Campos opcionales nuevos:
 - `formatRef`: referencia a un formato compartido (por `formatId`).
 - `formatOverrides`: overrides parciales aplicados sobre el formato base.
 
+## Sistema de Perfiles
+
+Manaflow usa un sistema de **perfiles de reglas** que define la estructura esperada para cada TCG:
+
+- **Registro**: Los perfiles se registran con `profileRegistry.register(profile)`
+- **Validación**: `validateReplayProfile()` valida contra el perfil registrado
+- **Extensible**: Cualquier TCG puede añadir su propio perfil
+
+Ver [Añadir nuevo TCG](../guide/add-new-tcg.md) para crear perfiles custom.
+
+### Perfil por defecto
+
+El perfil `riftbound-1v1-v1` se registra automáticamente e incluye validaciones específicas para Riftbound.
+
 Reglas adicionales en `schemaVersion: 1` (hardening actual):
 
 - `snapshot.metadata.rulesProfile` es obligatorio.

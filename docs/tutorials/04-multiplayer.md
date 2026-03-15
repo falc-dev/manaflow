@@ -4,7 +4,7 @@ En este tutorial aprenderás a estructurar replays para más de 2 jugadores.
 
 ## Prerequisites
 
-- Completado: [Tutorial 01: Create Replay](../01-create-replay.md)
+- Completado: [Tutorial 01: Create Replay](01-create-replay.md)
 - Entender conceptos de zonas y entidades
 
 ## Lo que vas a aprender

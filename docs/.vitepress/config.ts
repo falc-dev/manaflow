@@ -49,7 +49,6 @@ export default {
           { text: "Indice", link: "/packages/" },
           { text: "@manaflow/types", link: "/packages/types" },
           { text: "@manaflow/core", link: "/packages/core" },
-          { text: "@manaflow/game-logic", link: "/packages/game-logic" },
           { text: "@manaflow/replay-runtime", link: "/packages/replay-runtime" },
           { text: "@manaflow/html-visor", link: "/packages/html-visor" },
           { text: "@manaflow/phaser-visor", link: "/packages/phaser-visor" },

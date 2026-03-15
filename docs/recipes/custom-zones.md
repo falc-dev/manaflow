@@ -72,4 +72,4 @@ const visor = new HtmlRendererAdapter({
 ## Siguiente paso
 
 - [Agregar un nuevo juego](add-new-game.md)
-- [UI predefinida por juego](examples/ui-presets.md)
+- [UI predefinida por juego](../examples/ui-presets.md)

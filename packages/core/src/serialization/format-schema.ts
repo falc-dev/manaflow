@@ -48,12 +48,31 @@ const FormatZoneGroupSchema = z.object({
   metadata: z.record(z.unknown()).optional()
 });
 
+const RulesProfileZoneSchema = z.object({
+  id: z.string(),
+  ownerId: z.string().optional(),
+  kind: z.string().optional()
+});
+
+const RulesProfilePlayersSchema = z.object({
+  ids: z.array(z.string()).min(1),
+  count: z.number().optional()
+});
+
+const RulesProfileInlineSchema = z.object({
+  id: z.string(),
+  name: z.string().optional(),
+  description: z.string().optional(),
+  requiredZones: z.array(RulesProfileZoneSchema).optional(),
+  requiredPlayers: RulesProfilePlayersSchema.optional()
+});
+
 export const GameFormatSchema = z
   .object({
     schemaVersion: z.literal(1),
     formatId: z.string(),
     name: z.string().optional(),
-    rulesProfile: z.string(),
+    rulesProfile: z.union([z.string(), RulesProfileInlineSchema]),
     players: FormatPlayersSchema,
     phases: z.array(FormatPhaseSchema).min(1),
     zones: z.record(FormatZoneSchema),

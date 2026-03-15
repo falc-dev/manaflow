@@ -46,10 +46,18 @@
       ]
     },
     "rulesProfile": {
-      "type": "string",
-      "description": "Rules profile id consumed by the replay runtime.",
-      "examples": [
-        "riftbound-1v1-v1"
+      "description": "Rules profile. Can be a string (reference to registered profile) or an inline profile definition.",
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Rules profile id consumed by the replay runtime.",
+          "examples": [
+            "riftbound-1v1-v1"
+          ]
+        },
+        {
+          "$ref": "#/$defs/rulesProfile"
+        }
       ]
     },
     "players": {
@@ -133,6 +141,7 @@
     "phase": {
       "type": "object",
       "description": "Phase definition consumed by snapshots (currentPhase).",
+      "markdownDescription": "Turn phase identifier from format.phases (e.g., DRAW, MAIN, COMBAT, END). Used to track game progress.",
       "additionalProperties": false,
       "required": [
         "id"
@@ -140,6 +149,7 @@
       "properties": {
         "id": {
           "type": "string",
+          "description": "Canonical phase identifier.",
           "examples": [
             "DRAW",
             "MAIN",
@@ -165,20 +175,23 @@
     "zoneDefinition": {
       "type": "object",
       "description": "Zone definition shared across all snapshots.",
+      "markdownDescription": "Defines a game zone (deck, hand, board, etc.) with ownership, visibility, and layout hints.",
       "additionalProperties": false,
       "required": [
         "id"
       ],
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "description": "Unique zone identifier."
         },
         "ownerId": {
           "type": "string",
-          "description": "Player id or 'shared'."
+          "description": "Player id or 'shared' for neutral zones."
         },
         "kind": {
           "type": "string",
+          "description": "Semantic zone type.",
           "enum": [
             "deck",
             "hand",
@@ -252,6 +265,74 @@
         "metadata": {
           "type": "object",
           "additionalProperties": true
+        }
+      }
+    },
+    "rulesProfileZone": {
+      "type": "object",
+      "description": "Required zone definition for a profile.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Zone id that must exist in the format."
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Expected owner of the zone."
+        },
+        "kind": {
+          "type": "string",
+          "description": "Expected zone kind."
+        }
+      },
+      "required": ["id"]
+    },
+    "rulesProfilePlayers": {
+      "type": "object",
+      "description": "Player requirements for a profile.",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" },
+          "description": "Required player ids."
+        },
+        "count": {
+          "type": "number",
+          "description": "Expected player count."
+        }
+      },
+      "required": ["ids"]
+    },
+    "rulesProfile": {
+      "type": "object",
+      "description": "Inline rules profile definition embedded in the format.",
+      "markdownDescription": "Defines rules requirements (zones, players, actions) directly in the format JSON. Allows self-contained format files without external profile registration.",
+      "additionalProperties": false,
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique profile identifier.",
+          "examples": ["mtg-standard-v1", "pokemon-tcg-v1"]
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-friendly profile name."
+        },
+        "description": {
+          "type": "string",
+          "description": "Profile description."
+        },
+        "requiredZones": {
+          "type": "array",
+          "description": "Zones that must exist in the format.",
+          "items": {
+            "$ref": "#/$defs/rulesProfileZone"
+          }
+        },
+        "requiredPlayers": {
+          "$ref": "#/$defs/rulesProfilePlayers"
         }
       }
     }

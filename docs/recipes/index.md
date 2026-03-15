@@ -12,20 +12,20 @@ Recetas prácticas para casos de uso comunes en Manaflow.
 
 ## Recetas
 
-- [Reproductor básico en React](recipes/quick-start-react.md) - 30 segundos para tener algo funcional
+- [Reproductor básico en React](quick-start-react.md) - 30 segundos para tener algo funcional
 
 ## Personalización
 
-- [Personalizar cartas](recipes/custom-card-render.md) - Cambiar cómo se muestran las cartas
-- [Personalizar zonas](recipes/custom-zones.md) - Definir zonas propias y layouts
+- [Personalizar cartas](custom-card-render.md) - Cambiar cómo se muestran las cartas
+- [Personalizar zonas](custom-zones.md) - Definir zonas propias y layouts
 
 ## Casos avanzados
 
-- [Agregar un nuevo juego](recipes/add-new-game.md) - Usar Manaflow para cualquier TCG
+- [Agregar un nuevo juego](add-new-game.md) - Usar Manaflow para cualquier TCG
 - [Multiplayer](/tutorials/04-multiplayer.md) - Formatos 2v2, 3v3, NvN
 
 ## Relacionado
 
-- [Ejemplos completos](examples/index.md)
-- [Documentación de API](packages/index.md)
+- [Ejemplos completos](../examples/index.md)
+- [Documentación de API](../packages/index.md)
 - [Troubleshooting](../guide/troubleshooting.md) - Errores comunes

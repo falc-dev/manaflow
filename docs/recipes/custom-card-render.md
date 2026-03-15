@@ -58,4 +58,4 @@ Las cartas reciben estas clases:
 ## Siguiente paso
 
 - [Personalizar zonas](custom-zones.md)
-- [API completa del viewport](packages/react.md#replayviewport-props)
+- [API completa del viewport](../packages/react.md#replayviewport-props)

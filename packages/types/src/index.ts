@@ -417,11 +417,30 @@ export interface GameFormatZoneGroup {
   metadata?: Record<string, unknown>;
 }
 
+export interface GameFormatProfileZone {
+  id: string;
+  ownerId?: string;
+  kind?: string;
+}
+
+export interface GameFormatProfilePlayers {
+  ids: string[];
+  count?: number;
+}
+
+export interface GameFormatRulesProfile {
+  id: string;
+  name?: string;
+  description?: string;
+  requiredZones?: GameFormatProfileZone[];
+  requiredPlayers?: GameFormatProfilePlayers;
+}
+
 export interface GameFormat {
   schemaVersion: 1;
   formatId: string;
   name?: string;
-  rulesProfile: string;
+  rulesProfile: string | GameFormatRulesProfile;
   players: GameFormatPlayers;
   phases: GameFormatPhase[];
   zones: Record<string, GameFormatZone>;

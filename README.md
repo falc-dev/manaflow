@@ -25,14 +25,13 @@ const store = createReactReplayStore(replayData);
 ## Paquetes
 
 - `@manaflow/types`: Canonical domain model (`Card`, `CardInstance`, `GameSnapshot`, `ReplayEvent`, `RendererAdapter`).
-- `@manaflow/core`: Game/replay runtime (`GameEngine`, `ReplayEngine`, YAML/JSON loaders).
+- `@manaflow/core`: Game/replay runtime, validation, and profile registry.
 - `@manaflow/replay-runtime`: Framework-agnostic replay controller/store runtime.
 - `@manaflow/html-visor`: HTML renderer adapter implementing `RendererAdapter`.
 - `@manaflow/phaser-visor`: Phaser-oriented renderer adapter implementing `RendererAdapter`.
 - `@manaflow/react`: Thin replay controller helpers for React integrations.
 - `@manaflow/react-demo`: Executable browser demo for replay controls.
 - `@manaflow/vue`: Thin replay controller helpers for Vue integrations.
-- `@manaflow/game-logic`: Shared reducer helpers for rules/action processing.
 - `@manaflow/webpack-plugin`: Build-time integration plugin scaffold.
 
 ## Replay format (v1)

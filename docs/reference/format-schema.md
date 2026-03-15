@@ -2,6 +2,68 @@
 
 Contrato JSON para definir el **formato de juego** fuera del replay (zonas, fases y slots de jugador). Este archivo es la base para el modelo hibrido: el replay referencia el formato y solo trae overrides puntuales.
 
+## Perfiles de Reglas
+
+Manaflow usa un sistema de **perfiles registrables** que define:
+- Zonas requeridas
+- Jugadores esperados
+- Catálogo de acciones permitidas
+- Validadores específicos
+
+### Enfoque 1: Perfil embebido en el formato (recomendado)
+
+Define el perfil directamente en el JSON del formato:
+
+```json
+{
+  "formatId": "mi-juego-v1",
+  "rulesProfile": {
+    "id": "mi-juego-v1",
+    "name": "Mi Juego",
+    "requiredZones": [
+      { "id": "library" },
+      { "id": "hand" },
+      { "id": "battlefield" }
+    ],
+    "requiredPlayers": { "ids": ["blue", "red"], "count": 2 }
+  }
+}
+```
+
+El perfil se registra automáticamente al cargar el formato.
+
+### Enfoque 2: Referencia por string
+
+Si prefieres registrar el perfil en código TypeScript:
+
+```json
+{
+  "formatId": "mi-juego-v1",
+  "rulesProfile": "mi-juego-v1"
+}
+```
+
+```typescript
+import { registerProfile } from '@manaflow/core';
+
+registerProfile({
+  id: 'mi-juego-v1',
+  requiredZones: [...],
+  actionCatalog: ['SNAPSHOT', 'MOVE_ENTITY', 'END_TURN', 'WIN_GAME']
+});
+```
+
+Ver [Añadir nuevo TCG](../guide/add-new-tcg.md) para crear perfiles custom.
+
+### Perfil por defecto: riftbound-1v1-v1
+
+```json
+{
+  "formatId": "riftbound-1v1-v1",
+  "rulesProfile": "riftbound-1v1-v1"
+}
+```
+
 ## Estructura base
 
 ```json

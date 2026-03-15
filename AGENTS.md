@@ -6,8 +6,7 @@ Manaflow is a TypeScript library for visualizing TCG (Trading Card Game) plays a
 
 ### Package Ecosystem
 - `@manaflow/types`: Core type definitions (Card, GameSnapshot, ReplayAction, etc.)
-- `@manaflow/core`: Game state management, serialization, validation
-- `@manaflow/game-logic`: Game reducers (tcgReplayReducer)
+- `@manaflow/core`: Game state management, serialization, validation, profile registry
 - `@manaflow/replay-runtime`: Replay controller & store (createReplayController, createReplayStore)
 - `@manaflow/phaser-visor`: Phaser.js visualization
 - `@manaflow/html-visor`: HTML/CSS visualization
@@ -102,7 +101,7 @@ Manaflow follows a decoupled architecture separating game logic from visualizati
 ```
 manaflow/
 ├── packages/types/            # Core type definitions (Card, GameSnapshot, ReplayAction, etc.)
-├── packages/game-logic/       # Game reducers (tcgReplayReducer)
+├── packages/core/             # State management, serialization, validation, profile registry
 ├── packages/replay-runtime/  # Replay controller & store (createReplayController, createReplayStore)
 ├── packages/phaser-visor/     # Phaser.js visualization
 ├── packages/html-visor/       # HTML/CSS visualization
@@ -406,8 +405,8 @@ RulesProfile, SnapshotMetadata
 ReplayController, ReplayStore
 createReplayController, createReplayStore
 
-// Game Logic (from @manaflow/game-logic)
-Reducer, tcgReplayReducer
+// Game Profiles (from @manaflow/core)
+RulesProfileDefinition, profileRegistry
 
 // Visor types
 PhaserVisualization, HTMLVisualization, RendererAdapter

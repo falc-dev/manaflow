@@ -27,8 +27,8 @@ pnpm --filter @manaflow/react-demo preview
 - El CSS local del demo vive en `src/main.css`.
 - El demo compone una superficie custom de doble playmat usando `useReplayStore`.
 - El replay vive en `public/demo.replay.json` y usa metadata de puntuacion/control para la UI lateral.
-- Estructura recomendada del replay Riftbound 1v1: [`/docs/examples/riftbound-replay-format.md`](/examples/riftbound-replay-format).
+- Estructura recomendada del replay Riftbound 1v1: [riftbound-replay-format.md](../examples/riftbound-replay-format.md)
 
 ## Guias paso a paso
 
-- Construccion progresiva de ejemplos (`01` a `04`): [`/docs/examples/react-demo-step-by-step.md`](/examples/react-demo-step-by-step)
+- Construccion progresiva de ejemplos: [react-demo-step-by-step.md](../examples/react-demo-step-by-step.md)

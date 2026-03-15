@@ -71,6 +71,21 @@ export type {
 export { createAction, createInitialState, deepClone, generateUUID, maybeDecompress, compressPayload } from './utils';
 export type { CompressionFormat } from './utils';
 
+export {
+  profileRegistry,
+  registerProfile,
+  getProfile,
+  listProfiles,
+  RIFTBOUND_PROFILE
+} from './profiles';
+export type {
+  RulesProfileDefinition,
+  ProfileRegistry,
+  ProfileValidationIssue,
+  ValidateProfileOptions,
+  ValidateProfileResult
+} from './profiles';
+
 /** Loads replay data from YAML into a `ReplayEngine`. */
 export function loadReplayFromYaml(yaml: string) {
   return YamlLoader.loadReplay(yaml);

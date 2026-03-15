@@ -4,7 +4,7 @@ En este tutorial aprenderás a personalizar cómo se muestran las cartas y zonas
 
 ## Prerequisites
 
-- Completado: [Tutorial 02: React Básico](../02-react-basic.md)
+- Completado: [Tutorial 02: React Básico](02-react-basic.md)
 
 ## Lo que vas a aprender
 

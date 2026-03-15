@@ -91,5 +91,5 @@ interface RendererAdapter {
 
 ## Siguiente paso
 
-- [Quick start en React](guide/getting-started.md)
-- [Ejemplos de código](examples/index.md)
+- [Quick start en React](getting-started.md)
+- [Ejemplos de código](../examples/index.md)

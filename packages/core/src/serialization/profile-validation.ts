@@ -1,29 +1,6 @@
 import { ReplaySchemaType } from './schema';
-
-const RIFTBOUND_PROFILE = 'riftbound-1v1-v1';
-const REQUIRED_ZONE_IDS = [
-  'battlefield_north',
-  'battlefield_south',
-  'champion_blue',
-  'champion_red',
-  'deck_blue',
-  'deck_red',
-  'runes_blue',
-  'runes_red',
-  'rune_deck_blue',
-  'rune_deck_red',
-  'trash_blue',
-  'trash_red',
-  'stack'
-] as const;
-
-const CONTROL_ZONE_IDS = ['battlefield_north', 'battlefield_south'] as const;
-const ALLOWED_CONTROL_VALUES = new Set(['blue', 'red', 'neutral']);
-const REQUIRED_PLAYER_IDS = new Set(['blue', 'red']);
-export interface ReplayProfileIssue {
-  path: string;
-  message: string;
-}
+import { profileRegistry } from '../profiles';
+import type { ProfileValidationIssue } from '../profiles/types';
 
 function asRecord(value: unknown): Record<string, unknown> | null {
   if (typeof value !== 'object' || value === null || Array.isArray(value)) {
@@ -33,7 +10,7 @@ function asRecord(value: unknown): Record<string, unknown> | null {
 }
 
 function pushIssue(
-  issues: ReplayProfileIssue[],
+  issues: ProfileValidationIssue[],
   path: string,
   condition: boolean,
   message: string
@@ -43,65 +20,10 @@ function pushIssue(
   }
 }
 
-function collectRiftboundSnapshotIssues(
-  snapshot: ReplaySchemaType['initialState'],
-  label: string,
-  issues: ReplayProfileIssue[]
-): void {
-  pushIssue(
-    issues,
-    `${label}.players`,
-    snapshot.players.length === 2,
-    `${label}: ${RIFTBOUND_PROFILE} requires exactly 2 players.`
-  );
-
-  const playerIds = new Set(snapshot.players.map((player) => player.id));
-  for (const requiredPlayerId of REQUIRED_PLAYER_IDS) {
-    pushIssue(
-      issues,
-      `${label}.players`,
-      playerIds.has(requiredPlayerId),
-      `${label}: missing required player "${requiredPlayerId}".`
-    );
-  }
-
-  pushIssue(
-    issues,
-    `${label}.currentPlayer`,
-    playerIds.has(snapshot.currentPlayer),
-    `${label}: currentPlayer "${snapshot.currentPlayer}" is not present in snapshot players.`
-  );
-
-  const missingZones = REQUIRED_ZONE_IDS.filter((zoneId) => !(zoneId in snapshot.zones));
-  pushIssue(
-    issues,
-    `${label}.zones`,
-    missingZones.length === 0,
-    `${label}: missing required zones for ${RIFTBOUND_PROFILE}: ${missingZones.join(', ')}.`
-  );
-
-  const metadata = asRecord(snapshot.metadata);
-  const control = asRecord(metadata?.control);
-  pushIssue(issues, `${label}.metadata.control`, control !== null, `${label}: metadata.control must be an object.`);
-  if (!control) {
-    return;
-  }
-
-  for (const zoneId of CONTROL_ZONE_IDS) {
-    const value = control[zoneId];
-    pushIssue(
-      issues,
-      `${label}.metadata.control.${zoneId}`,
-      typeof value === 'string' && ALLOWED_CONTROL_VALUES.has(value),
-      `${label}: metadata.control.${zoneId} must be one of blue|red|neutral.`
-    );
-  }
-}
-
 function collectZoneMetaIssues(
   snapshot: ReplaySchemaType['initialState'],
   label: string,
-  issues: ReplayProfileIssue[]
+  issues: ProfileValidationIssue[]
 ): void {
   if (!snapshot.zoneMeta) {
     return;
@@ -130,13 +52,72 @@ function collectZoneMetaIssues(
   }
 }
 
-export function collectReplayProfileIssues(replay: ReplaySchemaType): ReplayProfileIssue[] {
-  const issues: ReplayProfileIssue[] = [];
+function validateSnapshotWithProfile(
+  snapshot: ReplaySchemaType['initialState'],
+  label: string,
+  profileId: string,
+  issues: ProfileValidationIssue[]
+): void {
+  const profile = profileRegistry.get(profileId);
+  if (!profile) {
+    return;
+  }
+
+  if (profile.requiredPlayers) {
+    const { ids, count } = profile.requiredPlayers;
+    if (count !== undefined) {
+      pushIssue(
+        issues,
+        `${label}.players`,
+        snapshot.players.length === count,
+        `${label}: expected ${count} players.`
+      );
+    }
+
+    pushIssue(
+      issues,
+      `${label}.players`,
+      snapshot.players.length === ids.length,
+      `${label}: expected ${ids.length} players based on profile.`
+    );
+
+    const playerIds = new Set(snapshot.players.map((player) => player.id));
+    for (const requiredId of ids) {
+      pushIssue(
+        issues,
+        `${label}.players`,
+        playerIds.has(requiredId),
+        `${label}: missing required player "${requiredId}".`
+      );
+    }
+  }
+
+  if (profile.requiredZones) {
+    const requiredZoneIds = profile.requiredZones.map((z: { id: string }) => z.id);
+    const missingZones = requiredZoneIds.filter((zoneId: string) => !(zoneId in snapshot.zones));
+    pushIssue(
+      issues,
+      `${label}.zones`,
+      missingZones.length === 0,
+      `${label}: missing required zones for ${profileId}: ${missingZones.join(', ')}.`
+    );
+  }
+
+  if (profile.validator) {
+    const profileIssues = profile.validator(snapshot);
+    issues.push(...profileIssues);
+  }
+}
+
+export function collectReplayProfileIssues(replay: ReplaySchemaType): ProfileValidationIssue[] {
+  const issues: ProfileValidationIssue[] = [];
   const metadata = asRecord(replay.initialState.metadata);
-  const rulesProfile = metadata?.rulesProfile;
+  const rulesProfile = metadata?.rulesProfile as string | undefined;
   const formatOverrides = asRecord(replay.formatOverrides);
   const overrideRulesProfile = formatOverrides?.rulesProfile;
+
   collectZoneMetaIssues(replay.initialState, 'initialState', issues);
+
   for (let index = 0; index < replay.events.length; index += 1) {
     const frame = replay.events[index];
     const label = `events[${index}].snapshot`;
@@ -152,24 +133,16 @@ export function collectReplayProfileIssues(replay: ReplaySchemaType): ReplayProf
     );
   }
 
-  if (rulesProfile !== RIFTBOUND_PROFILE) {
+  if (!rulesProfile) {
     return issues;
   }
 
-  const battlefieldCount = metadata?.battlefieldCount;
-  pushIssue(
-    issues,
-    'initialState.metadata.battlefieldCount',
-    battlefieldCount === 2,
-    `initialState.metadata.battlefieldCount must be 2 when rulesProfile is "${RIFTBOUND_PROFILE}".`
-  );
-
-  collectRiftboundSnapshotIssues(replay.initialState, 'initialState', issues);
+  validateSnapshotWithProfile(replay.initialState, 'initialState', rulesProfile, issues);
 
   for (let index = 0; index < replay.events.length; index += 1) {
     const frame = replay.events[index];
     const label = `events[${index}].snapshot`;
-    collectRiftboundSnapshotIssues(frame.snapshot, label, issues);
+    validateSnapshotWithProfile(frame.snapshot, label, rulesProfile, issues);
   }
 
   return issues;

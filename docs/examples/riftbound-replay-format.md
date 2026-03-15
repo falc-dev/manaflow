@@ -38,7 +38,52 @@ Campos de `GameSnapshot` usados por el runtime:
 
 ## Perfil recomendado: `riftbound-1v1-v1`
 
-Definir en `snapshot.metadata`:
+Riftbound viene con un perfil predefinido que se registra automáticamente. Tienes dos opciones:
+
+### Opción 1: Perfil embebido en formato (recomendado)
+
+Crea un archivo de formato:
+
+```json
+{
+  "$schema": "../../schemas/format.schema.json",
+  "schemaVersion": 1,
+  "formatId": "riftbound-1v1-v1",
+  "name": "Riftbound 1v1",
+  "rulesProfile": {
+    "id": "riftbound-1v1-v1",
+    "name": "Riftbound 1v1",
+    "description": "Default profile for Riftbound 1v1 matches",
+    "requiredZones": [
+      { "id": "battlefield_north" },
+      { "id": "battlefield_south" },
+      { "id": "champion_blue" },
+      { "id": "champion_red" },
+      { "id": "deck_blue" },
+      { "id": "deck_red" }
+    ],
+    "requiredPlayers": { "ids": ["blue", "red"], "count": 2 }
+  },
+  "players": {
+    "ids": ["blue", "red"],
+    "count": 2
+  },
+  "phases": [
+    { "id": "DRAW", "label": "Draw" },
+    { "id": "MAIN", "label": "Main" },
+    { "id": "COMBAT", "label": "Combat" },
+    { "id": "END", "label": "End" }
+  ],
+  "zones": {
+    "battlefield_north": { "id": "battlefield_north", "ownerId": "shared", "kind": "board" },
+    "battlefield_south": { "id": "battlefield_south", "ownerId": "shared", "kind": "board" }
+  }
+}
+```
+
+### Opción 2: Solo referencia en el replay
+
+En el replay, define solo `metadata`:
 
 ```json
 {
@@ -113,30 +158,40 @@ Para resoluciones con objetivo:
 - Mantener `metadata.rulesProfile` en todos los snapshots (obligatorio en validación v1 actual).
 - En UI, soportar aliases por un tiempo (`zoneMap`) para no romper replays viejos.
 
-## Validación de esquema (actual)
+## Validación de esquema y perfil
 
-El proyecto valida replay en dos capas usando Zod + reglas de perfil:
+El proyecto valida replay en dos capas:
 
-1. `ReplaySchema` (base, estable) en `@manaflow/core`.
-2. Validacion de perfil `riftbound-1v1-v1` en `@manaflow/core/src/serialization/profile-validation.ts`.
+1. **Validación de esquema** (`ReplaySchema`): estructura base del replay
+2. **Validación de perfil** (`riftbound-1v1-v1`): reglas específicas del juego
 
-Si `initialState.metadata.rulesProfile === "riftbound-1v1-v1"`, se exige:
+El perfil `riftbound-1v1-v1` se registra automáticamente al importar `@manaflow/core`. Si usas el perfil embebido en un formato, se registra automáticamente al cargar.
 
-- `metadata.battlefieldCount === 2`
-- `players` exactamente `blue` y `red`
-- `currentPlayer` presente en `players`
-- zonas requeridas canonicas (battlefields, champion/deck/runes/rune_deck/trash de ambos jugadores y `stack`)
-- `metadata.control.battlefield_north|south` con `blue|red|neutral`
+### Validación automática
 
-Los loaders `JsonLoader` y `YamlLoader` aplican esta validacion automaticamente.
+Los loaders aplican ambas validaciones automáticamente:
 
-Tambien puedes usar validacion explicita con errores por campo:
+```ts
+import { loadReplayWithFormat } from '@manaflow/core';
+
+const result = loadReplayWithFormat(replayJson, formatJson);
+```
+
+### Validación manual
 
 ```ts
 import { validateReplayJson } from '@manaflow/core';
 
 const result = validateReplayJson(replayRaw, { normalizeRiftboundAliases: true });
 if (!result.ok) {
-  console.error(result.issues); // [{ path, message, source }]
+  console.error(result.issues);
 }
 ```
+
+### Perfil Riftbound requiere:
+
+- `metadata.battlefieldCount === 2`
+- `players` exactamente `blue` y `red`
+- `currentPlayer` presente en `players`
+- zonas requeridas canónicas (battlefields, champion/deck/runes/rune_deck/trash de ambos jugadores y `stack`)
+- `metadata.control.battlefield_north|south` con `blue|red|neutral`
