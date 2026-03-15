@@ -8,23 +8,33 @@ export default {
   themeConfig: {
     nav: [
       { text: "Inicio", link: "/" },
-      { text: "Guia", link: "/guide/getting-started" },
-      { text: "Ejemplos", link: "/examples/" },
-      { text: "Paquetes", link: "/packages/" },
+      { text: "Tutoriales", link: "/tutorials/" },
+      { text: "Recipes", link: "/recipes/" },
+      { text: "Referencia", link: "/reference/glossary" },
     ],
     sidebar: [
       {
-        text: "Guia",
+        text: "Empezar",
+        collapsed: false,
         items: [
           { text: "Introduccion", link: "/" },
           { text: "Primeros pasos", link: "/guide/getting-started" },
+          { text: "Tutoriales", link: "/tutorials/" },
+        ],
+      },
+      {
+        text: "Guía",
+        collapsed: false,
+        items: [
           { text: "Arquitectura", link: "/guide/architecture" },
+          { text: "Troubleshooting", link: "/guide/troubleshooting" },
         ],
       },
       {
         text: "Recipes",
+        collapsed: false,
         items: [
-          { text: "Indice", link: "/recipes/" },
+          { text: "Índice", link: "/recipes/" },
           { text: "Quick Start React", link: "/recipes/quick-start-react" },
           { text: "Quick Start Vue", link: "/recipes/quick-start-vue" },
           { text: "Personalizar cartas", link: "/recipes/custom-card-render" },
@@ -33,30 +43,23 @@ export default {
         ],
       },
       {
-        text: "Ejemplos",
+        text: "Referencia",
+        collapsed: true,
         items: [
-          { text: "Indice", link: "/examples/" },
-          { text: "Guia TCG paso a paso", link: "/examples/tcg-replay-step-by-step" },
-          { text: "Core Replay", link: "/examples/core-replay" },
-          { text: "Runtime Store", link: "/examples/runtime-store" },
-          { text: "React Player", link: "/examples/react-player" },
-          { text: "Vue Controller", link: "/examples/vue-controller" },
-          { text: "HTML Visor Custom", link: "/examples/html-visor-custom" },
+          { text: "Glosario", link: "/reference/glossary" },
+          { text: "Tipos", link: "/reference/types" },
+          { text: "Esquemas JSON", link: "/reference/schemas" },
         ],
       },
       {
         text: "Paquetes",
+        collapsed: true,
         items: [
-          { text: "Indice", link: "/packages/" },
+          { text: "Índice", link: "/packages/" },
           { text: "@manaflow/types", link: "/packages/types" },
           { text: "@manaflow/core", link: "/packages/core" },
-          { text: "@manaflow/replay-runtime", link: "/packages/replay-runtime" },
-          { text: "@manaflow/html-visor", link: "/packages/html-visor" },
-          { text: "@manaflow/phaser-visor", link: "/packages/phaser-visor" },
           { text: "@manaflow/react", link: "/packages/react" },
-          { text: "@manaflow/react-demo", link: "/packages/react-demo" },
           { text: "@manaflow/vue", link: "/packages/vue" },
-          { text: "@manaflow/webpack-plugin", link: "/packages/webpack-plugin" },
         ],
       },
     ],
