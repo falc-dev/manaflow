@@ -181,18 +181,62 @@ Y que tu `tsconfig.json` tenga:
 
 ---
 
-### Errores de tipos en el replay JSON
+### Duplicate exports (TS2484)
 
-**Problema**: VS Code no muestra IntelliSense.
+**Error:** `Duplicate identifier 'Foo'`
 
-**Solución**: Añade el schema al inicio del archivo:
+**Causa:** Usar tanto `export interface Foo` como `export type { Foo }`.
 
-```json
-{
-  "$schema": "../../schemas/replay.schema.json",
-  "schemaVersion": 1,
-  ...
-}
+**Solución:** Usar solo una forma:
+
+```ts
+// ✅ Correcto
+export interface Foo {}
+
+// ❌ Evitar
+export type { Foo };
+```
+
+---
+
+### Boolean type inference
+
+**Error:** TypeScript infiere `string | boolean`.
+
+**Solución:** Usar `!!` para forzar boolean:
+
+```ts
+const hidden = visibility === 'hidden' || !!isOwnerHidden;
+```
+
+---
+
+## Problemas de Build
+
+### Build completo limpio
+
+```bash
+# Eliminar dist y cache
+rm -rf packages/*/dist packages/*/tsconfig.tsbuildinfo
+
+# Reconstruir todo
+pnpm -r build
+```
+
+### Ver qué paquete falla
+
+```bash
+pnpm -r build 2>&1 | grep -E "(error|failed|ERR_)"
+```
+
+### Missing symlinks en workspace
+
+**Error:** Paquete no se resuelve.
+
+**Solución:** Añadir dependencia explícitamente:
+
+```bash
+pnpm add @manaflow/types -w
 ```
 
 ---
@@ -297,7 +341,7 @@ function DebugPanel({ store }) {
 
 ---
 
-## получить ayuda
+## Obtener ayuda
 
 Si el problema persiste:
 
