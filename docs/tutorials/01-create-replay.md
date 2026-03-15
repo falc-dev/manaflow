@@ -104,15 +104,13 @@ Las zonas son donde están las cartas. Para 1v1 mínimo:
 }
 ```
 
-### Visual: Zonas en el tablero
-
-<head>
-  <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-    <DocZoneDemo title="Mano P1" :cards="3" emoji="👤" />
-    <DocZoneDemo title="Tablero P1" :cards="2" emoji="⚔️" />
-    <DocZoneDemo title="Mazo P1" :cards="5" emoji="📚" />
-  </div>
-</head>
+::: info Visual: Zonas en el tablero
+<div style="display: flex; gap: 16px; flex-wrap: wrap;">
+  <DocZoneDemo title="Mano P1" :cards="3" emoji="👤" />
+  <DocZoneDemo title="Tablero P1" :cards="2" emoji="⚔️" />
+  <DocZoneDemo title="Mazo P1" :cards="5" emoji="📚" />
+</div>
+:::
 
 Consejo: El prefijo indica el jugador (hand_p1 = mano del jugador 1).
 
@@ -144,9 +142,9 @@ Las entidades son las cartas y objetos del juego:
 
 ### Visual: Componente de carta
 
-<head>
-  <DocCardDemo name="Dragon Rojo" :cost="5" rarity="legendary" type="unit" />
-</head>
+::: info
+<DocCardDemo name="Dragon Rojo" :cost="5" rarity="legendary" type="unit" />
+:::
 
 ```tsx
 // Estructura en código

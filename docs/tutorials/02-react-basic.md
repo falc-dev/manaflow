@@ -62,9 +62,9 @@ function ReplayPage() {
 
 ### Ejemplo vivo
 
-<head>
-  <DocReplayDemo :players="2" :cards-per-hand="3" :turns="2" :compact="true" />
-</head>
+::: info
+<DocReplayDemo :players="2" :cards-per-hand="3" :turns="2" :compact="true" />
+:::
 
 ### Visual: Componentes del Reproductor
 
