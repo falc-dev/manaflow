@@ -4,37 +4,44 @@ Tutoriales paso a paso para aprender Manaflow desde cero.
 
 > **🎮 Prueba los ejemplos interactivos**: [Playground](/?example=05-playground) - editor JSON con preview en tiempo real
 
+---
+
 ## Learning Path
 
 Sigue este orden para aprender Manaflow progresivamente:
 
-### 1. Create a Replay
-**Duración: 10 minutos**
+| # | Tutorial | Duración | Nivel |
+|---|----------|----------|-------|
+| 1 | [Crear un replay](01-create-replay.md) | 10 min | 🟢 Principiante |
+| 2 | [React básico](02-react-basic.md) | 15 min | 🟢 Principiante |
+| 3 | [UI personalizada](03-custom-ui.md) | 15 min | 🟡 Intermedio |
+| 4 | [Multiplayer](04-multiplayer.md) | 20 min | 🔴 Avanzado |
+
+---
+
+### 1. Crear un Replay
 
 Aprende la estructura básica de un replay JSON. Crea tu primer archivo de replay mínimo.
 
-- [Crear un replay mínimo](01-create-replay.md)
+- [Ver tutorial](01-create-replay.md) - 10 minutos 🟢
 
-### 2. Integrate with React
-**Duración: 15 minutos**
+### 2. React Básico
 
 Aprende a integrar un replay en una aplicación React básica.
 
-- [React básico](02-react-basic.md)
+- [Ver tutorial](02-react-basic.md) - 15 minutos 🟢
 
-### 3. Customize UI
-**Duración: 15 minutos**
+### 3. UI Personalizada
 
 Personaliza cómo se muestran las cartas y las zonas.
 
-- [UI personalizada](03-custom-ui.md)
+- [Ver tutorial](03-custom-ui.md) - 15 minutos 🟡
 
-### 4. Multiplayer Formats
-**Duración: 20 minutos**
+### 4. Multiplayer
 
 Maneja formatos de 2v2, 3v3 y NvN.
 
-- [Multiplayer](04-multiplayer.md)
+- [Ver tutorial](04-multiplayer.md) - 20 minutos 🔴
 
 ---
 
@@ -44,8 +51,8 @@ Maneja formatos de 2v2, 3v3 y NvN.
 - Conocimiento básico de React
 - Conocimiento básico de JSON
 
-## Next Steps
+## Siguientes Pasos
 
-- [Reference documentation](../reference/index.md) - Esquemas y APIs
+- [Referencia](../reference/glossary.md) - Glosario de términos
 - [Recipes](../recipes/index.md) - Soluciones a problemas comunes
 - [Troubleshooting](../guide/troubleshooting.md) - Errores comunes
