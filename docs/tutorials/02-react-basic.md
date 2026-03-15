@@ -60,6 +60,12 @@ function ReplayPage() {
 />
 ```
 
+### Ejemplo vivo
+
+<head>
+  <DocReplayDemo :players="2" :cards-per-hand="3" :turns="2" :compact="true" />
+</head>
+
 ### Visual: Componentes del Reproductor
 
 ```
@@ -82,24 +88,6 @@ function ReplayPage() {
 │  │  └─────────┘  └─────────┘  └─────────┘               │    │
 │  └─────────────────────────────────────────────────────────┘    │
 └─────────────────────────────────────────────────────────────────┘
-```
-
-### Visual: Diferentes Layouts
-
-| Layout | Apariencia |
-|--------|------------|
-| `stacked` | Zonas apiladas verticalmente |
-| `board` | Tablero con zonas enfrentadas |
-
-```
-stacked:              board:
-┌─────────┐           ┌─────────┐ ┌─────────┐
-│  MANO   │           │  MANO    │ │  MANO    │
-├─────────┤           │  (p1)    │ │  (p2)    │
-│ TABLERO │           ├──────────┤ ├──────────┤
-├─────────┤           │ TABLERO  │ │ TABLERO  │
-│  MAZO   │           └──────────┘ └──────────┘
-└─────────┘
 ```
 
 ### Opciones comunes

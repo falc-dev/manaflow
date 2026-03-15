@@ -106,22 +106,13 @@ Las zonas son donde están las cartas. Para 1v1 mínimo:
 
 ### Visual: Zonas en el tablero
 
-```
-┌──────────────────────────────────────────────────────────┐
-│                    TABLERO (board)                       │
-│  ┌─────────────┐                         ┌─────────────┐ │
-│  │  board_p1   │        ⚔️               │  board_p2   │ │
-│  │  (Jugador 1)│      battlefield        │  (Jugador 2)│ │
-│  │             │                         │             │ │
-│  └─────────────┘                         └─────────────┘ │
-├──────────────────────────────────────────────────────────┤
-│  MANO (hand)          MAZO (deck)        DESECHO (discard) │
-│  ┌─────────┐          ┌─────────┐        ┌─────────┐     │
-│  │ hand_p1 │          │ deck_p1 │        │ discard │     │
-│  │ [carta] │          │ [carta] │        │   []    │     │
-│  └─────────┘          └─────────┘        └─────────┘     │
-└──────────────────────────────────────────────────────────┘
-```
+<head>
+  <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+    <DocZoneDemo title="Mano P1" :cards="3" emoji="👤" />
+    <DocZoneDemo title="Tablero P1" :cards="2" emoji="⚔️" />
+    <DocZoneDemo title="Mazo P1" :cards="5" emoji="📚" />
+  </div>
+</head>
 
 Consejo: El prefijo indica el jugador (hand_p1 = mano del jugador 1).
 
@@ -151,24 +142,27 @@ Las entidades son las cartas y objetos del juego:
 }
 ```
 
-### Visual: Estructura de una carta
+### Visual: Componente de carta
 
-```
-┌─────────────────────────────────────────┐
-│  entity (carta_1)                      │
-├─────────────────────────────────────────┤
-│  id: "carta_1"                         │
-│  type: "card"                          │
-│  ┌─────────────────────────────────┐    │
-│  │ components[0]                    │    │
-│  │   componentType: "CARD"          │    │
-│  │   entityId: "carta_1"           │    │
-│  │   metadata:                      │    │
-│  │     name: "Dragon Rojo"         │    │
-│  │     cost: 5                     │    │
-│  │     rarity: "legendary"         │    │
-│  └─────────────────────────────────┘    │
-└─────────────────────────────────────────┘
+<head>
+  <DocCardDemo name="Dragon Rojo" :cost="5" rarity="legendary" type="unit" />
+</head>
+
+```tsx
+// Estructura en código
+{
+  id: "carta_1",
+  type: "card",
+  components: [{
+    componentType: "CARD",
+    entityId: "carta_1",
+    metadata: {
+      name: "Dragon Rojo",
+      cost: 5,
+      rarity: "legendary"
+    }
+  }]
+}
 ```
 
 ---
