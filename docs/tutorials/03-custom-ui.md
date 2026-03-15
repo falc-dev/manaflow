@@ -2,6 +2,8 @@
 
 En este tutorial aprenderás a personalizar cómo se muestran las cartas y zonas.
 
+> **🎮 Ejemplo interactivo**: Prueba personalizaciones en el [Playground](/?example=05-playground)
+
 ## Prerequisites
 
 - Completado: [Tutorial 02: React Básico](02-react-basic.md)

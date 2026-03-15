@@ -2,6 +2,8 @@
 
 En este tutorial crearás tu primer archivo de replay JSON. Duración: 10 minutos.
 
+> **🎮 Ejemplo interactivo**: Prueba el editor JSON en el [Playground](/?example=05-playground) - editable en tiempo real!
+
 ## Prerequisites
 
 - Ninguno. Este tutorial cubre todo desde cero.
