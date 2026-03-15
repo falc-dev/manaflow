@@ -38,6 +38,32 @@ Crea un archivo llamado `mi-replay.json`:
 }
 ```
 
+### Visual: Estructura del replay
+
+```
+┌─────────────────────────────────────────┐
+│  replay.json                            │
+├─────────────────────────────────────────┤
+│  schemaVersion: 1                      │
+│  ┌─────────────────────────────────┐    │
+│  │ initialState                    │    │
+│  │   - id                          │    │
+│  │   - players                     │    │
+│  │   - currentPhase                │    │
+│  │   - currentPlayer               │    │
+│  │   - turn                        │    │
+│  │   - entities                    │    │
+│  │   - zones                       │    │
+│  │   - metadata                    │    │
+│  └─────────────────────────────────┘    │
+│  ┌─────────────────────────────────┐    │
+│  │ events[]                        │    │
+│  │   [0] event + snapshot          │    │
+│  │   [1] event + snapshot          │    │
+│  └─────────────────────────────────┘    │
+└─────────────────────────────────────────┘
+```
+
 Esta es la **plantilla mínima**. Todos los campos son obligatorios.
 
 ---
@@ -78,6 +104,25 @@ Las zonas son donde están las cartas. Para 1v1 mínimo:
 }
 ```
 
+### Visual: Zonas en el tablero
+
+```
+┌──────────────────────────────────────────────────────────┐
+│                    TABLERO (board)                       │
+│  ┌─────────────┐                         ┌─────────────┐ │
+│  │  board_p1   │        ⚔️               │  board_p2   │ │
+│  │  (Jugador 1)│      battlefield        │  (Jugador 2)│ │
+│  │             │                         │             │ │
+│  └─────────────┘                         └─────────────┘ │
+├──────────────────────────────────────────────────────────┤
+│  MANO (hand)          MAZO (deck)        DESECHO (discard) │
+│  ┌─────────┐          ┌─────────┐        ┌─────────┐     │
+│  │ hand_p1 │          │ deck_p1 │        │ discard │     │
+│  │ [carta] │          │ [carta] │        │   []    │     │
+│  └─────────┘          └─────────┘        └─────────┘     │
+└──────────────────────────────────────────────────────────┘
+```
+
 Consejo: El prefijo indica el jugador (hand_p1 = mano del jugador 1).
 
 ---
@@ -104,6 +149,26 @@ Las entidades son las cartas y objetos del juego:
   },
   "carta_2": { "...": "otra carta" }
 }
+```
+
+### Visual: Estructura de una carta
+
+```
+┌─────────────────────────────────────────┐
+│  entity (carta_1)                      │
+├─────────────────────────────────────────┤
+│  id: "carta_1"                         │
+│  type: "card"                          │
+│  ┌─────────────────────────────────┐    │
+│  │ components[0]                    │    │
+│  │   componentType: "CARD"          │    │
+│  │   entityId: "carta_1"           │    │
+│  │   metadata:                      │    │
+│  │     name: "Dragon Rojo"         │    │
+│  │     cost: 5                     │    │
+│  │     rarity: "legendary"         │    │
+│  └─────────────────────────────────┘    │
+└─────────────────────────────────────────┘
 ```
 
 ---
@@ -159,6 +224,23 @@ Un evento tiene la acción y el resultado:
     }
   }
 ]
+```
+
+### Visual: Flujo de un evento
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  BEFORE (initialState)          AFTER (snapshot)           │
+│  ┌─────────────────┐          ┌─────────────────┐        │
+│  │ hand_p1: [c1]   │  MOVE    │ hand_p1: []      │        │
+│  │ board_p1: []    │ ──────►  │ board_p1: [c1]   │        │
+│  └─────────────────┘          └─────────────────┘        │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │ event: { type: "MOVE_ENTITY", playerId: "p1" }    │   │
+│  │         { cardId: "c1", from: "hand", to: "board"}│   │
+│  └─────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 Importante: El `snapshot` debe reflejar el estado **después** de aplicar la acción.
