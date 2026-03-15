@@ -2,6 +2,8 @@
 
 Tutoriales paso a paso para aprender Manaflow desde cero.
 
+> **🎮 Prueba los ejemplos interactivos**: [Playground](/?example=05-playground) - editor JSON con preview en tiempo real
+
 ## Learning Path
 
 Sigue este orden para aprender Manaflow progresivamente:
