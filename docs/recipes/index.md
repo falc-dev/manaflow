@@ -13,6 +13,7 @@ Recetas prácticas para casos de uso comunes en Manaflow.
 ## Recetas
 
 - [Reproductor básico en React](quick-start-react.md) - 30 segundos para tener algo funcional
+- [Reproductor básico en Vue](quick-start-vue.md) - 30 segundos para tener algo funcional en Vue
 
 ## Personalización
 

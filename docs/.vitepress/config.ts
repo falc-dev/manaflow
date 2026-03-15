@@ -26,6 +26,7 @@ export default {
         items: [
           { text: "Indice", link: "/recipes/" },
           { text: "Quick Start React", link: "/recipes/quick-start-react" },
+          { text: "Quick Start Vue", link: "/recipes/quick-start-vue" },
           { text: "Personalizar cartas", link: "/recipes/custom-card-render" },
           { text: "Personalizar zonas", link: "/recipes/custom-zones" },
           { text: "Agregar nuevo juego", link: "/recipes/add-new-game" },
